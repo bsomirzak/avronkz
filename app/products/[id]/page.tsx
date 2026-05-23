@@ -96,7 +96,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         </nav>
 
         <div className="product-detail">
-          <Gallery icon={product.icon} bg={product.bg} />
+          <Gallery icon={product.icon} bg={product.bg} images={product.images} alt={product.name} />
 
           <div className="detail-info">
             <div className="stock-row">

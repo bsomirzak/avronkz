@@ -36,7 +36,7 @@ export function Features() {
         </div>
         <div>
           <div className="feature-title">Оплата через Каспи</div>
-          <div className="feature-desc">Рассрочка 0-0-12 без переплат</div>
+          <div className="feature-desc">Рассрочка 0-0-12</div>
         </div>
       </div>
       <div className="feature">

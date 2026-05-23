@@ -9,9 +9,9 @@ export function Footer() {
           <div>
             <div className="footer-brand">
               <div className="brand-mark">
-                <svg viewBox="0 0 24 24" fill="none">
+                {/* <svg viewBox="0 0 24 24" fill="none">
                   <path d="M12 4L21 20H3L12 4Z" stroke="#FFCD3C" strokeWidth="2.5" strokeLinejoin="round" />
-                </svg>
+                </svg> */}
               </div>
               <div className="brand-name">{SITE.name}</div>
             </div>
@@ -26,8 +26,8 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>Информация</h4>
-            <Link href="/#about">О нас</Link>
-            <Link href="/#delivery">Доставка</Link>
+            {/* <Link href="/#about">О нас</Link> */}
+            {/* <Link href="/#delivery">Доставка</Link> */}
             <Link href="/#warranty">Гарантия</Link>
             <Link href="/#return">Возврат</Link>
           </div>

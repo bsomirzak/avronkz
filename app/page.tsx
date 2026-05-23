@@ -62,12 +62,12 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
               <span className="catalog-title">Каталог</span>
               <span className="catalog-count">{countLabel(list.length)}</span>
             </div>
-            <button className="sort-btn" type="button">
+            {/* <button className="sort-btn" type="button">
               По популярности
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 9l6 6 6-6" />
               </svg>
-            </button>
+            </button> */}
           </div>
           <div className="grid">
             {list.map((p) => (

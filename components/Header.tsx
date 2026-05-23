@@ -7,16 +7,17 @@ export function Header() {
       <div className="header-inner">
         <Link href="/" className="brand" aria-label={SITE.name}>
           <div className="brand-mark">
-            <svg viewBox="0 0 24 24" fill="none">
+            
+            {/* <svg viewBox="0 0 24 24" fill="none">
               <path d="M12 4L21 20H3L12 4Z" stroke="#FFCD3C" strokeWidth="2.5" strokeLinejoin="round" />
-            </svg>
+            </svg> */}
           </div>
           <div className="brand-name">{SITE.name}</div>
         </Link>
         <nav className="nav" aria-label="Главное меню">
           <Link href="/#catalog" className="active">Каталог</Link>
-          <Link href="/#about">О нас</Link>
-          <Link href="/#delivery">Доставка</Link>
+          {/* <Link href="/#about">О нас</Link> */}
+          {/* <Link href="/#delivery">Доставка</Link> */}
           <Link href="/#contacts">Контакты</Link>
         </nav>
         <div className="header-right">

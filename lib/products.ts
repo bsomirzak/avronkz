@@ -23,11 +23,13 @@ export type Product = {
   discount: string | null;
   badge: BadgeKind | null;
   icon: IconName;
-  bg: string;
+  // bg: string;
   rating: number;
   reviews: number;
   installment: string;
   specs: ReadonlyArray<readonly [string, string]>;
+  images?: ReadonlyArray<string>;
+  kaspiUrl?: string;
 };
 
 export const CATEGORIES = [
@@ -54,7 +56,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-15%",
     badge: "hit",
     icon: "desk",
-    bg: "#E8E2F5",
     rating: 5.0,
     reviews: 8,
     installment: "5 000 ₸ × 12 мес",
@@ -68,6 +69,15 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Уровень шума", "< 50 дБ"],
       ["Материал рамы", "Сталь с порошковой покраской"],
     ],
+    images: [
+      "/products/desk-white/4.jpg",
+      "/products/desk-white/1.jpg",
+      "/products/desk-white/5.jpeg",
+      "/products/desk-white/9.jpeg",
+      "/products/desk-white/2.jpg",
+      "/products/desk-white/3.jpg",
+    ],
+    kaspiUrl: "https://kaspi.kz/shop/p/stol-kompjuternyj-avron-avr-001-120x60x113-sm-belyj-105878901/?c=750000000",
   },
   {
     id: "desk-wood",
@@ -81,7 +91,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-15%",
     badge: "hit",
     icon: "desk",
-    bg: "#FFE891",
+    // bg: "#FFE891",
     rating: 4.9,
     reviews: 8,
     installment: "5 000 ₸ × 12 мес",
@@ -92,6 +102,12 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Макс. нагрузка", "80 кг"],
       ["Гарантия", "12 месяцев"],
       ["Память позиций", "3 пресета"],
+    ],
+    images: [
+      "/products/desk-wood/1.jpg",
+      "/products/desk-wood/2.jpg",
+      "/products/desk-wood/3.jpg",
+      "/products/desk-wood/4.jpg",
     ],
   },
   {
@@ -106,7 +122,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: null,
     icon: "massager",
-    bg: "#FFD9D9",
+    // bg: "#FFD9D9",
     rating: 4.8,
     reviews: 12,
     installment: "7 499 ₸ × 12 мес",
@@ -130,7 +146,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: null,
     icon: "ereader",
-    bg: "#FFF4C3",
+    // bg: "#FFF4C3",
     rating: 4.9,
     reviews: 6,
     installment: "5 416 ₸ × 12 мес",
@@ -140,6 +156,12 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Память", "32 ГБ"],
       ["Подсветка", "Регулируемая"],
       ["Батарея", "до 4 недель"],
+    ],
+    images: [
+      "/products/ereader/1.png",
+      "/products/ereader/2.png",
+      "/products/ereader/3.png",
+      "/products/ereader/4.png",
     ],
   },
   {
@@ -154,7 +176,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "monitor",
-    bg: "#E5E9EE",
+    // bg: "#E5E9EE",
     rating: 4.7,
     reviews: 5,
     installment: "4 166 ₸ × 12 мес",
@@ -164,6 +186,12 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Подключение", "USB-C, HDMI"],
       ["Вес", "780 г"],
       ["Толщина", "8 мм"],
+    ],
+    images: [
+      "/products/monitor/1.png",
+      "/products/monitor/2.png",
+      "/products/monitor/3.png",
+      "/products/monitor/4.png",
     ],
   },
   {
@@ -178,7 +206,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "carplay",
-    bg: "#FBD4CD",
+    // bg: "#FBD4CD",
     rating: 4.8,
     reviews: 10,
     installment: "1 083 ₸ × 12 мес",
@@ -188,6 +216,11 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Задержка", "< 100 мс"],
       ["Размер", "60 × 50 × 12 мм"],
       ["Питание", "USB-A / USB-C"],
+    ],
+    images: [
+      "/products/carplay/1.png",
+      "/products/carplay/2.png",
+      "/products/carplay/3.png",
     ],
   },
   {
@@ -202,7 +235,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: null,
     icon: "smartdisplay",
-    bg: "#D4F0CE",
+    // bg: "#D4F0CE",
     rating: 4.6,
     reviews: 4,
     installment: "6 666 ₸ × 12 мес",
@@ -212,6 +245,12 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["ОС", "Android 13"],
       ["Подключение", "Wi-Fi 6, BT 5.0"],
       ["Сенсор", "Multi-touch"],
+    ],
+    images: [
+      "/products/smartdisplay/1.png",
+      "/products/smartdisplay/2.png",
+      "/products/smartdisplay/3.png",
+      "/products/smartdisplay/4.png",
     ],
   },
   {
@@ -226,7 +265,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "printer3d",
-    bg: "#D6EBFF",
+    // bg: "#D6EBFF",
     rating: 4.7,
     reviews: 3,
     installment: "8 332 ₸ × 12 мес",
@@ -250,7 +289,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: null,
     icon: "minipc",
-    bg: "#FFE2BA",
+    // bg: "#FFE2BA",
     rating: 4.9,
     reviews: 7,
     installment: "10 832 ₸ × 12 мес",
