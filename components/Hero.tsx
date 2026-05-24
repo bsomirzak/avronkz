@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { HeroCarousel } from "./HeroCarousel";
+import { PRODUCTS } from "@/lib/products";
+
+const HERO_SLIDES = PRODUCTS.filter((p) => p.images && p.images.length > 0).slice(0, 6);
 
 export function Hero() {
   return (
@@ -43,19 +47,7 @@ export function Hero() {
             </div>
           </div>
         </div>
-        <div className="hero-card">
-          <div className="hero-card-img">
-            <svg viewBox="0 0 100 100" fill="none" stroke="#FFCD3C" strokeWidth="2.2">
-              <rect x="14" y="38" width="72" height="6" rx="1" />
-              <line x1="24" y1="44" x2="24" y2="82" />
-              <line x1="76" y1="44" x2="76" y2="82" />
-              <line x1="22" y1="82" x2="34" y2="82" />
-              <line x1="66" y1="82" x2="78" y2="82" />
-              <circle cx="73" cy="41" r="1.5" fill="#FFCD3C" />
-            </svg>
-          </div>
-          <div className="hero-card-label">AVRON AVR-001</div>
-        </div>
+        <HeroCarousel products={HERO_SLIDES} />
       </section>
     </div>
   );

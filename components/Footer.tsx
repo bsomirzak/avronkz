@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
+import logo from "@/public/products/logo/logo.png";
 
 export function Footer() {
   return (
@@ -7,14 +9,15 @@ export function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <div className="footer-brand">
-              <div className="brand-mark">
-                {/* <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 4L21 20H3L12 4Z" stroke="#FFCD3C" strokeWidth="2.5" strokeLinejoin="round" />
-                </svg> */}
-              </div>
-              <div className="brand-name">{SITE.name}</div>
-            </div>
+            <Link href="/" className="footer-brand" aria-label={SITE.name}>
+              <Image
+                src={logo}
+                alt={SITE.name}
+                placeholder="blur"
+                sizes="64px"
+                className="footer-logo"
+              />
+            </Link>
             <p className="footer-tagline">{SITE.description}</p>
           </div>
           <div className="footer-col">
@@ -33,9 +36,10 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h4>Контакты</h4>
+            <Link href="/contacts">Все контакты</Link>
             <a href={`tel:${SITE.phoneRaw}`}>{SITE.phone}</a>
             <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-            <p>г. {SITE.city}<br />пн–вс, 10:00–20:00</p>
+            <p>г. {SITE.city}<br />{SITE.hours}</p>
           </div>
         </div>
         <div className="footer-bot">
@@ -48,13 +52,18 @@ export function Footer() {
                 <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
               </svg>
             </a>
-            <a href="#" aria-label="Telegram">
+            <a href={SITE.social.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" strokeWidth="2">
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+              </svg>
+            </a>
+            <a href={SITE.social.telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram">
               <svg viewBox="0 0 24 24" strokeWidth="2">
                 <path d="M22 2L11 13" />
                 <path d="M22 2l-7 20-4-9-9-4 20-7z" />
               </svg>
             </a>
-            <a href="#" aria-label="WhatsApp">
+            <a href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
               <svg viewBox="0 0 24 24" strokeWidth="2">
                 <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z" />
               </svg>

@@ -20,7 +20,13 @@ export function organizationJsonLd() {
     },
     telephone: SITE.phone,
     email: SITE.email,
-    sameAs: [SITE.social.instagram, SITE.social.kaspi],
+    sameAs: [
+      SITE.social.instagram,
+      SITE.social.tiktok,
+      SITE.social.telegram,
+      SITE.social.whatsapp,
+      SITE.social.kaspi,
+    ],
   };
 }
 

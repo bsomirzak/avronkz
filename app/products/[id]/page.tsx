@@ -65,6 +65,16 @@ export default async function ProductPage({ params }: { params: Params }) {
   if (!product) notFound();
 
   const similar = PRODUCTS.filter((p) => p.id !== id).slice(0, 4);
+  const detailParagraphs = product.details ?? [
+    "Прочная металлическая рама выдерживает до 80 кг, а столешница из ламинированного МДФ устойчива к царапинам и легко очищается.",
+  ];
+  const advantages = product.advantages ?? [
+    "Электрический подъёмный механизм с памятью на 3 положения",
+    "Бесшумный двигатель — менее 50 дБ",
+    "Защита от препятствий и встроенный антиколлизионный датчик",
+    "Прочная порошковая покраска рамы",
+    "Простая сборка за 30 минут",
+  ];
 
   const breadcrumbs = [
     { name: "Главная", url: absoluteUrl("/") },
@@ -96,7 +106,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         </nav>
 
         <div className="product-detail">
-          <Gallery icon={product.icon} bg={product.bg} images={product.images} alt={product.name} />
+          <Gallery icon={product.icon} images={product.images} alt={product.name} />
 
           <div className="detail-info">
             <div className="stock-row">
@@ -130,7 +140,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="cta-stack">
               <a
-                href={SITE.social.kaspi}
+                href={product.kaspiUrl ?? SITE.social.kaspi}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-kaspi-buy"
@@ -172,19 +182,16 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <div className="desc-block">
                     <h3>О товаре</h3>
                     <p>{product.desc}</p>
-                    <p>
-                      Прочная металлическая рама выдерживает до 80 кг, а столешница из
-                      ламинированного МДФ устойчива к царапинам и легко очищается.
-                    </p>
+                    {detailParagraphs.map((paragraph, index) => (
+                      <p key={`${product.id}-detail-${index}`}>{paragraph}</p>
+                    ))}
                   </div>
                   <div className="desc-block">
                     <h3>Преимущества</h3>
                     <ul className="advantages">
-                      <li>Электрический подъёмный механизм с памятью на 3 положения</li>
-                      <li>Бесшумный двигатель — менее 50 дБ</li>
-                      <li>Защита от препятствий и встроенный антиколлизионный датчик</li>
-                      <li>Прочная порошковая покраска рамы</li>
-                      <li>Простая сборка за 30 минут</li>
+                      {advantages.map((item, index) => (
+                        <li key={`${product.id}-advantage-${index}`}>{item}</li>
+                      ))}
                     </ul>
                   </div>
                 </div>

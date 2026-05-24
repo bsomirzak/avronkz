@@ -1,24 +1,34 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/site";
+import logo from "@/public/products/logo/logo.png";
 
 export function Header() {
+  const pathname = usePathname() ?? "/";
+  const isContacts = pathname.startsWith("/contacts");
+  const isCatalog = !isContacts; // home + product pages all belong to catalog
+
   return (
     <header className="header">
       <div className="header-inner">
         <Link href="/" className="brand" aria-label={SITE.name}>
-          <div className="brand-mark">
-            
-            {/* <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 4L21 20H3L12 4Z" stroke="#FFCD3C" strokeWidth="2.5" strokeLinejoin="round" />
-            </svg> */}
-          </div>
-          <div className="brand-name">{SITE.name}</div>
+          <Image
+            src={logo}
+            alt={SITE.name}
+            priority
+            placeholder="blur"
+            sizes="44px"
+            className="brand-logo"
+          />
         </Link>
         <nav className="nav" aria-label="Главное меню">
-          <Link href="/#catalog" className="active">Каталог</Link>
+          <Link href="/#catalog" className={isCatalog ? "active" : undefined}>Каталог</Link>
           {/* <Link href="/#about">О нас</Link> */}
           {/* <Link href="/#delivery">Доставка</Link> */}
-          <Link href="/#contacts">Контакты</Link>
+          <Link href="/contacts" className={isContacts ? "active" : undefined}>Контакты</Link>
         </nav>
         <div className="header-right">
           <a href={`tel:${SITE.phoneRaw}`} className="header-phone">{SITE.phone}</a>

@@ -5,18 +5,17 @@ import Image from "next/image";
 import { ProductIcon } from "./ProductIcon";
 import type { IconName } from "@/lib/products";
 
-const THUMB_BG_FALLBACKS = ["#D6EBFF", "#FFE891", "#D4F0CE", "#FBD4CD"];
+const THUMB_BG_FALLBACKS = ["#F7F8FB", "#D6EBFF", "#FFE891", "#D4F0CE", "#FBD4CD"];
 
 type GalleryProps = {
   icon: IconName;
-  bg: string;
   images?: ReadonlyArray<string>;
   alt?: string;
 };
 
-export function Gallery({ icon, bg, images, alt }: GalleryProps) {
+export function Gallery({ icon, images, alt }: GalleryProps) {
   const hasPhotos = !!images && images.length > 0;
-  const slides = hasPhotos ? images! : [bg, ...THUMB_BG_FALLBACKS];
+  const slides = hasPhotos ? images! : THUMB_BG_FALLBACKS;
 
   const [activeIdx, setActiveIdx] = useState(0);
   const active = slides[activeIdx];
@@ -28,7 +27,7 @@ export function Gallery({ icon, bg, images, alt }: GalleryProps) {
     <div className="gallery">
       <div
         className="gallery-main"
-        style={hasPhotos ? { background: bg } : { background: active }}
+        style={{ background: hasPhotos ? "#fff" : active }}
       >
         <button className="gallery-arrow prev" aria-label="Предыдущее" onClick={prev}>
           <svg viewBox="0 0 24 24" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
@@ -55,7 +54,7 @@ export function Gallery({ icon, bg, images, alt }: GalleryProps) {
             key={i}
             type="button"
             className={`thumb${i === activeIdx ? " active" : ""}`}
-            style={hasPhotos ? { background: bg, position: "relative" } : { background: slide }}
+            style={{ background: hasPhotos ? "#fff" : slide, position: "relative" }}
             onClick={() => setActiveIdx(i)}
             aria-label={`Фото ${i + 1}`}
           >
