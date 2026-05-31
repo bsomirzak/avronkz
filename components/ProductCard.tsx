@@ -63,14 +63,14 @@ export function ProductCard({ product: p }: { product: Product }) {
           itemScope
           itemType="https://schema.org/Offer"
         >
-          <meta itemProp="priceCurrency" content="KZT" />
-          <meta itemProp="price" content={String(p.price)} />
+          {p.price !== null && <meta itemProp="priceCurrency" content="KZT" />}
+          {p.price !== null && <meta itemProp="price" content={String(p.price)} />}
           <meta itemProp="availability" content="https://schema.org/InStock" />
-          <span className="card-price">{formatPrice(p.price)}</span>
-          {p.oldPrice && <span className="card-price-old">{formatPrice(p.oldPrice)}</span>}
+          <span className="card-price">{p.price !== null ? formatPrice(p.price) : (p.priceNote ?? "Цена по запросу")}</span>
+          {p.price !== null && p.oldPrice && <span className="card-price-old">{formatPrice(p.oldPrice)}</span>}
         </div>
         <div className="card-installment">
-          <span className="installment-badge">0·0·12</span>
+          <span className="installment-badge">{p.installmentBadge ?? "0·0·12"}</span>
           <span>{p.installment}</span>
         </div>
         <span className="card-cta">

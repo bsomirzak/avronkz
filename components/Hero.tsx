@@ -30,7 +30,7 @@ export function Hero() {
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
-            <Link href="/#contacts" className="btn-ghost">Связаться с нами</Link>
+            <Link href="/contacts" className="btn-ghost">Связаться с нами</Link>
           </div>
           <div className="hero-stats">
             <div>
@@ -38,7 +38,7 @@ export function Hero() {
               <div className="hero-stat-label">на Kaspi</div>
             </div>
             <div>
-              <div className="hero-stat-val">200+</div>
+              <div className="hero-stat-val">300+</div>
               <div className="hero-stat-label">довольных клиентов</div>
             </div>
             <div>

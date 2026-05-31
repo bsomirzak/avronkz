@@ -22,7 +22,11 @@
   --shadow-lg: 0 12px 40px rgba(15,27,61,0.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
 body {
   background: var(--white);
   color: var(--ink);
@@ -36,6 +40,11 @@ body {
   flex-direction: column;
 }
 body > .footer { margin-top: auto; }
+/* body is a flex column — its flex children size to their content's
+   max-content width and ignore the viewport, so the catalog grid overflowed
+   off-screen on mobile. Pinning them to 100% (and min-width:0) keeps every
+   top-level block within the viewport; .container still caps at max-width. */
+body > * { width: 100%; min-width: 0; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 img, svg { display: block; max-width: 100%; }
@@ -108,13 +117,6 @@ ul { list-style: none; }
   align-items: center;
   color: var(--white);
   position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ""; position: absolute;
-  top: -20%; right: -10%;
-  width: 60%; height: 140%;
-  background: radial-gradient(circle, rgba(255,205,60,0.12) 0%, transparent 70%);
-  pointer-events: none;
 }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
@@ -209,6 +211,22 @@ ul { list-style: none; }
 .hero-slide.active { opacity: 1; pointer-events: auto; }
 .hero-slide img { padding: 18px; }
 
+.hero-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 3;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+  display: grid; place-items: center;
+  color: var(--navy);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.hero-arrow:hover { background: var(--yellow); border-color: var(--yellow-deep); }
+.hero-arrow.prev { left: 10px; }
+.hero-arrow.next { right: 10px; }
+.hero-arrow svg { stroke: currentColor; fill: none; }
+
 .hero-slide-label {
   position: relative; z-index: 2;
   display: flex; align-items: center; justify-content: space-between;
@@ -288,6 +306,7 @@ ul { list-style: none; }
 .sort-btn svg { width: 14px; height: 14px; }
 
 .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid > * { min-width: 0; }
 
 .card {
   background: var(--white);
@@ -297,15 +316,22 @@ ul { list-style: none; }
   transition: all 0.25s ease;
   cursor: pointer;
   display: flex; flex-direction: column;
+  min-width: 0;
 }
 .card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: transparent; }
 .card-image {
   position: relative;
   aspect-ratio: 1/1;
-  display: grid; place-items: center;
+  width: 100%;
   overflow: hidden;
+  background: var(--bg);
 }
-.card-image svg.product { width: 55%; height: auto; }
+.card-image > svg.product {
+  position: absolute; inset: 0; margin: auto;
+  width: 55%; height: auto;
+  max-height: 70%;
+}
+.card-image > img { object-fit: cover; }
 .badge {
   position: absolute; top: 12px; left: 12px;
   padding: 4px 10px; border-radius: 6px;
@@ -422,15 +448,17 @@ ul { list-style: none; }
   padding-bottom: 64px;
 }
 
-.gallery { display: flex; flex-direction: column; gap: 12px; }
+.gallery { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .gallery-main {
-  /* background: var(--bg); */
   border-radius: 20px;
   aspect-ratio: 1/1;
-  display: grid; place-items: center;
+  width: 100%;
   position: relative; overflow: hidden;
 }
-.gallery-main svg.product { width: 45%; height: auto; }
+.gallery-main > svg.product {
+  position: absolute; inset: 0; margin: auto;
+  width: 45%; height: auto;
+}
 .gallery-arrow {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
@@ -447,14 +475,19 @@ ul { list-style: none; }
 .gallery-thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 .thumb {
   aspect-ratio: 1/1;
+  width: 100%;
   border-radius: 12px;
-  display: grid; place-items: center;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.2s ease;
   overflow: hidden;
+  position: relative;
+  padding: 0;
 }
-.thumb svg.product { width: 55%; height: auto; }
+.thumb > svg.product {
+  position: absolute; inset: 0; margin: auto;
+  width: 55%; height: auto;
+}
 .thumb.active { border-color: var(--navy); }
 
 .detail-info { padding-top: 8px; }
@@ -647,41 +680,88 @@ ul { list-style: none; }
   .contacts-info { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
-  .nav, .header-phone { display: none; }
+  .nav, .header-phone, .btn-kaspi { display: none; }
   .menu-toggle { display: grid; place-items: center; }
-  .header-inner { padding: 12px 20px; }
-  .container { padding: 0 20px; }
-  .hero-wrap { padding: 16px 20px 0; }
+  .header-inner { padding: 12px 16px; gap: 12px; }
+  .brand-logo { height: 36px; }
+  .container { padding: 0 16px; }
+
+  .hero-wrap { padding: 12px 16px 0; }
   .hero {
     grid-template-columns: 1fr;
-    padding: 28px 24px;
-    border-radius: 20px;
-    gap: 24px;
+    padding: 24px 20px;
+    border-radius: 18px;
+    gap: 20px;
   }
-  .hero-card { aspect-ratio: 1.6/1; max-width: 320px; margin: 0 auto; padding: 24px; }
-  .hero-stats { gap: 20px; }
-  .hero-stat-val { font-size: 22px; }
-  .cats-section { padding: 32px 0 16px; }
-  .catalog-title { font-size: 24px; }
-  .catalog-head { gap: 8px; }
-  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .card-body { padding: 12px; gap: 8px; }
-  .card-name { font-size: 13px; min-height: 36px; }
-  .card-price { font-size: 16px; }
-  .features { grid-template-columns: 1fr; padding: 24px 0 56px; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
-  .desc-grid { grid-template-columns: 1fr; gap: 28px; }
-  .product-detail { padding-bottom: 40px; }
+  .hero-eyebrow { font-size: 12px; padding: 5px 12px; margin-bottom: 16px; }
+  .hero-title { margin-bottom: 14px; }
+  .hero-desc { font-size: 14px; margin-bottom: 22px; max-width: none; }
+  .hero-ctas { gap: 10px; margin-bottom: 26px; }
+  .btn-primary, .btn-ghost { padding: 12px 18px; font-size: 14px; }
+  .hero-stats { gap: 18px; flex-wrap: wrap; }
+  .hero-stat-val { font-size: 20px; }
+  .hero-stat-label { font-size: 11px; }
+
+  .hero-card {
+    aspect-ratio: auto;
+    min-height: 280px;
+    max-width: none;
+    margin: 0;
+    padding: 18px;
+    gap: 14px;
+  }
+  .hero-slide img { padding: 12px; }
+  .hero-slide-name { font-size: 13px; }
+
+  .cats-section { padding: 24px 0 12px; }
+  .cats { margin: 0 -16px; padding: 4px 16px; }
+  .catalog-section { padding: 20px 0 40px; }
+  .catalog-title { font-size: 22px; }
+  .catalog-count { font-size: 13px; margin-left: 8px; }
+  .catalog-head { margin-bottom: 18px; gap: 8px; }
+  .sort-btn { padding: 8px 12px; font-size: 13px; }
+
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .card { border-radius: 14px; }
+  .card-body { padding: 10px; gap: 6px; }
+  .card-name { font-size: 12px; line-height: 1.3; min-height: 32px; }
+  .card-price { font-size: 15px; }
+  .card-price-old { font-size: 11px; }
+  .card-installment { font-size: 10px; }
+  .installment-badge { font-size: 9px; padding: 2px 5px; }
+  .card-cta { padding: 8px; font-size: 12px; }
+  .badge { padding: 3px 7px; font-size: 10px; top: 8px; left: 8px; }
+
+  .features { grid-template-columns: 1fr; padding: 16px 0 40px; }
+
+  .footer { padding: 40px 0 20px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; padding-bottom: 28px; }
+  .footer-tagline { font-size: 13px; }
+
+  .desc-grid { grid-template-columns: 1fr; gap: 24px; }
+  .product-detail { padding-bottom: 32px; }
+  .gallery-arrow { width: 36px; height: 36px; }
+  .gallery-arrow.prev { left: 10px; }
+  .gallery-arrow.next { right: 10px; }
   .gallery-thumbs { grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .price-main { font-size: 28px; }
-  .contacts-page { padding: 16px 20px 48px; }
-  .contacts-head h1 { font-size: 28px; }
-  .contacts-grid { grid-template-columns: 1fr; gap: 12px; }
+  .price-main { font-size: 26px; }
+
+  .contacts-page { padding: 16px 16px 40px; }
+  .contacts-head h1 { font-size: 26px; }
+  .contacts-grid { grid-template-columns: 1fr; gap: 10px; }
   .contacts-info { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
+  .hero { padding: 22px 18px; border-radius: 16px; }
   .hero-ctas { flex-direction: column; }
   .hero-ctas .btn-primary, .hero-ctas .btn-ghost { width: 100%; justify-content: center; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .hero-card { min-height: 240px; padding: 16px; }
+  .hero-stats { gap: 14px; }
+  .hero-stats > div { flex: 1 0 auto; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
   .footer-bot { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .btn-kaspi-buy, .btn-contact { padding: 14px; font-size: 14px; }
+  .price-card { padding: 16px; }
+  .key-specs { padding: 16px; }
+  .breadcrumb { font-size: 12px; padding: 14px 0; }
 }

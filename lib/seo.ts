@@ -11,7 +11,7 @@ export function organizationJsonLd() {
     "@id": absoluteUrl("/#organization"),
     name: SITE.name,
     url: SITE.url,
-    logo: absoluteUrl("/icon.svg"),
+    logo: absoluteUrl("/products/logo/logo.png"),
     description: SITE.description,
     address: {
       "@type": "PostalAddress",
@@ -64,8 +64,12 @@ export function productJsonLd(p: Product) {
     offers: {
       "@type": "Offer",
       url,
-      priceCurrency: "KZT",
-      price: p.price,
+      ...(p.price !== null
+        ? {
+            priceCurrency: "KZT",
+            price: p.price,
+          }
+        : {}),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": absoluteUrl("/#organization") },

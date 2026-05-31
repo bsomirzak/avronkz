@@ -31,7 +31,8 @@ export async function generateMetadata({
   if (!product) return {};
   const url = `/products/${product.id}`;
   const title = `${product.name} — купить в ${SITE.city}`;
-  const description = `${product.desc} Цена: ${formatPrice(product.price)}. Рассрочка Kaspi 0-0-12. Гарантия 12 месяцев.`;
+  const priceText = product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу");
+  const description = `${product.desc} Цена: ${priceText}. Рассрочка ${product.installmentBadge ?? "Kaspi"} ${product.installment}.`;
   return {
     title,
     description,
@@ -49,8 +50,12 @@ export async function generateMetadata({
       description,
     },
     other: {
-      "product:price:amount": String(product.price),
-      "product:price:currency": "KZT",
+      ...(product.price !== null
+        ? {
+            "product:price:amount": String(product.price),
+            "product:price:currency": "KZT",
+          }
+        : {}),
       "product:availability": "in stock",
       "product:condition": "new",
       "product:brand": SITE.name,
@@ -124,8 +129,8 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             <div className="price-card">
               <div className="price-row">
-                <span className="price-main">{formatPrice(product.price)}</span>
-                {product.oldPrice && (
+                <span className="price-main">{product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу")}</span>
+                {product.price !== null && product.oldPrice && (
                   <span className="price-old">{formatPrice(product.oldPrice)}</span>
                 )}
                 {product.discount && (
@@ -133,7 +138,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 )}
               </div>
               <div className="installment-row">
-                <span className="installment-badge">0·0·12</span>
+                <span className="installment-badge">{product.installmentBadge ?? "0·0·12"}</span>
                 <span>Рассрочка {product.installment}</span>
               </div>
             </div>
