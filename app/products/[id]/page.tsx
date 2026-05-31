@@ -33,9 +33,11 @@ export async function generateMetadata({
   const title = `${product.name} — купить в ${SITE.city}`;
   const priceText = product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу");
   const description = `${product.desc} Цена: ${priceText}. Рассрочка ${product.installmentBadge ?? "Kaspi"} ${product.installment}.`;
+  const ogImages = (product.images ?? []).slice(0, 4).map((src) => absoluteUrl(src));
   return {
     title,
     description,
+    keywords: [product.name, product.shortName, product.cat, SITE.name, SITE.city, "купить", "рассрочка Kaspi 0-0-12"],
     alternates: { canonical: url },
     openGraph: {
       type: "website",
@@ -43,11 +45,14 @@ export async function generateMetadata({
       title,
       description,
       siteName: SITE.name,
+      locale: SITE.locale,
+      images: ogImages,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: ogImages.slice(0, 1),
     },
     other: {
       ...(product.price !== null

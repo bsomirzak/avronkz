@@ -46,7 +46,7 @@ export function Features() {
           </svg>
         </div>
         <div>
-          <div className="feature-title">Поддержка ежедневно</div>
+          <div className="feature-title">Поддержка 24/7</div>
           <div className="feature-desc">Звоните в WhatsApp, отвечаем быстро</div>
         </div>
       </div>

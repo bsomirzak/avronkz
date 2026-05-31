@@ -32,6 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: now,
     changeFrequency: "weekly" as const,
     priority: 0.8,
+    images: (p.images ?? []).slice(0, 5).map((src) => `${base}${src}`),
   }));
 
   return [home, contacts, ...cats, ...products];

@@ -258,7 +258,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "/products/printer/6.png",
       "/products/printer/8.png",
     ],
-    kaspiUrl: "https://kaspi.kz/shop/search/?text=AVRON%20BT-6205B%20Маркиратор",
+    kaspiUrl: "https://kaspi.kz/shop/p/avron-bt-6205b-markirator-chernyi-159430804/",
   },
    {
     id: "desk-white",

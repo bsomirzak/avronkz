@@ -5,8 +5,9 @@ import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES, productsByCategory, countLabel } from "@/lib/products";
+import { CATEGORIES, PRODUCTS, productsByCategory, countLabel } from "@/lib/products";
 import { SITE } from "@/lib/site";
+import { catalogJsonLd, jsonLdScript } from "@/lib/seo";
 
 type SP = Promise<{ cat?: string }>;
 
@@ -49,6 +50,10 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(catalogJsonLd(PRODUCTS)) }}
+      />
       <Header />
       <Hero />
       <div className="container">

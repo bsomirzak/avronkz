@@ -46,11 +46,20 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
+    images: ["/products/logo/logo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
+    images: ["/products/logo/logo.png"],
+  },
+  // Paste your codes into .env.local to verify ownership and speed up indexing:
+  //   NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=...  (Google Search Console)
+  //   NEXT_PUBLIC_YANDEX_VERIFICATION=...       (Yandex Webmaster)
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
   },
   robots: {
     index: true,
