@@ -9,7 +9,8 @@ import logo from "@/public/products/logo/logo.png";
 export function Header() {
   const pathname = usePathname() ?? "/";
   const isContacts = pathname.startsWith("/contacts");
-  const isCatalog = !isContacts; // home + product pages all belong to catalog
+  const isReviews = pathname.startsWith("/reviews");
+  const isCatalog = !isContacts && !isReviews; // home + product pages all belong to catalog
 
   return (
     <header className="header">
@@ -26,7 +27,7 @@ export function Header() {
         </Link>
         <nav className="nav" aria-label="Главное меню">
           <Link href="/#catalog" className={isCatalog ? "active" : undefined}>Каталог</Link>
-          {/* <Link href="/#about">О нас</Link> */}
+          <Link href="/reviews" className={isReviews ? "active" : undefined}>Отзывы</Link>
           {/* <Link href="/#delivery">Доставка</Link> */}
           <Link href="/contacts" className={isContacts ? "active" : undefined}>Контакты</Link>
         </nav>

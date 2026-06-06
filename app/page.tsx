@@ -81,9 +81,9 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
             ))}
           </div>
         </section>
+        <Feedbacks />
         <Features />
       </div>
-      <Feedbacks />
       <Footer />
     </>
   );
