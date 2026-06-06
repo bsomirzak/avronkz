@@ -704,14 +704,16 @@ ul { list-style: none; }
 
   .hero-card {
     aspect-ratio: auto;
-    min-height: 280px;
+    min-height: 420px;
     max-width: none;
     margin: 0;
     padding: 18px;
-    gap: 14px;
+    gap: 16px;
   }
-  .hero-slide img { padding: 12px; }
-  .hero-slide-name { font-size: 13px; }
+  .hero-slides { min-height: 300px; border-radius: 18px; }
+  .hero-slide img { padding: 22px; }
+  .hero-slide-name { font-size: 14px; }
+  .hero-arrow { width: 40px; height: 40px; }
 
   .cats-section { padding: 24px 0 12px; }
   .cats { margin: 0 -16px; padding: 4px 16px; }
@@ -755,7 +757,8 @@ ul { list-style: none; }
   .hero { padding: 22px 18px; border-radius: 16px; }
   .hero-ctas { flex-direction: column; }
   .hero-ctas .btn-primary, .hero-ctas .btn-ghost { width: 100%; justify-content: center; }
-  .hero-card { min-height: 240px; padding: 16px; }
+  .hero-card { min-height: 400px; padding: 16px; }
+  .hero-slides { min-height: 280px; }
   .hero-stats { gap: 14px; }
   .hero-stats > div { flex: 1 0 auto; }
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
