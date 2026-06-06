@@ -651,6 +651,7 @@ ul { list-style: none; }
   transition: color 0.2s ease;
 }
 .tab:hover { color: var(--ink); }
+.tab-link { display: inline-flex; align-items: center; text-decoration: none; }
 .tab.active { color: var(--navy); }
 .tab.active::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -1px;

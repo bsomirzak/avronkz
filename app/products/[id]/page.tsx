@@ -225,11 +225,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               id: "reviews",
               label: "Отзывы",
               count: product.reviews,
-              panel: (
-                <p style={{ color: "var(--ink-soft)", fontSize: 14 }}>
-                  Все отзывы доступны в карточке товара на Kaspi.
-                </p>
-              ),
+              href: "/reviews",
             },
             {
               id: "delivery",
