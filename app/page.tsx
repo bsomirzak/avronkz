@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
+import { Feedbacks } from "@/components/Feedbacks";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductCard } from "@/components/ProductCard";
 import { CATEGORIES, PRODUCTS, productsByCategory, countLabel } from "@/lib/products";
@@ -82,6 +83,7 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
         </section>
         <Features />
       </div>
+      <Feedbacks />
       <Footer />
     </>
   );
