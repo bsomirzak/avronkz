@@ -53,10 +53,10 @@ export function ProductCard({ product: p }: { product: Product }) {
           <Link href={href} style={{ position: "absolute", inset: 0, zIndex: 1 }} aria-label={p.name} />
           <span style={{ position: "relative", zIndex: 2 }}>{p.name}</span>
         </h3>
-        {/* <div className="card-rating">
+        <div className="card-rating">
           <Stars rating={p.rating} /> {p.rating.toFixed(1)}{" "}
           <span style={{ color: "var(--ink-mute)" }}>({p.reviews})</span>
-        </div> */}
+        </div>
         <div
           className="card-price-row"
           itemProp="offers"
