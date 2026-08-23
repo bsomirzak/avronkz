@@ -67,7 +67,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Подходит для профессионального и учебного использования",
       "Современный минималистичный дизайн и готовность к работе сразу после установки",
     ],
-    price: 400000,
+    price: 429990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -96,6 +96,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Рассрочка", "0·0·12"],
     ],
     images: [
+      "/products/smartdisplay-65/10.png",
       "/products/smartdisplay-65/5.png",
       "/products/smartdisplay-65/6.png",
       "/products/smartdisplay-65/1.png",

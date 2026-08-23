@@ -194,6 +194,13 @@ export default function ContactsPage() {
               {SITE.phone}
             </a>
             <div className="contacts-info-text">WhatsApp и Telegram на этом же номере</div>
+            <a
+              className="contacts-info-title contacts-info-link contacts-phone-alt"
+              href={`tel:${SITE.phoneAltRaw}`}
+            >
+              {SITE.phoneAlt}
+            </a>
+            <div className="contacts-info-text">Дополнительный номер</div>
           </div>
         </section>
       </main>

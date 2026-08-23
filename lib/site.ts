@@ -5,6 +5,8 @@ export const SITE = {
   city: "Алматы",
   phone: "+7 (771) 131-03-05",
   phoneRaw: "+77711310305",
+  phoneAlt: "+7 (705) 559-50-14",
+  phoneAltRaw: "+77055595014",
   email: "avron.kz@gmail.com",
   description:
     "Официальный магазин AVRON в Алматы. Качественная техника и мебель с доставкой, гарантией 12 месяцев и рассрочкой Kaspi 0-0-12.",

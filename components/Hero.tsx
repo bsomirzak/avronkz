@@ -38,11 +38,11 @@ export function Hero() {
               <div className="hero-stat-label">на Kaspi</div>
             </div>
             <div>
-              <div className="hero-stat-val">300+</div>
+              <div className="hero-stat-val">600+</div>
               <div className="hero-stat-label">довольных клиентов</div>
             </div>
             <div>
-              <div className="hero-stat-val">15+</div>
+              <div className="hero-stat-val">20+</div>
               <div className="hero-stat-label">товаров</div>
             </div>
           </div>

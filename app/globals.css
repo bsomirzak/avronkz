@@ -754,6 +754,7 @@ ul { list-style: none; }
 .contacts-info-link { display: inline-block; transition: color 0.2s ease; }
 .contacts-info-link:hover { color: var(--yellow-deep); }
 .contacts-info-text { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.contacts-phone-alt { margin-top: 10px; }
 .contacts-map-link {
   display: inline-flex; align-items: center; gap: 6px;
   margin-top: 10px; padding: 6px 12px;
