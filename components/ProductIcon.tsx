@@ -99,5 +99,16 @@ export function ProductIcon({ name }: { name: IconName }) {
           <line x1="20" y1="36" x2="80" y2="36" />
         </svg>
       );
+    case "studiolight":
+      return (
+        <svg {...COMMON}>
+          <path d="M18 14 L62 26 L62 62 L18 74 Z" />
+          <rect x="62" y="34" width="16" height="20" rx="2" />
+          <line x1="50" y1="44" x2="50" y2="86" />
+          <line x1="34" y1="92" x2="50" y2="86" />
+          <line x1="66" y1="92" x2="50" y2="86" />
+          <line x1="50" y1="86" x2="50" y2="92" />
+        </svg>
+      );
   }
 }
