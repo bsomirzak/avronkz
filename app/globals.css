@@ -280,7 +280,7 @@ ul { list-style: none; }
   letter-spacing: 0.18em; text-transform: uppercase;
   color: var(--ink-mute); margin-bottom: 16px;
 }
-.cats { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.cats { display: flex; flex-wrap: wrap; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
 .cats::-webkit-scrollbar { display: none; }
 .chip {
   padding: 10px 18px; border-radius: 100px;
@@ -822,7 +822,7 @@ ul { list-style: none; }
   .reviews-head h1 { font-size: 26px; }
 
   .cats-section { padding: 24px 0 12px; }
-  .cats { margin: 0 -16px; padding: 4px 16px; }
+  .cats { flex-wrap: nowrap; margin: 0 -16px; padding: 4px 16px; }
   .catalog-section { padding: 20px 0 40px; }
   .catalog-title { font-size: 22px; }
   .catalog-count { font-size: 13px; margin-left: 8px; }

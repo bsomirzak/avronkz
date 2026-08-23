@@ -110,5 +110,17 @@ export function ProductIcon({ name }: { name: IconName }) {
           <line x1="50" y1="86" x2="50" y2="92" />
         </svg>
       );
+    case "gate":
+      return (
+        <svg {...COMMON}>
+          <rect x="14" y="30" width="46" height="40" rx="2" />
+          <line x1="26" y1="30" x2="26" y2="70" />
+          <line x1="37" y1="30" x2="37" y2="70" />
+          <line x1="48" y1="30" x2="48" y2="70" />
+          <rect x="64" y="42" width="22" height="28" rx="2" />
+          <circle cx="75" cy="56" r="5" />
+          <line x1="10" y1="78" x2="90" y2="78" />
+        </svg>
+      );
   }
 }
