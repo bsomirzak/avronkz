@@ -93,7 +93,11 @@ ul { list-style: none; }
 }
 
 .header-right { display: flex; align-items: center; gap: 16px; }
-.header-phone { font-weight: 600; font-size: 15px; color: var(--navy); white-space: nowrap; }
+.header-phones { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.header-phone { font-weight: 600; font-size: 15px; color: var(--navy); white-space: nowrap; transition: color 0.2s ease; }
+.header-phone:hover { color: var(--yellow-deep); }
+.header-phone.alt { font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+.header-phone.alt:hover { color: var(--navy); }
 .btn-kaspi {
   background: var(--yellow); color: var(--navy);
   padding: 10px 18px; border-radius: 10px;
@@ -775,7 +779,7 @@ ul { list-style: none; }
   .reviews-masonry { columns: 2; }
 }
 @media (max-width: 768px) {
-  .nav, .header-phone, .btn-kaspi { display: none; }
+  .nav, .header-phones, .btn-kaspi { display: none; }
   .menu-toggle { display: grid; place-items: center; }
   .header-inner { padding: 12px 16px; gap: 12px; }
   .brand-logo { height: 36px; }

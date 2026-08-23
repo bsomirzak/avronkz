@@ -32,7 +32,10 @@ export function Header() {
           <Link href="/contacts" className={isContacts ? "active" : undefined}>Контакты</Link>
         </nav>
         <div className="header-right">
-          <a href={`tel:${SITE.phoneRaw}`} className="header-phone">{SITE.phone}</a>
+          <div className="header-phones">
+            <a href={`tel:${SITE.phoneRaw}`} className="header-phone">{SITE.phone}</a>
+            <a href={`tel:${SITE.phoneAltRaw}`} className="header-phone alt">{SITE.phoneAlt}</a>
+          </div>
           <a href={SITE.social.kaspi} target="_blank" rel="noopener noreferrer" className="btn-kaspi">
             Kaspi Магазин
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
