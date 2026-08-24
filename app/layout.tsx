@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import { SITE } from "@/lib/site";
 import { organizationJsonLd, websiteJsonLd, jsonLdScript } from "@/lib/seo";
+import { Analytics } from "@/components/Analytics";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -102,6 +103,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: jsonLdScript(websiteJsonLd()) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

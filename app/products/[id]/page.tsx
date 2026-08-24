@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductCard } from "@/components/ProductCard";
+import { TrackView } from "@/components/TrackView";
 import { PRODUCTS, getProduct, formatPrice } from "@/lib/products";
 import { SITE } from "@/lib/site";
 import {
@@ -95,6 +96,10 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   return (
     <>
+      <TrackView
+        event="view_product"
+        props={{ id: product.id, name: product.name, cat: product.cat, price: product.price }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(productJsonLd(product)) }}

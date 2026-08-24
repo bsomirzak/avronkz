@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { TrackView } from "@/components/TrackView";
 import { SITE } from "@/lib/site";
 import { absoluteUrl, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
@@ -120,6 +121,7 @@ export default function ContactsPage() {
 
   return (
     <>
+      <TrackView event="view_contacts" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }}
