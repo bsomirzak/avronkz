@@ -28,6 +28,8 @@ export type AnalyticsEvent =
  */
 const GADS_CONVERSION_LABELS: Partial<Record<AnalyticsEvent, string>> = {
   click_kaspi: "OQT3CIK8succEL7TiIFE",
+  click_whatsapp: "D6uECNq_2-ccEL7TiIFE",
+  click_phone: "baNKCN2_2-ccEL7TiIFE",
 };
 
 export type EventProps = Record<string, string | number | boolean | null>;
