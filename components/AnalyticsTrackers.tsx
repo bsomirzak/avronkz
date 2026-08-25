@@ -21,7 +21,14 @@ function ClickTracker() {
       if (!href) return;
       const event = eventForHref(href);
       if (!event) return;
-      track(event, { href, page: window.location.pathname });
+      // data-analytics-value ставит карточка товара: сумма для конверсии Google Ads.
+      const rawValue = link?.getAttribute("data-analytics-value");
+      const value = rawValue ? Number(rawValue) : null;
+      track(event, {
+        href,
+        page: window.location.pathname,
+        ...(value !== null && Number.isFinite(value) ? { value } : {}),
+      });
     }
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);

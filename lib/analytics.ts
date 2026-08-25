@@ -10,6 +10,9 @@ export const YM_ID = process.env.NEXT_PUBLIC_YM_ID;
 /** Google tag для avron.kz. Переопределяется через NEXT_PUBLIC_GADS_ID. */
 export const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID ?? "AW-18255849918";
 
+/** Валюта магазина — в ней уходит сумма конверсии в Google Ads. */
+const CURRENCY = "KZT";
+
 export type AnalyticsEvent =
   | "view_product"
   | "view_contacts"
@@ -19,13 +22,12 @@ export type AnalyticsEvent =
   | "click_instagram";
 
 /**
- * Ярлыки конверсий Google Ads (Цели → Конверсии → «Действие-конверсия» → тег).
- * Пока пусто — события уходят как обычные, Google Ads их видит и позволяет
- * сделать конверсией. Когда в интерфейсе появится ярлык вида "AbCdEfGh",
- * впиши его сюда, и событие дополнительно уйдёт как настоящая конверсия.
+ * Ярлыки конверсий Google Ads (Цели → Конверсии → действие-конверсия → тег).
+ * Конверсия «Покупка» повешена на click_kaspi: оформление заказа происходит
+ * уже на стороне Kaspi, и уход туда — единственное, что сайт может измерить.
  */
 const GADS_CONVERSION_LABELS: Partial<Record<AnalyticsEvent, string>> = {
-  // click_kaspi: "AbCdEfGhIjKlMnOp",
+  click_kaspi: "OQT3CIK8succEL7TiIFE",
 };
 
 export type EventProps = Record<string, string | number | boolean | null>;
@@ -67,6 +69,13 @@ export function track(event: AnalyticsEvent, props?: EventProps) {
 
   const label = GADS_CONVERSION_LABELS[event];
   if (label) {
-    gtagCall("event", "conversion", { send_to: `${GADS_ID}/${label}`, ...props });
+    const conversion: Record<string, unknown> = { send_to: `${GADS_ID}/${label}` };
+    // Цена товара, с карточки которого ушли на Kaspi. Это потенциальная сумма
+    // заказа, а не подтверждённая выручка — Kaspi о самой покупке не сообщает.
+    if (typeof props?.value === "number") {
+      conversion.value = props.value;
+      conversion.currency = CURRENCY;
+    }
+    gtagCall("event", "conversion", conversion);
   }
 }
