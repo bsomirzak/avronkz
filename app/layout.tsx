@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/site";
 import { organizationJsonLd, websiteJsonLd, jsonLdScript } from "@/lib/seo";
 import { Analytics } from "@/components/Analytics";
