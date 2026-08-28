@@ -875,3 +875,84 @@ ul { list-style: none; }
   .breadcrumb { font-size: 12px; padding: 14px 0; }
   .reviews-masonry { columns: 1; }
 }
+
+/* ==================== Заказы (внутренний раздел) ==================== */
+.orders-page { padding: 32px 24px 80px; }
+.orders-title { font-size: 30px; font-weight: 800; color: var(--navy); margin: 12px 0 8px; }
+.orders-lead { color: var(--ink-soft); font-size: 15px; max-width: 720px; margin-bottom: 24px; }
+
+.orders-controls { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 16px; }
+.orders-field { display: flex; flex-direction: column; gap: 6px; }
+.orders-field span { font-size: 12px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.06em; }
+.orders-field input {
+  border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px;
+  font: inherit; color: var(--ink); background: var(--white);
+}
+.orders-load {
+  background: var(--yellow); color: var(--navy); font-weight: 700;
+  border-radius: 10px; padding: 10px 22px; transition: background 0.2s ease;
+}
+.orders-load:hover:not(:disabled) { background: var(--yellow-deep); }
+.orders-load:disabled { opacity: 0.6; cursor: default; }
+
+.orders-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.orders-chip {
+  border: 1px solid var(--line); background: var(--white); color: var(--ink-soft);
+  border-radius: 999px; padding: 7px 14px; font-size: 14px; transition: all 0.15s ease;
+}
+.orders-chip:hover { border-color: var(--ink-mute); }
+.orders-chip.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+.orders-note { color: var(--ink-soft); font-size: 14px; margin: 16px 0; }
+.orders-error {
+  background: #FEF2F2; border: 1px solid #FECACA; color: var(--red-deep);
+  border-radius: 10px; padding: 12px 14px; font-size: 14px; margin: 16px 0;
+}
+
+.orders-summary { display: flex; gap: 24px; flex-wrap: wrap; margin: 20px 0 16px; font-size: 15px; color: var(--ink); }
+.orders-summary b { font-size: 20px; color: var(--navy); }
+.orders-summary .muted { color: var(--ink-soft); }
+
+.orders-warnings { margin-bottom: 16px; font-size: 13px; color: var(--ink-soft); }
+.orders-warnings summary { cursor: pointer; }
+.orders-warnings ul { margin: 8px 0 0 18px; }
+
+.orders-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.orders-tabs { display: flex; background: var(--bg-2); border-radius: 10px; padding: 3px; }
+.orders-tabs button { border-radius: 8px; padding: 7px 16px; font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+.orders-tabs button.active { background: var(--white); color: var(--navy); box-shadow: var(--shadow-sm); }
+.orders-search {
+  flex: 1; min-width: 220px; border: 1px solid var(--line); border-radius: 10px;
+  padding: 9px 12px; font: inherit; color: var(--ink); background: var(--white);
+}
+.orders-action {
+  border: 1px solid var(--line); background: var(--white); color: var(--ink);
+  border-radius: 10px; padding: 9px 14px; font-size: 14px; font-weight: 600;
+}
+.orders-action:hover:not(:disabled) { border-color: var(--navy); color: var(--navy); }
+.orders-action:disabled { opacity: 0.5; cursor: default; }
+
+.orders-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+.orders-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.orders-table th {
+  text-align: left; padding: 12px 14px; font-size: 12px; font-weight: 700;
+  color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+.orders-table td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+.orders-table tr:last-child td { border-bottom: none; }
+.orders-table tr:hover td { background: var(--bg); }
+.orders-table .mono { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+
+.phone-cell { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.phone-cell .phone { font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+.phone-cell .phone:hover { color: var(--yellow-deep); }
+.phone-cell a { font-size: 12px; font-weight: 600; color: var(--ink-mute); }
+.phone-cell a:hover { color: var(--navy); }
+.phone-masked { color: var(--ink-mute); font-size: 13px; }
+.repeat { color: var(--green); font-size: 12px; font-weight: 600; }
+
+@media (max-width: 720px) {
+  .orders-title { font-size: 24px; }
+  .orders-search { min-width: 100%; order: 3; }
+}
