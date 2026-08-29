@@ -1,10 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Пароль на внутренние разделы продавца.
+ * Пароль на раздел с заказами.
  *
- * За /orders лежат имена, телефоны и адреса покупателей, за /print — накладные,
- * поэтому разделы закрыты HTTP Basic Auth. Если логин или пароль не заданы — доступ закрыт полностью:
+ * За /orders лежат имена, телефоны и адреса покупателей, поэтому раздел закрыт
+ * HTTP Basic Auth. Если логин или пароль не заданы — доступ закрыт полностью:
  * лучше отдать 503, чем случайно выложить контакты клиентов в открытый доступ.
  *
  * В Next 16 middleware называется proxy — см. node_modules/next/dist/docs/01-app/01-getting-started/16-proxy.md
@@ -61,5 +61,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/orders/:path*", "/print/:path*", "/api/kaspi/:path*"],
+  // /print не закрываем: страница ничего не хранит и не спрашивает у сервера —
+  // накладные разбираются прямо в браузере продавца.
+  matcher: ["/orders/:path*", "/api/kaspi/:path*"],
 };
