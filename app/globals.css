@@ -956,3 +956,79 @@ ul { list-style: none; }
   .orders-title { font-size: 24px; }
   .orders-search { min-width: 100%; order: 3; }
 }
+
+/* ── Накладные Kaspi (/print) ─────────────────────────────────────────── */
+.wb-page { padding: 32px 24px 80px; }
+.wb-title { font-size: 30px; font-weight: 800; color: var(--navy); margin: 12px 0 8px; }
+.wb-lead { color: var(--ink-soft); font-size: 15px; max-width: 720px; margin-bottom: 24px; }
+
+.wb { max-width: 760px; }
+.wb-drop {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 40px 24px; border: 2px dashed var(--line); border-radius: 16px;
+  background: var(--bg); color: var(--ink-mute); cursor: pointer; text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.wb-drop:hover, .wb-drop.dragover { border-color: var(--yellow-deep); background: var(--white); }
+.wb-drop b { color: var(--navy); font-size: 16px; margin-top: 6px; }
+.wb-drop span { font-size: 13px; color: var(--ink-soft); }
+
+.wb-files { margin-top: 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); overflow: hidden; }
+.wb-files-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: var(--bg-2); font-size: 13px; font-weight: 600; color: var(--ink-soft);
+}
+.wb-link { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.wb-link:hover:not(:disabled) { color: var(--red-deep); }
+.wb-files ul { list-style: none; }
+.wb-files li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; border-top: 1px solid var(--line-soft); font-size: 14px;
+}
+.wb-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wb-file-size { color: var(--ink-mute); font-variant-numeric: tabular-nums; font-size: 13px; }
+.wb-files li button { font-size: 20px; line-height: 1; color: var(--ink-mute); padding: 0 4px; }
+.wb-files li button:hover:not(:disabled) { color: var(--red-deep); }
+
+.wb-options { display: flex; gap: 20px; flex-wrap: wrap; margin: 18px 0; font-size: 14px; color: var(--ink-soft); }
+.wb-options label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.wb-options input { width: 16px; height: 16px; accent-color: var(--navy); }
+
+.wb-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.wb-build {
+  background: var(--yellow); color: var(--navy); font-weight: 700; font-size: 15px;
+  padding: 12px 24px; border-radius: 10px;
+}
+.wb-build:hover:not(:disabled) { background: var(--yellow-deep); }
+.wb-build:disabled { opacity: 0.5; cursor: default; }
+.wb-progress { font-size: 14px; color: var(--ink-soft); }
+
+.wb-error {
+  margin-top: 16px; padding: 12px 14px; border-radius: 10px;
+  background: rgba(239,79,79,0.08); color: var(--red-deep); font-size: 14px;
+}
+.wb-warn { font-size: 13px; color: var(--ink-soft); margin-top: 8px; }
+
+.wb-result { margin-top: 24px; }
+.wb-summary { font-size: 15px; color: var(--ink); }
+.wb-summary b { color: var(--navy); font-size: 18px; }
+.wb-result-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 14px 0 18px; }
+.wb-download {
+  background: var(--navy); color: var(--white); font-weight: 700; font-size: 15px;
+  padding: 12px 22px; border-radius: 10px;
+}
+.wb-download:hover { background: var(--navy-2); }
+.wb-open {
+  border: 1px solid var(--line); color: var(--ink-soft); font-weight: 600; font-size: 15px;
+  padding: 12px 20px; border-radius: 10px;
+}
+.wb-open:hover { border-color: var(--navy); color: var(--navy); }
+.wb-preview {
+  width: 100%; height: 640px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-2);
+}
+
+@media (max-width: 640px) {
+  .wb-title { font-size: 24px; }
+  .wb-drop { padding: 28px 16px; }
+  .wb-preview { height: 420px; }
+}
