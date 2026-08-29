@@ -88,84 +88,33 @@ function loadPdfjs() {
 
 const inside = (r: Rect, x: number, y: number) => x >= r.x0 && x <= r.x1 && y >= r.y0 && y <= r.y1;
 
-const overlaps = (a: Rect, b: Rect) => a.x0 < b.x1 && a.x1 > b.x0 && a.y0 < b.y1 && a.y1 > b.y0;
-
-/** m1 · m2 в нотации PDF (векторы-строки): сначала применяется m1. */
-function mul(m1: number[], m2: number[]): number[] {
-  return [
-    m1[0] * m2[0] + m1[1] * m2[2],
-    m1[0] * m2[1] + m1[1] * m2[3],
-    m1[2] * m2[0] + m1[3] * m2[2],
-    m1[2] * m2[1] + m1[3] * m2[3],
-    m1[4] * m2[0] + m1[5] * m2[2] + m2[4],
-    m1[4] * m2[1] + m1[5] * m2[3] + m2[5],
-  ];
-}
-
 /**
  * Какие квадранты страницы заполнены. Пустые места на последнем листе Kaspi
- * не должны съедать позиции в готовом файле, поэтому ищем текст и картинки.
+ * не должны съедать позиции в готовом файле, поэтому смотрим, где лежит текст:
+ * на наклейке всегда есть номер заказа, город и адрес.
  */
 async function filledQuadrants(
   page: import("pdfjs-dist").PDFPageProxy,
-  ops: typeof import("pdfjs-dist").OPS,
   quads: Rect[],
 ): Promise<boolean[]> {
   const view = page.view; // [x0, y0, x1, y1] в пользовательских координатах
-  const top = view[3];
   const left = view[0];
+  const top = view[3];
   const found = quads.map(() => false);
-  const mark = (x: number, y: number) => {
-    quads.forEach((q, i) => {
-      if (!found[i] && inside(q, x, y)) found[i] = true;
-    });
-  };
 
   const text = await page.getTextContent();
   for (const item of text.items) {
     if (!("str" in item) || !item.str.trim()) continue;
-    mark(item.transform[4] - left, top - item.transform[5]);
+    const x = item.transform[4] - left;
+    const y = top - item.transform[5];
+    quads.forEach((q, i) => {
+      if (!found[i] && inside(q, x, y)) found[i] = true;
+    });
   }
 
-  if (found.every(Boolean)) return found;
-
-  // Штрихкод/логотип может быть картинкой — прогоняем поток команд и следим за CTM.
-  const list = await page.getOperatorList();
-  const stack: number[][] = [];
-  let ctm = [1, 0, 0, 1, 0, 0];
-  for (let i = 0; i < list.fnArray.length; i++) {
-    const fn = list.fnArray[i];
-    if (fn === ops.save) {
-      stack.push(ctm);
-    } else if (fn === ops.restore) {
-      ctm = stack.pop() ?? ctm;
-    } else if (fn === ops.transform) {
-      ctm = mul(list.argsArray[i] as number[], ctm);
-    } else if (
-      fn === ops.paintImageXObject ||
-      fn === ops.paintInlineImageXObject ||
-      fn === ops.paintImageMaskXObject ||
-      fn === ops.paintImageXObjectRepeat
-    ) {
-      // Картинка рисуется в единичном квадрате, растянутом текущей матрицей.
-      const xs: number[] = [];
-      const ys: number[] = [];
-      for (const [ux, uy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
-        xs.push(ux * ctm[0] + uy * ctm[2] + ctm[4] - left);
-        ys.push(top - (ux * ctm[1] + uy * ctm[3] + ctm[5]));
-      }
-      const box: Rect = {
-        x0: Math.min(...xs),
-        y0: Math.min(...ys),
-        x1: Math.max(...xs),
-        y1: Math.max(...ys),
-      };
-      quads.forEach((q, j) => {
-        if (!found[j] && overlaps(q, box)) found[j] = true;
-      });
-    }
-  }
-  return found;
+  // Страница без единой буквы — наклейка нарисована картинкой. Берём страницу
+  // целиком: лишний пустой квадрант видно на глаз, а потерянная накладная — нет.
+  return found.some(Boolean) ? found : quads.map(() => true);
 }
 
 type Tile = { file: number; page: number; quad: Rect; pageH: number };
@@ -188,7 +137,7 @@ export async function mergeWaybills(sources: SourcePdf[], opts: MergeOptions = {
         const page = await doc.getPage(p);
         const [vx0, vy0, vx1, vy1] = page.view;
         const quads = quadrants(vx1 - vx0, vy1 - vy0);
-        const filled = await filledQuadrants(page, pdfjs.OPS, quads);
+        const filled = await filledQuadrants(page, quads);
         quads.forEach((quad, q) => {
           if (filled[q]) {
             tiles.push({ file: i, page: p - 1, quad, pageH: vy1 - vy0 });
