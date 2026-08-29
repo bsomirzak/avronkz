@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Контакты заказов — Kaspi</title>
+<style>
+:root{
+  --bg:#E8EBED; --surface:#fff; --ink:#10161C; --muted:#5A6670;
+  --line:#D3D9DE; --line-soft:#E7EBEE;
+  --accent:#0A6E5C; --accent-soft:#DFEFEB; --warn:#A8500C; --danger:#9E2B25;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45;
+  display:flex;flex-direction:column}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---- шапка ---- */
+header{background:var(--ink);color:#EDF1F3;padding:10px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+header h1{margin:0;font-size:14px;font-weight:650;letter-spacing:.02em}
+header .sub{font-size:12px;color:#8B959D}
+header .spacer{flex:1}
+.tokenbox{display:flex;gap:6px;align-items:center}
+.tokenbox input{background:#1D252C;border:1px solid #2E3840;border-radius:5px;color:#EDF1F3;
+  padding:5px 9px;width:230px;font-family:var(--mono);font-size:12px}
+.tokenbox label{font-size:11px;color:#8B959D;display:flex;gap:4px;align-items:center;cursor:pointer}
+
+/* ---- панель фильтров ---- */
+.toolbar{background:var(--surface);border-bottom:1px solid var(--line);padding:10px 18px;
+  display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:5px}
+.field > span{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;
+  cursor:pointer;transition:.12s}
+.chip:hover{border-color:#A9B3BA}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.dates{display:flex;gap:5px;align-items:center}
+.dates input{border:1px solid var(--line);border-radius:5px;padding:5px 8px;font-family:var(--mono);font-size:12.5px;background:#fff}
+.load{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:8px 18px;font-weight:600;cursor:pointer}
+.load:disabled{opacity:.5;cursor:default}
+
+/* ---- сводка ---- */
+.stats{display:flex;gap:0;background:var(--surface);border-bottom:1px solid var(--line);padding:0 18px}
+.stat{padding:10px 22px 12px 0;margin-right:22px;border-right:1px solid var(--line-soft)}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:var(--mono);font-size:21px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:.03em}
+.stat.hl b{color:var(--accent)}
+
+/* ---- вкладки + поиск ---- */
+.subbar{display:flex;gap:14px;align-items:center;padding:9px 18px;background:var(--surface);
+  border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs{display:flex;gap:2px}
+.tab{border:0;background:transparent;padding:5px 12px;border-radius:5px;cursor:pointer;color:var(--muted);font-weight:500}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff}
+.search{flex:1;min-width:180px;max-width:340px;border:1px solid var(--line);border-radius:6px;padding:6px 10px;background:#fff}
+.ghost{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px}
+.ghost:hover{border-color:#A9B3BA}
+
+/* ---- таблица ---- */
+.wrap{flex:1;overflow:auto;padding:0 0 40px}
+table{width:100%;border-collapse:collapse;background:var(--surface)}
+thead th{position:sticky;top:0;z-index:2;background:#F3F5F6;border-bottom:1px solid var(--line);
+  font-size:11px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+  text-align:left;padding:8px 12px;white-space:nowrap}
+tbody td{border-bottom:1px solid var(--line-soft);padding:9px 12px;vertical-align:middle}
+tbody tr:hover{background:#F7F9FA}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.code{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.date{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+/* телефон — главный элемент таблицы */
+.phone-cell{border-left:2px solid var(--accent-soft);width:1%;white-space:nowrap}
+.phone{font-family:var(--mono);font-size:16px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  background:none;border:0;padding:0;cursor:pointer;color:var(--ink)}
+.phone:hover{color:var(--accent);text-decoration:underline}
+.phone.copied{color:var(--accent)}
+.nophone{font-size:12.5px;color:var(--warn)}
+
+.acts{display:flex;gap:4px;opacity:.35;transition:.12s}
+tr:hover .acts{opacity:1}
+.acts a{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+  border:1px solid var(--line);border-radius:5px;text-decoration:none;font-size:13px;color:var(--muted);background:#fff}
+.acts a:hover{border-color:var(--accent);color:var(--accent)}
+
+.badge{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:2px 7px;
+  border-radius:4px;background:#EEF1F3;color:var(--muted);white-space:nowrap}
+.badge.new{background:#FDF0E2;color:var(--warn)}
+.badge.done{background:var(--accent-soft);color:var(--accent)}
+
+.msg{padding:44px 18px;text-align:center;color:var(--muted)}
+.msg.err{color:var(--danger)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;
+  padding:9px 18px;border-radius:7px;font-size:13px;opacity:0;pointer-events:none;transition:.18s}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:720px){
+  .hide-sm{display:none}
+  .toolbar,.subbar,.stats{padding-left:12px;padding-right:12px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Контакты заказов</h1>
+  <span class="sub">Kaspi Merchant API · данные вашего магазина</span>
+  <span class="spacer"></span>
+  <div class="tokenbox" id="tokenbox" hidden>
+    <input id="token" type="password" placeholder="Токен API" autocomplete="off">
+    <label><input type="checkbox" id="remember"> запомнить</label>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="field">
+    <span>Период</span>
+    <div class="chips" id="presets">
+      <button class="chip" data-days="7">7 дней</button>
+      <button class="chip" data-days="14">14 дней</button>
+      <button class="chip" data-days="30" aria-pressed="true">30 дней</button>
+      <button class="chip" data-days="90">90 дней</button>
+    </div>
+  </div>
+  <div class="field">
+    <span>Или вручную</span>
+    <div class="dates">
+      <input type="date" id="from"><span>—</span><input type="date" id="to">
+    </div>
+  </div>
+  <div class="field">
+    <span>Статус заказа</span>
+    <div class="chips" id="states">
+      <button class="chip" data-state="NEW">Новые</button>
+      <button class="chip" data-state="PICKUP">Самовывоз</button>
+      <button class="chip" data-state="DELIVERY">Доставка</button>
+      <button class="chip" data-state="KASPI_DELIVERY">Kaspi Доставка</button>
+      <button class="chip" data-state="ARCHIVE" aria-pressed="true">Завершённые</button>
+    </div>
+  </div>
+  <button class="load" id="load">Загрузить</button>
+</div>
+
+<div class="stats" id="stats" hidden>
+  <div class="stat"><b id="s-orders">0</b><span>заказов</span></div>
+  <div class="stat hl"><b id="s-clients">0</b><span>уникальных клиентов</span></div>
+  <div class="stat"><b id="s-repeat">0</b><span>вернулись повторно</span></div>
+  <div class="stat"><b id="s-masked">0</b><span>без номера</span></div>
+  <div class="stat"><b id="s-sum">0 ₸</b><span>сумма заказов</span></div>
+</div>
+
+<div class="subbar" id="subbar" hidden>
+  <div class="tabs">
+    <button class="tab" id="tab-orders" aria-selected="true">Заказы</button>
+    <button class="tab" id="tab-clients" aria-selected="false">Клиенты</button>
+  </div>
+  <input class="search" id="search" placeholder="Имя, номер или код заказа">
+  <button class="ghost" id="copy-all">Скопировать номера</button>
+  <button class="ghost" id="csv">Выгрузить CSV</button>
+</div>
+
+<div class="wrap" id="wrap">
+  <p class="msg" id="msg">Выберите период и нажмите «Загрузить».</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let ORDERS = [], VIEW = 'orders';
+
+// ---------- токен ----------
+(async () => {
+  const cfg = await fetch('/api/config').then(r => r.json());
+  if (!cfg.hasToken) {
+    $('tokenbox').hidden = false;
+    const saved = localStorage.getItem('kaspiToken');
+    if (saved) { $('token').value = saved; $('remember').checked = true; }
+  }
+})();
+const getToken = () => $('token').value.trim();
+
+// ---------- фильтры ----------
+function setDefaultDates(days) {
+  const to = new Date(), from = new Date(Date.now() - days * 864e5);
+  $('to').value = to.toISOString().slice(0, 10);
+  $('from').value = from.toISOString().slice(0, 10);
+}
+setDefaultDates(30);
+
+$('presets').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  [...$('presets').children].forEach(c => c.setAttribute('aria-pressed', c === b));
+  setDefaultDates(Number(b.dataset.days));
+});
+$('states').addEventListener('click', (e) => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true');
+});
+[$('from'), $('to')].forEach(el => el.addEventListener('change', () =>
+  [...$('presets').children].forEach(c => c.setAttribute('aria-pressed', false))));
+
+// ---------- загрузка ----------
+$('load').addEventListener('click', async () => {
+  const states = [...$('states').children]
+    .filter(c => c.getAttribute('aria-pressed') === 'true').map(c => c.dataset.state);
+  if (!states.length) return toast('Выберите хотя бы один статус');
+
+  if (!$('tokenbox').hidden && !getToken()) return toast('Введите токен API');
+  if ($('remember').checked) localStorage.setItem('kaspiToken', getToken());
+  else localStorage.removeItem('kaspiToken');
+
+  $('load').disabled = true;
+  show(`<p class="msg">Запрашиваю заказы у Kaspi… Это может занять до минуты.</p>`);
+
+  const qs = new URLSearchParams({ from: $('from').value, to: $('to').value, states: states.join(',') });
+  try {
+    const res = await fetch('/api/orders?' + qs, { headers: getToken() ? { 'X-Kaspi-Token': getToken() } : {} });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Не удалось загрузить заказы');
+    ORDERS = data.orders;
+    if (data.meta.warnings?.length) console.warn('Kaspi warnings:', data.meta.warnings);
+    $('stats').hidden = $('subbar').hidden = false;
+    renderStats(); render();
+  } catch (e) {
+    show(`<p class="msg err">${escapeHtml(e.message)}</p>`);
+  } finally {
+    $('load').disabled = false;
+  }
+});
+
+// ---------- агрегация ----------
+function clients() {
+  const map = new Map();
+  for (const o of ORDERS) {
+    if (!o.phone) continue;
+    const c = map.get(o.phone) || { phone: o.phone, phonePretty: o.phonePretty, name: o.name, orders: 0, total: 0, last: 0, city: o.city };
+    c.orders++; c.total += o.total;
+    if (o.date > c.last) { c.last = o.date; c.name = o.name; c.city = o.city || c.city; }
+    map.set(o.phone, c);
+  }
+  return [...map.values()].sort((a, b) => b.orders - a.orders || b.last - a.last);
+}
+
+function renderStats() {
+  const cs = clients();
+  $('s-orders').textContent = ORDERS.length;
+  $('s-clients').textContent = cs.length;
+  $('s-repeat').textContent = cs.filter(c => c.orders > 1).length;
+  $('s-masked').textContent = ORDERS.filter(o => o.masked).length;
+  $('s-sum').textContent = fmtMoney(ORDERS.reduce((s, o) => s + o.total, 0));
+}
+
+// ---------- рендер ----------
+$('tab-orders').onclick = () => switchTab('orders');
+$('tab-clients').onclick = () => switchTab('clients');
+function switchTab(v) {
+  VIEW = v;
+  $('tab-orders').setAttribute('aria-selected', v === 'orders');
+  $('tab-clients').setAttribute('aria-selected', v === 'clients');
+  render();
+}
+$('search').addEventListener('input', render);
+
+function filtered(rows) {
+  const q = $('search').value.trim().toLowerCase().replace(/[\s()+-]/g, '');
+  if (!q) return rows;
+  return rows.filter(r =>
+    (r.name || '').toLowerCase().includes(q) || (r.phone || '').includes(q) || (r.code || '').toLowerCase().includes(q));
+}
+
+function render() {
+  const rows = filtered(VIEW === 'orders' ? ORDERS : clients());
+  if (!rows.length) return show(`<p class="msg">Ничего не найдено за выбранный период.</p>`);
+
+  const head = VIEW === 'orders'
+    ? `<tr><th>Дата</th><th>Заказ</th><th>Покупатель</th><th>Телефон</th><th></th>
+       <th class="hide-sm">Сумма</th><th class="hide-sm">Город</th><th class="hide-sm">Статус</th></tr>`
+    : `<tr><th>Покупатель</th><th>Телефон</th><th></th><th>Заказов</th>
+       <th class="hide-sm">Сумма</th><th class="hide-sm">Город</th><th class="hide-sm">Последний заказ</th></tr>`;
+
+  const body = rows.map(r => VIEW === 'orders' ? orderRow(r) : clientRow(r)).join('');
+  show(`<table><thead>${head}</thead><tbody>${body}</tbody></table>`);
+}
+
+const phoneCell = (r) => r.phone
+  ? `<td class="phone-cell"><button class="phone" data-copy="${r.phone}">${r.phonePretty}</button></td>
+     <td>${actions(r)}</td>`
+  : `<td class="phone-cell"><span class="nophone">скрыт Kaspi</span></td><td></td>`;
+
+const actions = (r) => `<div class="acts">
+  <a href="https://wa.me/${r.phone}" target="_blank" rel="noopener" title="WhatsApp">✆</a>
+  <a href="tel:+${r.phone}" title="Позвонить">☎</a></div>`;
+
+function orderRow(o) {
+  return `<tr>
+    <td class="date">${fmtDate(o.date)}</td>
+    <td class="code">${escapeHtml(o.code)}</td>
+    <td>${escapeHtml(o.name)}</td>
+    ${phoneCell(o)}
+    <td class="num hide-sm">${fmtMoney(o.total)}</td>
+    <td class="hide-sm">${escapeHtml(o.city)}</td>
+    <td class="hide-sm">${stateBadge(o.state)}</td>
+  </tr>`;
+}
+
+function clientRow(c) {
+  return `<tr>
+    <td>${escapeHtml(c.name)}</td>
+    ${phoneCell(c)}
+    <td class="num">${c.orders > 1 ? `<span class="badge done">${c.orders} заказа</span>` : c.orders}</td>
+    <td class="num hide-sm">${fmtMoney(c.total)}</td>
+    <td class="hide-sm">${escapeHtml(c.city)}</td>
+    <td class="date hide-sm">${fmtDate(c.last)}</td>
+  </tr>`;
+}
+
+const STATE_LABEL = { NEW: 'Новый', SIGN_REQUIRED: 'Подпись', PICKUP: 'Самовывоз', DELIVERY: 'Доставка', KASPI_DELIVERY: 'Kaspi', ARCHIVE: 'Завершён' };
+const stateBadge = (s) =>
+  `<span class="badge ${s === 'NEW' ? 'new' : s === 'ARCHIVE' ? 'done' : ''}">${STATE_LABEL[s] || s}</span>`;
+
+// ---------- действия ----------
+$('wrap').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  await navigator.clipboard.writeText('+' + b.dataset.copy);
+  b.classList.add('copied'); setTimeout(() => b.classList.remove('copied'), 900);
+  toast('Номер скопирован');
+});
+
+$('copy-all').onclick = async () => {
+  const list = [...new Set(filtered(VIEW === 'orders' ? ORDERS : clients()).map(r => r.phone).filter(Boolean))];
+  if (!list.length) return toast('Нет номеров для копирования');
+  await navigator.clipboard.writeText(list.map(p => '+' + p).join('\n'));
+  toast(`Скопировано номеров: ${list.length}`);
+};
+
+$('csv').onclick = () => {
+  const rows = filtered(VIEW === 'orders' ? ORDERS : clients());
+  const head = VIEW === 'orders'
+    ? ['Дата', 'Код заказа', 'Покупатель', 'Телефон', 'Сумма', 'Город', 'Адрес', 'Статус']
+    : ['Покупатель', 'Телефон', 'Заказов', 'Сумма', 'Город', 'Последний заказ'];
+  const line = (r) => VIEW === 'orders'
+    ? [fmtDate(r.date), r.code, r.name, r.phone ? '+' + r.phone : '', r.total, r.city, r.address, STATE_LABEL[r.state] || r.state]
+    : [r.name, '+' + r.phone, r.orders, r.total, r.city, fmtDate(r.last)];
+  const csv = [head, ...rows.map(line)]
+    .map(cols => cols.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `kaspi-${VIEW}-${$('from').value}_${$('to').value}.csv`;
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+// ---------- утилиты ----------
+function show(html) { $('wrap').innerHTML = html; }
+function fmtMoney(n) { return new Intl.NumberFormat('ru-RU').format(Math.round(n)) + ' ₸'; }
+function fmtDate(ms) { return ms ? new Date(ms).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : '—'; }
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+let toastTimer;
+function toast(text) {
+  $('toast').textContent = text; $('toast').classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.remove('on'), 1800);
+}
+</script>
+</body>
+</html>
