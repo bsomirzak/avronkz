@@ -9,7 +9,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { PRODUCTS, formatPrice } from "@/lib/products";
 import { SITE } from "@/lib/site";
 
-const MODEL = "claude-opus-5";
+const MODEL = "claude-haiku-4-5";
 
 /** Маркер, которым модель просит подключить живого менеджера. */
 const ESCALATION_MARK = "[МЕНЕДЖЕР]";
@@ -66,7 +66,7 @@ function system(): string {
   return cachedSystem;
 }
 
-type Chat = { messages: Anthropic.Beta.BetaMessageParam[]; updated: number };
+type Chat = { messages: Anthropic.MessageParam[]; updated: number };
 
 /**
  * История диалогов в памяти процесса. Serverless-инстанс живёт недолго, так что
@@ -113,19 +113,16 @@ export async function answer(phone: string, name: string, text: string): Promise
 
   let raw: string;
   try {
-    const response = await client.beta.messages.create({
+    const response = await client.messages.create({
       model: MODEL,
       max_tokens: 1200,
-      // Отказ модели не должен превращаться в молчание в чате с клиентом.
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-      output_config: { effort: "low" },
+      // Каталог в промпте не меняется от запроса к запросу — пусть кэшируется.
       system: [{ type: "text", text: system(), cache_control: { type: "ephemeral" } }],
       messages: chat.messages,
     });
 
     raw = response.content
-      .filter((b): b is Anthropic.Beta.BetaTextBlock => b.type === "text")
+      .filter((b): b is Anthropic.TextBlock => b.type === "text")
       .map((b) => b.text)
       .join("\n")
       .trim();
