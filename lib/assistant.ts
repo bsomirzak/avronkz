@@ -8,16 +8,15 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { PRODUCTS, formatPrice } from "@/lib/products";
 import { SITE } from "@/lib/site";
+import { history, type StoredMessage } from "@/lib/store";
 
 const MODEL = "claude-haiku-4-5";
 
 /** Маркер, которым модель просит подключить живого менеджера. */
 const ESCALATION_MARK = "[МЕНЕДЖЕР]";
 
-/** Сколько последних реплик держим в памяти одного диалога. */
+/** Сколько последних реплик показываем модели. */
 const HISTORY_LIMIT = 20;
-/** Через сколько молчания диалог считаем законченным. */
-const HISTORY_TTL_MS = 6 * 60 * 60 * 1000;
 
 function catalogue(): string {
   return PRODUCTS.map((p) => {
@@ -66,27 +65,22 @@ function system(): string {
   return cachedSystem;
 }
 
-type Chat = { messages: Anthropic.MessageParam[]; updated: number };
-
-/**
- * История диалогов в памяти процесса. Serverless-инстанс живёт недолго, так что
- * это «короткая память»: диалог может начаться заново — не страшно, зато нет БД.
- * Понадобится настоящая история — заменить на Vercel KV или Postgres.
- */
-const chats = new Map<string, Chat>();
-
-function history(phone: string): Chat {
-  const now = Date.now();
-  const chat = chats.get(phone);
-  if (chat && now - chat.updated < HISTORY_TTL_MS) return chat;
-
-  // Заодно подчищаем чужие протухшие диалоги, чтобы Map не рос бесконечно.
-  for (const [key, value] of chats) {
-    if (now - value.updated >= HISTORY_TTL_MS) chats.delete(key);
+/** Переписка из хранилища — в формат, который понимает модель. */
+function toMessages(stored: StoredMessage[]): Anthropic.MessageParam[] {
+  const messages: Anthropic.MessageParam[] = [];
+  for (const item of stored.slice(-HISTORY_LIMIT)) {
+    const role = item.author === "client" ? "user" : "assistant";
+    const text = item.author === "manager" ? `[Ответил менеджер] ${item.text}` : item.text;
+    // Модель не принимает две реплики одной роли подряд как разные ходы —
+    // склеиваем их, иначе диалог рассыпается на обрывки.
+    const previous = messages[messages.length - 1];
+    if (previous && previous.role === role) {
+      previous.content = `${previous.content}\n${text}`;
+    } else {
+      messages.push({ role, content: text });
+    }
   }
-  const fresh: Chat = { messages: [], updated: now };
-  chats.set(phone, fresh);
-  return fresh;
+  return messages;
 }
 
 const client = new Anthropic();
@@ -102,23 +96,24 @@ export type Answer = {
 const FALLBACK_REPLY =
   "Спасибо за сообщение! Передал его менеджеру — он ответит вам в ближайшее время.";
 
-export async function answer(phone: string, name: string, text: string): Promise<Answer> {
-  const chat = history(phone);
-  chat.messages.push({
-    role: "user",
-    content: name ? `[Клиент ${name}]\n${text}` : text,
-  });
-  chat.messages = chat.messages.slice(-HISTORY_LIMIT);
-  chat.updated = Date.now();
+export async function answer(phone: string, name: string): Promise<Answer> {
+  const messages = toMessages(await history(phone));
+  if (!messages.length || messages[0].role !== "user") {
+    // Первым ходом всегда должен идти клиент, иначе запрос отклонят.
+    messages.unshift({ role: "user", content: "Здравствуйте" });
+  }
 
   let raw: string;
   try {
     const response = await client.messages.create({
       model: MODEL,
       max_tokens: 1200,
-      // Каталог в промпте не меняется от запроса к запросу — пусть кэшируется.
-      system: [{ type: "text", text: system(), cache_control: { type: "ephemeral" } }],
-      messages: chat.messages,
+      system: [
+        // Каталог не меняется от запроса к запросу — пусть кэшируется.
+        { type: "text", text: system(), cache_control: { type: "ephemeral" } },
+        ...(name ? [{ type: "text" as const, text: `Клиента зовут ${name}.` }] : []),
+      ],
+      messages,
     });
 
     raw = response.content
@@ -134,9 +129,6 @@ export async function answer(phone: string, name: string, text: string): Promise
     console.error("[whatsapp] Claude недоступен", e);
     return { reply: FALLBACK_REPLY, escalate: true };
   }
-
-  chat.messages.push({ role: "assistant", content: raw });
-  chat.updated = Date.now();
 
   const escalate = raw.includes(ESCALATION_MARK);
   const reply = raw.split(ESCALATION_MARK).join("").trim();
