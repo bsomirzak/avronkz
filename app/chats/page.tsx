@@ -30,8 +30,8 @@ export default function ChatsPage() {
         {!persistent && (
           <p className="chats-warn">
             Хранилище не подключено: переписка живёт только до перезапуска сервера и может
-            пропадать. Подключите Upstash Redis в Vercel (Storage → Marketplace) — переменные
-            KV_REST_API_URL и KV_REST_API_TOKEN появятся сами.
+            пропадать. Подключите Upstash Redis в Vercel (Storage → Marketplace) и нажмите
+            Redeploy — переменные добавятся сами.
           </p>
         )}
 
