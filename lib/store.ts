@@ -122,6 +122,14 @@ export async function isManual(phone: string): Promise<boolean> {
   return (await redis<string | null>(["GET", `wa:manual:${phone}`])) === "1";
 }
 
+/** Самопроверка: записывает и читает ключ, чтобы видеть, жива ли база. */
+export async function ping(): Promise<"ok" | "unavailable" | "off"> {
+  if (!persistent) return "off";
+  const key = `wa:ping:${Date.now()}`;
+  await redis(["SET", key, "ok", "EX", 60]);
+  return (await redis<string | null>(["GET", key])) === "ok" ? "ok" : "unavailable";
+}
+
 export async function listChats(): Promise<ChatSummary[]> {
   if (!persistent) {
     const chats = [...memory.entries()]

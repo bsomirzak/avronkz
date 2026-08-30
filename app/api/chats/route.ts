@@ -5,13 +5,19 @@
  * Раздел закрыт Basic Auth в proxy.ts — здесь переписка и телефоны клиентов.
  */
 
-import { history, isManual, listChats, saveMessage, setManual } from "@/lib/store";
+import { history, isManual, listChats, persistent, ping, saveMessage, setManual } from "@/lib/store";
 import { sendText } from "@/lib/whatsapp";
 
 export const maxDuration = 30;
 
 export async function GET(request: Request) {
-  const phone = new URL(request.url).searchParams.get("phone");
+  const params = new URL(request.url).searchParams;
+  const phone = params.get("phone");
+
+  // /api/chats?ping=1 — быстрый ответ на вопрос «а база вообще пишется?».
+  if (params.has("ping")) {
+    return Response.json({ persistent, storage: await ping() });
+  }
 
   try {
     if (!phone) return Response.json({ chats: await listChats() });

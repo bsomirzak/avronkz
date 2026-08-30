@@ -126,18 +126,35 @@ async function handle(message: IncomingMessage): Promise<void> {
   if (escalate) await notifyOwner(message, "нужен менеджер");
 }
 
-/** `77011234567 текст` — переслать клиенту; `бот 77011234567` — вернуть бота. */
-const REPLY_RE = /^\+?(\d{10,15})[\s,:-]+([\s\S]+)$/;
-const RESUME_RE = /^(?:бот|bot)\s+\+?(\d{10,15})\s*$/i;
+/**
+ * `77011234567 текст` — переслать клиенту; `бот 77011234567` — вернуть бота.
+ * Номер разрешаем писать как удобно: +7 775 104-18-99, 7751041899, 87751041899.
+ */
+const REPLY_RE = /^\+?(\d[\d\s()-]{8,18}\d)\s*[,:-]?\s*([\s\S]+)$/;
+const RESUME_RE = /^(?:бот|bot)\s*\+?(\d[\d\s()-]{8,18}\d)\s*$/i;
+
+/** Приводим казахстанский номер к виду, который понимает WhatsApp: 77XXXXXXXXX. */
+function normalizePhone(value: string): string | null {
+  const digits = value.replace(/\D/g, "");
+  // 7751041899 — записан без кода страны, дописываем семёрку.
+  if (digits.length === 10 && digits.startsWith("7")) return `7${digits}`;
+  // 87751041899 — привычная восьмёрка вместо кода страны.
+  if (digits.length === 11 && digits.startsWith("8")) return `7${digits.slice(1)}`;
+  if (digits.length >= 10 && digits.length <= 15) return digits;
+  return null;
+}
 
 async function handleManager(message: IncomingMessage): Promise<void> {
   const text = message.text.trim();
 
   const resume = text.match(RESUME_RE);
   if (resume) {
-    await setManual(resume[1], false);
-    await sendText(message.from, `Готово — бот снова отвечает клиенту +${resume[1]}.`);
-    return;
+    const phone = normalizePhone(resume[1]);
+    if (phone) {
+      await setManual(phone, false);
+      await sendText(message.from, `Готово — бот снова отвечает клиенту +${phone}.`);
+      return;
+    }
   }
 
   const reply = text.match(REPLY_RE);
@@ -151,7 +168,13 @@ async function handleManager(message: IncomingMessage): Promise<void> {
     return;
   }
 
-  const [, clientPhone, body] = reply;
+  const clientPhone = normalizePhone(reply[1]);
+  const body = reply[2];
+  if (!clientPhone) {
+    await sendText(message.from, "Не разобрал номер клиента. Пример: 77011234567 ваш текст");
+    return;
+  }
+
   try {
     await sendText(clientPhone, body.trim());
   } catch (e) {
