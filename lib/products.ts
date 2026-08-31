@@ -179,7 +179,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     badge: "new",
     icon: "smartdisplay",
     rating: 5.0,
-    reviews: 4,
+    reviews: 12,
     installment: "83 334 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -297,7 +297,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     badge: "new",
     icon: "studiolight",
     rating: 5.0,
-    reviews: 1,
+    reviews: 14,
     installment: "4 166 ₸ × 12 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -351,7 +351,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     badge: "new",
     icon: "screen",
     rating: 5.0,
-    reviews: 0,
+    reviews: 7,
     installment: "1 249 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
