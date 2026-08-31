@@ -122,5 +122,17 @@ export function ProductIcon({ name }: { name: IconName }) {
           <line x1="10" y1="78" x2="90" y2="78" />
         </svg>
       );
+    case "screen":
+      return (
+        <svg {...COMMON}>
+          <rect x="12" y="18" width="76" height="46" rx="2" />
+          <rect x="18" y="24" width="64" height="34" fill="#0F1B3D" opacity="0.15" />
+          <line x1="50" y1="64" x2="50" y2="84" />
+          <line x1="30" y1="88" x2="50" y2="84" />
+          <line x1="70" y1="88" x2="50" y2="84" />
+          <line x1="24" y1="88" x2="36" y2="88" />
+          <line x1="64" y1="88" x2="76" y2="88" />
+        </svg>
+      );
   }
 }
