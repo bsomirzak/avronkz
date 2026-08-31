@@ -1,4 +1,5 @@
 import { track as vercelTrack } from "@vercel/analytics";
+import { isTracked } from "@/lib/events";
 
 /**
  * Единая точка отправки событий: Яндекс.Метрика (reachGoal), Google Ads (gtag)
@@ -62,12 +63,38 @@ export function trackPageview(url: string) {
   gtagCall("event", "page_view", { page_location: url });
 }
 
+/**
+ * Свой счётчик на /stats. Считаем сами, потому что блокировщики режут и Метрику,
+ * и Google Ads, а Vercel показывает свои события только на платном тарифе.
+ */
+function reportToOwnStats(event: AnalyticsEvent, props?: EventProps) {
+  if (!isTracked(event) || typeof navigator === "undefined") return;
+  const product = typeof props?.product === "string" ? props.product : undefined;
+  const body = JSON.stringify({ event, product });
+  try {
+    // sendBeacon переживает уход со страницы — клик по ссылке как раз такой случай.
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/track", new Blob([body], { type: "application/json" }));
+    } else {
+      void fetch("/api/track", {
+        method: "POST",
+        body,
+        headers: { "content-type": "application/json" },
+        keepalive: true,
+      });
+    }
+  } catch {
+    // Статистика не должна мешать посетителю уйти по ссылке.
+  }
+}
+
 /** Целевое событие: цель в Метрике + событие в Google Ads + custom event в Vercel. */
 export function track(event: AnalyticsEvent, props?: EventProps) {
   if (typeof window === "undefined") return;
   ymCall("reachGoal", event, props);
   vercelTrack(event, props);
   gtagCall("event", event, props);
+  reportToOwnStats(event, props);
 
   const label = GADS_CONVERSION_LABELS[event];
   if (label) {

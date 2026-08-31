@@ -65,5 +65,12 @@ export const config = {
   // /print не закрываем: страница ничего не хранит и не спрашивает у сервера —
   // накладные разбираются прямо в браузере продавца.
   // /api/whatsapp тоже открыт: его дёргает Meta, и он проверяет свою подпись сам.
-  matcher: ["/orders/:path*", "/chats/:path*", "/api/kaspi/:path*", "/api/chats/:path*"],
+  matcher: [
+    "/orders/:path*",
+    "/chats/:path*",
+    "/stats/:path*",
+    "/api/kaspi/:path*",
+    "/api/chats/:path*",
+    "/api/stats/:path*",
+  ],
 };

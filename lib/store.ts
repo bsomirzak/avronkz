@@ -7,6 +7,10 @@
  * жизнь, зато без внешних сервисов.
  */
 
+import { persistent, redis } from "@/lib/redis";
+
+export { persistent };
+
 export type Author = "client" | "bot" | "manager";
 
 export type StoredMessage = {
@@ -36,26 +40,6 @@ const CHATS_LIMIT = 100;
 export const MANUAL_TTL_SEC = 2 * 60 * 60;
 
 // Vercel Marketplace отдаёт переменные то как KV_*, то как UPSTASH_* — берём любые.
-const KV_URL = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-const KV_TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
-export const persistent = Boolean(KV_URL && KV_TOKEN);
-
-/** Один запрос к Upstash REST: команда Redis приходит массивом. */
-async function redis<T>(command: (string | number)[]): Promise<T | null> {
-  if (!persistent) return null;
-  const res = await fetch(KV_URL!, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${KV_TOKEN}`, "Content-Type": "application/json" },
-    body: JSON.stringify(command),
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    console.error("[store] redis", res.status, (await res.text()).slice(0, 200));
-    return null;
-  }
-  return ((await res.json()) as { result: T }).result;
-}
-
 // ── Память процесса: и запасной вариант, и кэш на время запроса ──────────────
 
 type MemoryChat = { name: string; messages: StoredMessage[]; updated: number; manualUntil: number };

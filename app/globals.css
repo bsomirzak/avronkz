@@ -1127,3 +1127,32 @@ ul { list-style: none; }
   .chats-list { max-height: 260px; }
   .chats-panel { min-height: 420px; }
 }
+
+/* ── Статистика кликов (/stats) ────────────────────────────────────────── */
+.stats-page { padding: 24px 24px 56px; max-width: 900px; }
+.stats-title { font-size: 28px; font-weight: 800; color: var(--navy); margin: 12px 0 6px; }
+.stats-lead { color: var(--ink-soft); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+
+.stats-tabs { display: inline-flex; background: var(--bg-2); border-radius: 10px; padding: 3px; margin-bottom: 20px; }
+.stats-tabs button { border-radius: 8px; padding: 7px 16px; font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+.stats-tabs button.active { background: var(--white); color: var(--navy); box-shadow: var(--shadow-sm); }
+
+.stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.stats-card { border: 1px solid var(--line); border-radius: 12px; background: var(--white); padding: 14px 16px; }
+.stats-card-label { display: block; font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; }
+.stats-card b { font-size: 26px; color: var(--navy); font-variant-numeric: tabular-nums; }
+
+.stats-h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin: 24px 0 10px; }
+.stats-table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.stats-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; background: var(--bg-2); }
+.stats-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); color: var(--ink); }
+.stats-table td.num, .stats-table th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.stats-empty { color: var(--ink-mute); font-size: 14px; }
+.stats-error { color: var(--red-deep); font-size: 14px; margin-bottom: 12px; }
+.stats-warn { background: rgba(255,205,60,0.15); border: 1px solid var(--yellow); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--ink); margin-bottom: 16px; }
+
+@media (max-width: 640px) {
+  .stats-page { padding: 16px 16px 40px; }
+  .stats-title { font-size: 24px; }
+  .stats-table { font-size: 13px; }
+}

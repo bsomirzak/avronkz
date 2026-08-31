@@ -24,10 +24,13 @@ function ClickTracker() {
       // data-analytics-value ставит карточка товара: сумма для конверсии Google Ads.
       const rawValue = link?.getAttribute("data-analytics-value");
       const value = rawValue ? Number(rawValue) : null;
+      // data-analytics-product — id товара, с карточки которого ушли.
+      const product = link?.getAttribute("data-analytics-product");
       track(event, {
         href,
         page: window.location.pathname,
         ...(value !== null && Number.isFinite(value) ? { value } : {}),
+        ...(product ? { product } : {}),
       });
     }
     document.addEventListener("click", onClick, true);
