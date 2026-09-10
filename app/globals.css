@@ -1156,3 +1156,43 @@ ul { list-style: none; }
   .stats-title { font-size: 24px; }
   .stats-table { font-size: 13px; }
 }
+
+/* ── /admin: цены товаров ─────────────────────────────────────────────── */
+.admin-page { padding: 24px 24px 56px; max-width: 1080px; }
+.admin-title { font-size: 28px; font-weight: 800; color: var(--navy); margin: 12px 0 6px; }
+.admin-lead { color: var(--ink-soft); font-size: 14px; line-height: 1.6; margin-bottom: 20px; max-width: 760px; }
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.admin-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; background: var(--bg-2); white-space: nowrap; }
+.admin-table td { padding: 10px 14px; border-top: 1px solid var(--line-soft); color: var(--ink); vertical-align: middle; }
+.admin-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.admin-table tr.edited td:first-child { box-shadow: inset 3px 0 0 var(--yellow); }
+.admin-table a { color: var(--navy); font-weight: 600; }
+
+.admin-cat { display: block; font-size: 12px; color: var(--ink-mute); margin-top: 2px; }
+.admin-base { color: var(--ink-mute); white-space: nowrap; }
+.admin-input { width: 120px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-variant-numeric: tabular-nums; background: var(--white); color: var(--ink); }
+.admin-input:focus { outline: none; border-color: var(--navy); }
+.admin-input.bad { border-color: var(--red-deep); }
+.admin-input:disabled { background: var(--bg-2); color: var(--ink-mute); }
+
+.admin-preview { color: var(--ink-soft); font-size: 13px; white-space: nowrap; }
+.admin-discount { display: inline-block; margin-left: 8px; font-weight: 700; color: var(--red-deep); }
+.admin-when { display: block; font-size: 12px; color: var(--ink-mute); margin-top: 2px; }
+
+.admin-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.admin-btn { border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; background: var(--navy); color: var(--white); white-space: nowrap; }
+.admin-btn.ghost { background: var(--bg-2); color: var(--ink-soft); }
+.admin-btn:disabled { opacity: 0.45; cursor: default; }
+
+.admin-empty { color: var(--ink-mute); font-size: 14px; }
+.admin-error { color: var(--red-deep); font-size: 14px; margin-bottom: 12px; }
+.admin-warn { background: rgba(255,205,60,0.15); border: 1px solid var(--yellow); border-radius: 10px; padding: 10px 14px; font-size: 13px; line-height: 1.6; color: var(--ink); margin-bottom: 16px; }
+
+@media (max-width: 860px) {
+  .admin-page { padding: 16px 16px 40px; }
+  .admin-title { font-size: 24px; }
+  /* Таблица шире экрана — прокручиваем её саму, а не всю страницу. */
+  .admin { overflow-x: auto; }
+  .admin-table { font-size: 13px; min-width: 720px; }
+}

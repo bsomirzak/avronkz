@@ -6,7 +6,8 @@ import { Features } from "@/components/Features";
 import { Feedbacks } from "@/components/Feedbacks";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES, PRODUCTS, productsByCategory, countLabel } from "@/lib/products";
+import { CATEGORIES, countLabel } from "@/lib/products";
+import { getCatalog } from "@/lib/prices";
 import { SITE } from "@/lib/site";
 import { catalogJsonLd, jsonLdScript } from "@/lib/seo";
 
@@ -47,13 +48,15 @@ export async function generateMetadata({
 export default async function HomePage({ searchParams }: { searchParams: SP }) {
   const { cat } = await searchParams;
   const activeKey = resolveCat(cat);
-  const list = productsByCategory(activeKey);
+  // Цены берём из хранилища (их правят на /admin), остальное — из каталога в коде.
+  const all = await getCatalog();
+  const list = activeKey === "all" ? all : all.filter((p) => p.catKey === activeKey);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(catalogJsonLd(PRODUCTS)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(catalogJsonLd(all)) }}
       />
       <Header />
       <Hero />

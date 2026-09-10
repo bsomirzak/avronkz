@@ -6,7 +6,8 @@
  */
 
 import Anthropic from "@anthropic-ai/sdk";
-import { PRODUCTS, formatPrice } from "@/lib/products";
+import { formatPrice } from "@/lib/products";
+import { getCatalog } from "@/lib/prices";
 import { SITE } from "@/lib/site";
 import { history, type StoredMessage } from "@/lib/store";
 
@@ -18,8 +19,9 @@ const ESCALATION_MARK = "[МЕНЕДЖЕР]";
 /** Сколько последних реплик показываем модели. */
 const HISTORY_LIMIT = 20;
 
-function catalogue(): string {
-  return PRODUCTS.map((p) => {
+async function catalogue(): Promise<string> {
+  const products = await getCatalog();
+  return products.map((p) => {
     const price = p.price === null ? (p.priceNote ?? "цена по запросу") : formatPrice(p.price);
     const specs = p.specs.slice(0, 4).map(([k, v]) => `${k}: ${v}`).join("; ");
     return [
@@ -34,7 +36,7 @@ function catalogue(): string {
   }).join("\n");
 }
 
-function systemPrompt(): string {
+async function systemPrompt(): Promise<string> {
   return `Ты — помощник магазина ${SITE.name} (${SITE.city}, Казахстан). Отвечаешь клиентам в WhatsApp вместо владельца, пока он занят.
 
 О магазине:
@@ -44,7 +46,7 @@ function systemPrompt(): string {
 - Сайт: ${SITE.url}. Магазин на Kaspi: ${SITE.social.kaspi}.
 
 Каталог (единственный источник правды о ценах и наличии):
-${catalogue()}
+${await catalogue()}
 
 Как отвечать:
 - Пиши на языке клиента: русский или казахский. Коротко, 2–4 предложения, как живой продавец, без канцелярита и без markdown-разметки — это обычный чат.
@@ -58,11 +60,12 @@ ${catalogue()}
 В первом сообщении диалога представься: ты — бот-помощник ${SITE.name}, а менеджер подключится, если понадобится.`;
 }
 
-/** Промпт стабилен внутри процесса — считаем один раз, так он лучше кэшируется. */
-let cachedSystem: string | null = null;
-function system(): string {
-  cachedSystem ??= systemPrompt();
-  return cachedSystem;
+/**
+ * Промпт пересобираем на каждый ответ: цены живут в хранилище и меняются на
+ * /admin, а кэш на весь процесс заставил бы бота называть вчерашние.
+ */
+function system(): Promise<string> {
+  return systemPrompt();
 }
 
 /** Переписка из хранилища — в формат, который понимает модель. */
@@ -97,7 +100,10 @@ const FALLBACK_REPLY =
   "Спасибо за сообщение! Передал его менеджеру — он ответит вам в ближайшее время.";
 
 export async function answer(phone: string, name: string): Promise<Answer> {
-  const messages = toMessages(await history(phone));
+  const [messages, systemText] = await Promise.all([
+    history(phone).then(toMessages),
+    system(),
+  ]);
   if (!messages.length || messages[0].role !== "user") {
     // Первым ходом всегда должен идти клиент, иначе запрос отклонят.
     messages.unshift({ role: "user", content: "Здравствуйте" });
@@ -109,8 +115,8 @@ export async function answer(phone: string, name: string): Promise<Answer> {
       model: MODEL,
       max_tokens: 1200,
       system: [
-        // Каталог не меняется от запроса к запросу — пусть кэшируется.
-        { type: "text", text: system(), cache_control: { type: "ephemeral" } },
+        // Каталог одинаков для всех клиентов — пусть кэшируется на стороне модели.
+        { type: "text", text: systemText, cache_control: { type: "ephemeral" } },
         ...(name ? [{ type: "text" as const, text: `Клиента зовут ${name}.` }] : []),
       ],
       messages,

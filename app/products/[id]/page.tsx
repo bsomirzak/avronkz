@@ -7,7 +7,8 @@ import { Gallery } from "@/components/Gallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductCard } from "@/components/ProductCard";
 import { TrackView } from "@/components/TrackView";
-import { PRODUCTS, getProduct, formatPrice } from "@/lib/products";
+import { PRODUCTS, formatPrice } from "@/lib/products";
+import { getCatalog, getCatalogProduct } from "@/lib/prices";
 import { SITE } from "@/lib/site";
 import {
   absoluteUrl,
@@ -28,7 +29,7 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { id } = await params;
-  const product = getProduct(id);
+  const product = await getCatalogProduct(id);
   if (!product) return {};
   const url = `/products/${product.id}`;
   const title = `${product.name} — купить в ${SITE.city}`;
@@ -72,10 +73,11 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: { params: Params }) {
   const { id } = await params;
-  const product = getProduct(id);
+  const catalog = await getCatalog();
+  const product = catalog.find((p) => p.id === id);
   if (!product) notFound();
 
-  const similar = PRODUCTS.filter((p) => p.id !== id).slice(0, 4);
+  const similar = catalog.filter((p) => p.id !== id).slice(0, 4);
   const detailParagraphs = product.details ?? [
     "Прочная металлическая рама выдерживает до 80 кг, а столешница из ламинированного МДФ устойчива к царапинам и легко очищается.",
   ];

@@ -5,6 +5,8 @@
  * то UPSTASH_*, поэтому читаем оба варианта.
  */
 
+import { unstable_rethrow } from "next/navigation";
+
 const URL_ = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
 
@@ -26,6 +28,10 @@ async function call<T>(path: string, body: unknown): Promise<T | null> {
     }
     return (await res.json()) as T;
   } catch (e) {
+    // Во время сборки Next сигналит «страница не может быть статической»
+    // обычным throw — его нельзя глотать, иначе цены из хранилища запекутся
+    // в статику и перестанут обновляться.
+    unstable_rethrow(e);
     console.error("[redis] запрос не прошёл", e);
     return null;
   }

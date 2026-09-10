@@ -66,9 +66,11 @@ export const config = {
   // накладные разбираются прямо в браузере продавца.
   // /api/whatsapp тоже открыт: его дёргает Meta, и он проверяет свою подпись сам.
   matcher: [
+    "/admin/:path*",
     "/orders/:path*",
     "/chats/:path*",
     "/stats/:path*",
+    "/api/admin/:path*",
     "/api/kaspi/:path*",
     "/api/chats/:path*",
     "/api/stats/:path*",
