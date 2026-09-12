@@ -475,12 +475,20 @@ ul { list-style: none; }
 }
 .reviews-head p { font-size: 15px; color: var(--ink-soft); line-height: 1.6; }
 .reviews-masonry {
-  columns: 3;
-  column-gap: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.reviews-masonry--2 { display: none; }
+.reviews-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .review-item {
-  break-inside: avoid;
-  margin: 0 0 16px;
+  margin: 0;
   background: var(--white);
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -776,7 +784,8 @@ ul { list-style: none; }
   .product-detail { grid-template-columns: 1fr; gap: 24px; }
   .contacts-grid { grid-template-columns: repeat(2, 1fr); }
   .contacts-info { grid-template-columns: repeat(3, 1fr); }
-  .reviews-masonry { columns: 2; }
+  .reviews-masonry--3 { display: none; }
+  .reviews-masonry--2 { display: flex; }
 }
 @media (max-width: 768px) {
   .nav, .header-phones, .btn-kaspi { display: none; }
@@ -873,7 +882,8 @@ ul { list-style: none; }
   .price-card { padding: 16px; }
   .key-specs { padding: 16px; }
   .breadcrumb { font-size: 12px; padding: 14px 0; }
-  .reviews-masonry { columns: 1; }
+  .reviews-masonry--2 { flex-direction: column; align-items: stretch; }
+  .reviews-masonry--2 .reviews-col { display: contents; }
 }
 
 /* ==================== Заказы (внутренний раздел) ==================== */

@@ -1,10 +1,12 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/lib/site";
-import { OTHER_REVIEW_IMAGES, PANEL_REVIEW_IMAGES, REVIEW_IMAGES } from "@/lib/reviews";
+import { REVIEW_IMAGES } from "@/lib/reviews";
 import { absoluteUrl, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -18,7 +20,30 @@ export const metadata: Metadata = {
   },
 };
 
+type Review = { src: string; index: number; width: number; height: number };
+
+// Pixel size of a screenshot in public/, read from its PNG header at build time.
+function pngSize(src: string) {
+  const buf = readFileSync(path.join(process.cwd(), "public", src));
+  return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+}
+
+// Greedy masonry: each review goes into the currently shortest column, so the
+// first reviews (panel) sit at the top of every column and columns end evenly.
+function toColumns(reviews: Review[], count: number): Review[][] {
+  const columns: Review[][] = Array.from({ length: count }, () => []);
+  const heights: number[] = new Array(count).fill(0);
+  for (const review of reviews) {
+    const i = heights.indexOf(Math.min(...heights));
+    columns[i].push(review);
+    // Height relative to column width, plus card padding and gap.
+    heights[i] += review.height / review.width + 0.1;
+  }
+  return columns;
+}
+
 export default function ReviewsPage() {
+  const reviews: Review[] = REVIEW_IMAGES.map((src, index) => ({ src, index, ...pngSize(src) }));
   const breadcrumb = breadcrumbJsonLd([
     { name: "Главная", url: absoluteUrl("/") },
     { name: "Отзывы", url: absoluteUrl("/reviews") },
@@ -46,22 +71,30 @@ export default function ReviewsPage() {
           </p>
         </header>
 
-        {/* Two masonry blocks: CSS columns fill top-to-bottom, so a single block
-            would stack panel reviews in the first column only. */}
-        {[PANEL_REVIEW_IMAGES, OTHER_REVIEW_IMAGES].map((group, g) => (
-          <section className="reviews-masonry" aria-label="Отзывы покупателей" key={g}>
-            {group.map((src) => (
-              <figure className="review-item" key={src}>
-                <Image
-                  src={src}
-                  alt={`Отзыв клиента AVRON №${REVIEW_IMAGES.indexOf(src) + 1}`}
-                  width={0}
-                  height={0}
-                  sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                  unoptimized
-                  style={{ width: "100%", height: "auto" }}
-                />
-              </figure>
+        {/* 3- and 2-column layouts, switched in CSS. On phones the 2-column one
+            collapses to a single list ordered by `order`. */}
+        {[3, 2].map((count) => (
+          <section
+            className={`reviews-masonry reviews-masonry--${count}`}
+            aria-label="Отзывы покупателей"
+            key={count}
+          >
+            {toColumns(reviews, count).map((column, c) => (
+              <div className="reviews-col" key={c}>
+                {column.map((review) => (
+                  <figure className="review-item" key={review.src} style={{ order: review.index }}>
+                    <Image
+                      src={review.src}
+                      alt={`Отзыв клиента AVRON №${review.index + 1}`}
+                      width={review.width}
+                      height={review.height}
+                      sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
+                      unoptimized
+                      style={{ width: "100%", height: "auto" }}
+                    />
+                  </figure>
+                ))}
+              </div>
             ))}
           </section>
         ))}
