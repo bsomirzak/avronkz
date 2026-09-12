@@ -764,7 +764,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     id: "baidu-carlife-carplay",
     cat: "Автоэлектроника",
     catKey: "auto",
-    name: "AVRON BT-6205B маркиратор черный",
+    name: "AVRON Беспроводной адаптер Baidu Carlife",
     shortName: "CarLife → CarPlay",
     desc: "Адаптер для автомобилей с Baidu CarLife, который превращает штатную систему в полноценный беспроводной Apple CarPlay без прошивки и сложной настройки. Подходит только для iPhone и не поддерживает YouTube.",
     details: [
