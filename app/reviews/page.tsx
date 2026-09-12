@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/lib/site";
-import { REVIEW_IMAGES } from "@/lib/reviews";
+import { OTHER_REVIEW_IMAGES, PANEL_REVIEW_IMAGES, REVIEW_IMAGES } from "@/lib/reviews";
 import { absoluteUrl, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -46,21 +46,25 @@ export default function ReviewsPage() {
           </p>
         </header>
 
-        <section className="reviews-masonry" aria-label="Отзывы покупателей">
-          {REVIEW_IMAGES.map((src, i) => (
-            <figure className="review-item" key={src}>
-              <Image
-                src={src}
-                alt={`Отзыв клиента AVRON №${i + 1}`}
-                width={0}
-                height={0}
-                sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                unoptimized
-                style={{ width: "100%", height: "auto" }}
-              />
-            </figure>
-          ))}
-        </section>
+        {/* Two masonry blocks: CSS columns fill top-to-bottom, so a single block
+            would stack panel reviews in the first column only. */}
+        {[PANEL_REVIEW_IMAGES, OTHER_REVIEW_IMAGES].map((group, g) => (
+          <section className="reviews-masonry" aria-label="Отзывы покупателей" key={g}>
+            {group.map((src) => (
+              <figure className="review-item" key={src}>
+                <Image
+                  src={src}
+                  alt={`Отзыв клиента AVRON №${REVIEW_IMAGES.indexOf(src) + 1}`}
+                  width={0}
+                  height={0}
+                  sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
+                  unoptimized
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </figure>
+            ))}
+          </section>
+        ))}
 
         <section className="reviews-cta">
           <h2>Хотите оставить отзыв?</h2>
