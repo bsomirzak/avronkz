@@ -27,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   };
 
+  const returns = {
+    url: `${base}/vozvrat`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.4,
+  };
+
   const cats = CATEGORIES.filter((c) => c.key !== "all").map((c) => ({
     url: `${base}${categoryHref(c.key)}`,
     lastModified: now,
@@ -42,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     images: (p.images ?? []).slice(0, 5).map((src) => `${base}${src}`),
   }));
 
-  return [home, contacts, reviews, ...cats, ...products];
+  return [home, contacts, reviews, returns, ...cats, ...products];
 }
