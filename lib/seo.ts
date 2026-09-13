@@ -128,15 +128,12 @@ export function productJsonLd(p: Product) {
       // free, other cities roughly 10–25k ₸), which a single markup value would
       // misstate. Google takes shipping from the Merchant Center settings, and
       // a wrong "free everywhere" here would conflict with them.
-      // Return policy unlocks Google "merchant listing" rich results.
+      // Goods of proper quality aren't taken back; defects go through the
+      // 12-month warranty. Must match the Merchant Center return policy.
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "KZ",
-        returnPolicyCategory:
-          "https://schema.org/MerchantReturnFiniteReturnWindow",
-        merchantReturnDays: 14,
-        returnMethod: "https://schema.org/ReturnByMail",
-        returnFees: "https://schema.org/FreeReturn",
+        returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
       },
     },
   };
