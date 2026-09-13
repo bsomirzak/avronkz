@@ -124,35 +124,11 @@ export function productJsonLd(p: Product) {
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": absoluteUrl("/#organization") },
-      // Shipping + return policy unlock Google "merchant listing" rich results
-      // and silence the related Search Console warnings.
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingRate: {
-          "@type": "MonetaryAmount",
-          value: 0,
-          currency: "KZT",
-        },
-        shippingDestination: {
-          "@type": "DefinedRegion",
-          addressCountry: "KZ",
-        },
-        deliveryTime: {
-          "@type": "ShippingDeliveryTime",
-          handlingTime: {
-            "@type": "QuantitativeValue",
-            minValue: 0,
-            maxValue: 1,
-            unitCode: "DAY",
-          },
-          transitTime: {
-            "@type": "QuantitativeValue",
-            minValue: 2,
-            maxValue: 5,
-            unitCode: "DAY",
-          },
-        },
-      },
+      // No shippingDetails on purpose: the rate depends on the city (Almaty is
+      // free, other cities roughly 10–25k ₸), which a single markup value would
+      // misstate. Google takes shipping from the Merchant Center settings, and
+      // a wrong "free everywhere" here would conflict with them.
+      // Return policy unlocks Google "merchant listing" rich results.
       hasMerchantReturnPolicy: {
         "@type": "MerchantReturnPolicy",
         applicableCountry: "KZ",
