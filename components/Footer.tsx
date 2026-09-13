@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { categoryHref, getCategory } from "@/lib/products";
 import { SITE } from "@/lib/site";
 import logo from "@/public/products/logo/logo.png";
+
+/** Категории со ссылкой в подвале — внутренние ссылки на них с каждой страницы. */
+const FOOTER_CATEGORIES = ["displays", "desks", "monitors"];
 
 export function Footer() {
   return (
@@ -23,9 +27,9 @@ export function Footer() {
           <div className="footer-col">
             <h4>Магазин</h4>
             <Link href="/#catalog">Каталог</Link>
-            <Link href="/#new">Новинки</Link>
-            <Link href="/#hits">Хиты продаж</Link>
-            <Link href="/#sale">Акции</Link>
+            {FOOTER_CATEGORIES.map((key) => (
+              <Link key={key} href={categoryHref(key)}>{getCategory(key)?.label}</Link>
+            ))}
           </div>
           <div className="footer-col">
             <h4>Информация</h4>

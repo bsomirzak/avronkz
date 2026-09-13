@@ -166,20 +166,35 @@ export function productJsonLd(p: Product) {
   };
 }
 
-// ItemList for the homepage — helps search engines discover every product URL
-// and understand the catalog as a structured collection.
-export function catalogJsonLd(products: ReadonlyArray<Product>) {
+// ItemList for the homepage and category pages — helps search engines discover
+// every product URL and understand the catalog as a structured collection.
+export function catalogJsonLd(
+  products: ReadonlyArray<Product>,
+  { path = "/", name = `Каталог ${SITE.name}` }: { path?: string; name?: string } = {},
+) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "@id": absoluteUrl("/#catalog"),
-    name: `Каталог ${SITE.name}`,
+    "@id": absoluteUrl(`${path}#catalog`),
+    name,
     numberOfItems: products.length,
     itemListElement: products.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       url: absoluteUrl(`/products/${p.id}`),
       name: p.name,
+    })),
+  };
+}
+
+export function faqJsonLd(items: ReadonlyArray<{ q: string; a: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
     })),
   };
 }

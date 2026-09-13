@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { permanentRedirect } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
@@ -6,51 +7,37 @@ import { Features } from "@/components/Features";
 import { Feedbacks } from "@/components/Feedbacks";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES, countLabel } from "@/lib/products";
+import { categoryHref, countLabel, getCategory } from "@/lib/products";
 import { getCatalog } from "@/lib/prices";
-import { SITE } from "@/lib/site";
 import { catalogJsonLd, jsonLdScript } from "@/lib/seo";
 
-type SP = Promise<{ cat?: string }>;
+type SP = Promise<Record<string, string | string[] | undefined>>;
 
-const VALID_KEYS = new Set<string>(CATEGORIES.map((c) => c.key));
-
-function resolveCat(raw: string | undefined): string {
-  if (!raw || !VALID_KEYS.has(raw)) return "all";
-  return raw;
-}
-
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: SP;
-}): Promise<Metadata> {
-  const { cat } = await searchParams;
-  const key = resolveCat(cat);
-  if (key === "all") {
-    return {
-      alternates: { canonical: "/" },
-    };
-  }
-  const meta = CATEGORIES.find((c) => c.key === key)!;
-  return {
-    title: `${meta.label} в ${SITE.city}`,
-    description: `${meta.label} от ${SITE.name} в ${SITE.city}: качественные товары, гарантия 12 месяцев, рассрочка Kaspi 0-0-12.`,
-    alternates: { canonical: `/?cat=${key}` },
-    openGraph: {
-      title: `${meta.label} — ${SITE.name}`,
-      description: `${meta.label} от ${SITE.name}. Доставка по ${SITE.city}, рассрочка 0-0-12.`,
-      url: `/?cat=${key}`,
-    },
-  };
-}
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage({ searchParams }: { searchParams: SP }) {
-  const { cat } = await searchParams;
-  const activeKey = resolveCat(cat);
+  const query = await searchParams;
+
+  // Категории раньше жили на /?cat=<key>. Такие ссылки остались в индексе
+  // Google, рекламе и соцсетях — постоянный редирект переносит их вес на
+  // отдельные страницы категорий. Остальные параметры (gclid, utm_*) не
+  // теряем, иначе рекламная аналитика перестанет видеть переходы.
+  const category = typeof query.cat === "string" ? getCategory(query.cat) : undefined;
+  if (category && category.key !== "all") {
+    const rest = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      if (key === "cat" || value === undefined) continue;
+      for (const one of [value].flat()) rest.append(key, one);
+    }
+    const qs = rest.toString();
+    const href = categoryHref(category.key);
+    permanentRedirect(qs ? `${href}?${qs}` : href);
+  }
+
   // Цены берём из хранилища (их правят на /admin), остальное — из каталога в коде.
   const all = await getCatalog();
-  const list = activeKey === "all" ? all : all.filter((p) => p.catKey === activeKey);
 
   return (
     <>
@@ -63,13 +50,13 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
       <div className="container">
         <section className="cats-section" id="catalog">
           <div className="cats-label">Категории</div>
-          <CategoryChips active={activeKey} />
+          <CategoryChips active="all" />
         </section>
         <section className="catalog-section">
           <div className="catalog-head">
             <div>
               <span className="catalog-title">Каталог</span>
-              <span className="catalog-count">{countLabel(list.length)}</span>
+              <span className="catalog-count">{countLabel(all.length)}</span>
             </div>
             {/* <button className="sort-btn" type="button">
               По популярности
@@ -79,7 +66,7 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
             </button> */}
           </div>
           <div className="grid">
-            {list.map((p) => (
+            {all.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
           </div>

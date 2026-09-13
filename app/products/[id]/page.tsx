@@ -7,7 +7,7 @@ import { Gallery } from "@/components/Gallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductCard } from "@/components/ProductCard";
 import { TrackView } from "@/components/TrackView";
-import { PRODUCTS, formatPrice } from "@/lib/products";
+import { PRODUCTS, categoryHref, formatPrice } from "@/lib/products";
 import { getCatalog, getCatalogProduct } from "@/lib/prices";
 import { SITE } from "@/lib/site";
 import {
@@ -32,12 +32,13 @@ export async function generateMetadata({
   const product = await getCatalogProduct(id);
   if (!product) return {};
   const url = `/products/${product.id}`;
-  const title = `${product.name} — купить в ${SITE.city}`;
+  // Бренд уже есть в названии товара, поэтому без шаблонного « — AVRON» в конце.
+  const title = `${product.seoTitle ?? product.name} — цена, купить в ${SITE.city}`;
   const priceText = product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу");
   const description = `${product.desc} Цена: ${priceText}. Рассрочка ${product.installmentBadge ?? "Kaspi"} ${product.installment}.`;
   const ogImages = (product.images ?? []).slice(0, 4).map((src) => absoluteUrl(src));
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: [product.name, product.shortName, product.cat, SITE.name, SITE.city, "купить", "рассрочка Kaspi 0-0-12"],
     alternates: { canonical: url },
@@ -77,7 +78,13 @@ export default async function ProductPage({ params }: { params: Params }) {
   const product = catalog.find((p) => p.id === id);
   if (!product) notFound();
 
-  const similar = catalog.filter((p) => p.id !== id).slice(0, 4);
+  // Сначала товары той же категории — так страницы одной группы ссылаются
+  // друг на друга, остальное добираем из каталога.
+  const others = catalog.filter((p) => p.id !== id);
+  const similar = [
+    ...others.filter((p) => p.catKey === product.catKey),
+    ...others.filter((p) => p.catKey !== product.catKey),
+  ].slice(0, 4);
   const detailParagraphs = product.details ?? [
     "Прочная металлическая рама выдерживает до 80 кг, а столешница из ламинированного МДФ устойчива к царапинам и легко очищается.",
   ];
@@ -92,7 +99,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   const breadcrumbs = [
     { name: "Главная", url: absoluteUrl("/") },
     { name: "Каталог", url: absoluteUrl("/#catalog") },
-    { name: product.cat, url: absoluteUrl(`/?cat=${product.catKey}`) },
+    { name: product.cat, url: absoluteUrl(categoryHref(product.catKey)) },
     { name: product.shortName, url: absoluteUrl(`/products/${product.id}`) },
   ];
 
@@ -117,7 +124,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           <span className="sep">/</span>
           <Link href="/#catalog">Каталог</Link>
           <span className="sep">/</span>
-          <Link href={`/?cat=${product.catKey}`} className="current">{product.cat}</Link>
+          <Link href={categoryHref(product.catKey)} className="current">{product.cat}</Link>
           <span className="sep">/</span>
           <span className="current">{product.shortName}</span>
         </nav>

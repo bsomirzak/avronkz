@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { PRODUCTS, CATEGORIES } from "@/lib/products";
+import { PRODUCTS, CATEGORIES, categoryHref } from "@/lib/products";
 import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -28,10 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   };
 
   const cats = CATEGORIES.filter((c) => c.key !== "all").map((c) => ({
-    url: `${base}/?cat=${c.key}`,
+    url: `${base}${categoryHref(c.key)}`,
     lastModified: now,
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: 0.8,
   }));
 
   const products = PRODUCTS.map((p) => ({

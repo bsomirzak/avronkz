@@ -1,25 +1,22 @@
 import Link from "next/link";
-import { CATEGORIES } from "@/lib/products";
+import { CATEGORIES, categoryHref } from "@/lib/products";
 
 export function CategoryChips({ active }: { active: string }) {
   return (
-    <div className="cats" role="tablist">
+    <nav className="cats" aria-label="Категории">
       {CATEGORIES.map((c) => {
-        const href = c.key === "all" ? "/#catalog" : `/?cat=${c.key}#catalog`;
         const isActive = c.key === active;
         return (
           <Link
             key={c.key}
-            href={href}
+            href={categoryHref(c.key)}
             className={`chip${isActive ? " active" : ""}`}
-            role="tab"
-            aria-selected={isActive}
-            scroll={false}
+            aria-current={isActive ? "page" : undefined}
           >
             {c.label}
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }
