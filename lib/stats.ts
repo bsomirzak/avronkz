@@ -58,6 +58,22 @@ export async function recordClick(event: TrackedEvent, product?: string): Promis
 
 export type DayStats = { day: string; fields: Record<string, number> };
 
+/**
+ * HGETALL по REST возвращает хэш плоским списком [поле, значение, поле, ...],
+ * а не объектом: Object.entries по такому массиву дал бы поля «0», «1», «2»
+ * и нули вместо счётчиков — статистика показывала бы пустые сутки при живых
+ * данных в хранилище. Объект тоже понимаем, если клиент когда-нибудь сменится.
+ */
+function hashToCounts(raw: unknown): Record<string, number> {
+  const counts: Record<string, number> = {};
+  if (Array.isArray(raw)) {
+    for (let i = 0; i + 1 < raw.length; i += 2) counts[String(raw[i])] = Number(raw[i + 1]) || 0;
+  } else if (raw && typeof raw === "object") {
+    for (const [field, value] of Object.entries(raw)) counts[field] = Number(value) || 0;
+  }
+  return counts;
+}
+
 export type StatsReport = {
   /** Итог по событиям за период. */
   totals: Record<string, number>;
@@ -81,14 +97,8 @@ export async function readStats(days: number): Promise<StatsReport> {
       fields: Object.fromEntries(memory.get(day) ?? new Map()),
     }));
   } else {
-    const results = await pipeline<Record<string, string>>(list.map((day) => ["HGETALL", key(day)]));
-    raw = list.map((day, i) => ({
-      day,
-      // Upstash отдаёт хэш объектом; на всякий случай переживаем и null.
-      fields: Object.fromEntries(
-        Object.entries(results?.[i] ?? {}).map(([field, value]) => [field, Number(value) || 0]),
-      ),
-    }));
+    const results = await pipeline<unknown>(list.map((day) => ["HGETALL", key(day)]));
+    raw = list.map((day, i) => ({ day, fields: hashToCounts(results?.[i]) }));
   }
 
   const totals: Record<string, number> = {};
