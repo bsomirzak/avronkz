@@ -1,21 +1,52 @@
 /**
- * Снимок отзывов о наших товарах с Kaspi.kz → lib/kaspi-reviews.json.
+ * Отзывы о наших товарах с Kaspi.kz.
  *
- *   npm run kaspi:reviews
+ *   npm run kaspi:reviews     — снимок в lib/kaspi-reviews.json (запасной, в git)
+ *   node kaspi-reviews.mjs --push
+ *                             — на сервере по cron: список товаров берёт с сайта,
+ *                               готовый снимок отправляет в /api/kaspi-reviews → Redis
  *
- * Запускать с обычного компьютера в Казахстане: серверам Vercel Kaspi отвечает
- * 403/429, поэтому сайт показывает этот снимок, а не ходит в Kaspi сам.
- * После запуска закоммитить JSON и задеплоить.
+ * В режиме --push файл самодостаточен: на сервер копируется только он, без репозитория.
+ * Ключ: переменная KASPI_REVIEWS_TOKEN или файл из KASPI_REVIEWS_TOKEN_FILE
+ * (по умолчанию ~/avron-kaspi/token). Адрес сайта: AVRON_URL (по умолчанию https://avron.kz).
+ *
+ * Kaspi пускает не все адреса: серверам Vercel (AWS) он отвечает 403/429. Поэтому
+ * на первой же ошибке останавливаемся без повторов и ничего не отправляем —
+ * на сайте остаётся прошлый снимок. Обходить блокировку нельзя: это риск для
+ * самого магазина на Kaspi.
  */
-import { writeFile } from "node:fs/promises";
-import { PRODUCTS } from "../lib/products.ts";
+import { readFile, writeFile } from "node:fs/promises";
+import { homedir } from "node:os";
 
 const MERCHANT_CODE = "30391363";
 const LIMIT = 6;
-const OUT = new URL("../lib/kaspi-reviews.json", import.meta.url);
+const PAUSE_MS = 400;
+const SITE = (process.env.AVRON_URL ?? "https://avron.kz").replace(/\/$/, "");
+const PUSH = process.argv.includes("--push");
 
-const codeOf = (url) => url?.match(/-(\d+)\/?(?:\?|$)/)?.[1] ?? null;
+const log = (msg) => console.log(`${new Date().toISOString()}  ${msg}`);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const codeOf = (url) => url?.match(/-(\d+)\/?(?:\?|$)/)?.[1] ?? null;
+
+async function token() {
+  if (process.env.KASPI_REVIEWS_TOKEN) return process.env.KASPI_REVIEWS_TOKEN.trim();
+  const file = process.env.KASPI_REVIEWS_TOKEN_FILE ?? `${homedir()}/avron-kaspi/token`;
+  return (await readFile(file, "utf8")).trim();
+}
+
+/** Что собирать: [{ id, kaspiUrl }]. */
+async function targets(auth) {
+  if (!PUSH) {
+    const { PRODUCTS } = await import("../lib/products.ts");
+    return PRODUCTS.filter((p) => p.kaspiUrl).map((p) => ({ id: p.id, kaspiUrl: p.kaspiUrl }));
+  }
+  const res = await fetch(`${SITE}/api/kaspi-reviews`, {
+    headers: { Authorization: `Bearer ${auth}` },
+    signal: AbortSignal.timeout(20000),
+  });
+  if (!res.ok) throw new Error(`сайт не отдал список товаров: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  return (await res.json()).products;
+}
 
 async function fetchReviews(kaspiUrl, code) {
   const api =
@@ -30,7 +61,7 @@ async function fetchReviews(kaspiUrl, code) {
     },
     signal: AbortSignal.timeout(15000),
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`Kaspi ответил HTTP ${res.status}`);
   const body = await res.json();
   const count = body.groupSummary?.find((g) => g.id === "COMMENT")?.total ?? 0;
   const rating = body.summary?.global ?? 0;
@@ -51,31 +82,45 @@ async function fetchReviews(kaspiUrl, code) {
   };
 }
 
-const products = {};
-let failed = 0;
-for (const p of PRODUCTS) {
-  const code = codeOf(p.kaspiUrl);
-  if (!code) {
-    console.log(`—  ${p.id}: нет ссылки на Kaspi`);
-    continue;
+async function main() {
+  const auth = PUSH ? await token() : null;
+  const list = await targets(auth);
+
+  const products = {};
+  for (const { id, kaspiUrl } of list) {
+    const code = codeOf(kaspiUrl);
+    if (!code) continue;
+    // Первая же ошибка — стоп: не долбим Kaspi повторами, прошлый снимок остаётся на сайте.
+    const data = await fetchReviews(kaspiUrl, code).catch((e) => {
+      throw new Error(`${id}: ${e.message}. Снимок не обновлён.`);
+    });
+    if (data) products[id] = data;
+    await sleep(PAUSE_MS);
   }
-  try {
-    const data = await fetchReviews(p.kaspiUrl, code);
-    if (data) products[p.id] = data;
-    console.log(`${data ? "✓" : "·"}  ${p.id}: ${data ? `${data.rating} · ${data.count}` : "отзывов нет"}`);
-  } catch (e) {
-    failed++;
-    console.log(`✗  ${p.id}: ${e.message}`);
+
+  // Дата по Алматы, а не по UTC: запуск в 21:00 не должен подписываться вчерашним днём.
+  const updatedAt = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Almaty" });
+  const snapshot = { updatedAt, products };
+  const summary = Object.entries(products).map(([id, p]) => `${id} ${p.rating}/${p.count}`).join(", ");
+
+  if (!PUSH) {
+    await writeFile(new URL("../lib/kaspi-reviews.json", import.meta.url), JSON.stringify(snapshot, null, 2) + "\n");
+    log(`lib/kaspi-reviews.json: ${Object.keys(products).length} товаров — ${summary}`);
+    return;
   }
-  await sleep(400);
+
+  const res = await fetch(`${SITE}/api/kaspi-reviews`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${auth}`, "Content-Type": "application/json" },
+    body: JSON.stringify(snapshot),
+    signal: AbortSignal.timeout(20000),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`сайт не принял снимок: HTTP ${res.status} ${text.slice(0, 200)}`);
+  log(`отправлено на ${SITE}: ${Object.keys(products).length} товаров — ${summary}`);
 }
 
-if (failed > 0) {
-  // Не затираем рабочий снимок частичным: лучше старые данные, чем пропавшие отзывы.
-  console.error(`\nНе удалось получить ${failed} из ${PRODUCTS.length}. Файл не изменён — повторите позже.`);
+main().catch((e) => {
+  log(`ОШИБКА: ${e.message}`);
   process.exit(1);
-}
-
-const updatedAt = new Date().toISOString().slice(0, 10);
-await writeFile(OUT, JSON.stringify({ updatedAt, products }, null, 2) + "\n");
-console.log(`\nГотово: ${Object.keys(products).length} товаров с отзывами → lib/kaspi-reviews.json`);
+});

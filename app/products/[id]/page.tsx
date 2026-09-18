@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { TrackView } from "@/components/TrackView";
 import { PRODUCTS, categoryHref, formatPrice } from "@/lib/products";
 import { getCatalog, getCatalogProduct } from "@/lib/prices";
-import { KASPI_REVIEWS_DATE, getKaspiReviews, reviewsLabel } from "@/lib/kaspi-reviews";
+import { formatSnapshotDate, getKaspiSnapshot, reviewsLabel } from "@/lib/kaspi-reviews";
 import { SITE } from "@/lib/site";
 import {
   absoluteUrl,
@@ -78,7 +78,8 @@ export default async function ProductPage({ params }: { params: Params }) {
   const catalog = await getCatalog();
   const product = catalog.find((p) => p.id === id);
   if (!product) notFound();
-  const kaspi = getKaspiReviews(product.id);
+  const kaspiSnapshot = await getKaspiSnapshot();
+  const kaspi = kaspiSnapshot.products[product.id] ?? null;
 
   // Сначала товары той же категории — так страницы одной группы ссылаются
   // друг на друга, остальное добираем из каталога.
@@ -256,7 +257,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                       <p className="kaspi-reviews-head">
                         <span className="kaspi-star" aria-hidden="true">★</span>
                         <b>{kaspi.rating.toFixed(1)}</b> — {reviewsLabel(kaspi.count)} покупателей
-                        на Kaspi.kz (на {KASPI_REVIEWS_DATE})
+                        на Kaspi.kz (на {formatSnapshotDate(kaspiSnapshot.updatedAt)})
                       </p>
                       <ul className="kaspi-reviews-list">
                         {kaspi.reviews.map((r) => (
