@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { HeroCarousel } from "./HeroCarousel";
 import { PRODUCTS } from "@/lib/products";
+import { SITE } from "@/lib/site";
 
 const HERO_SLIDES = PRODUCTS.filter((p) => p.images && p.images.length > 0).slice(0, 6);
 
@@ -32,20 +33,29 @@ export function Hero() {
             </Link>
             <Link href="/contacts" className="btn-ghost">Связаться с нами</Link>
           </div>
-          <div className="hero-stats">
+          {/* Цифры из профиля магазина на Kaspi (сверено 18.09.2026): рейтинг 4.9,
+              «Более 500 заказов», «Отзывы (193)». Только то, что можно проверить по
+              ссылке, — выдуманные цифры Merchant Center считает искажением фактов. */}
+          <a
+            href={SITE.social.kaspi}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-stats"
+            aria-label="Рейтинг, заказы и отзывы магазина на Kaspi.kz"
+          >
             <div>
               <div className="hero-stat-val">4.9<span className="star">★</span></div>
-              <div className="hero-stat-label">на Kaspi</div>
+              <div className="hero-stat-label">рейтинг на Kaspi</div>
             </div>
             <div>
-              <div className="hero-stat-val">600+</div>
-              <div className="hero-stat-label">довольных клиентов</div>
+              <div className="hero-stat-val">500+</div>
+              <div className="hero-stat-label">заказов на Kaspi</div>
             </div>
             <div>
-              <div className="hero-stat-val">20+</div>
-              <div className="hero-stat-label">товаров</div>
+              <div className="hero-stat-val">190+</div>
+              <div className="hero-stat-label">отзывов покупателей</div>
             </div>
-          </div>
+          </a>
         </div>
         <HeroCarousel products={HERO_SLIDES} />
       </section>
