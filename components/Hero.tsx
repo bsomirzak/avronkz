@@ -3,7 +3,9 @@ import { HeroCarousel } from "./HeroCarousel";
 import { PRODUCTS } from "@/lib/products";
 import { SITE } from "@/lib/site";
 
-const HERO_SLIDES = PRODUCTS.filter((p) => p.images && p.images.length > 0).slice(0, 6);
+const HERO_SLIDES = PRODUCTS.filter((p) => p.images && p.images.length > 0)
+  .slice(0, 6)
+  .map(({ id, name, images }) => ({ id, name, images }));
 
 export function Hero() {
   return (

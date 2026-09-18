@@ -76,10 +76,6 @@ export function ProductCard({ product: p, kaspi }: { product: Product; kaspi?: K
           <span className="card-price">{p.price !== null ? formatPrice(p.price) : (p.priceNote ?? "Цена по запросу")}</span>
           {p.price !== null && p.oldPrice && <span className="card-price-old">{formatPrice(p.oldPrice)}</span>}
         </div>
-        <div className="card-installment">
-          <span className="installment-badge">{p.installmentBadge ?? "0·0·12"}</span>
-          <span>{p.installment}</span>
-        </div>
         <span className="card-cta">
           Подробнее
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">

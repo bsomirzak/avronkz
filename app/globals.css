@@ -382,15 +382,6 @@ ul { list-style: none; }
 .card-price-row { display: flex; align-items: baseline; gap: 8px; }
 .card-price { font-size: 18px; font-weight: 800; color: var(--ink); }
 .card-price-old { font-size: 13px; color: var(--ink-mute); text-decoration: line-through; }
-.card-installment {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; color: var(--ink-soft);
-}
-.installment-badge {
-  background: var(--yellow); color: var(--navy);
-  padding: 2px 6px; border-radius: 4px;
-  font-weight: 700; font-size: 10px;
-}
 .card-cta {
   margin-top: auto;
   background: var(--yellow); color: var(--navy);
@@ -627,9 +618,6 @@ ul { list-style: none; }
 .price-main { font-size: 36px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
 .price-old { font-size: 18px; color: var(--ink-mute); text-decoration: line-through; }
 .price-discount { background: var(--red); color: var(--white); padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
-.installment-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); }
-.installment-row .installment-badge { font-size: 11px; padding: 3px 8px; }
-
 .cta-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .btn-kaspi-buy {
   background: var(--red); color: var(--white);
@@ -973,8 +961,6 @@ ul { list-style: none; }
   .card-name { font-size: 12px; line-height: 1.3; min-height: 32px; }
   .card-price { font-size: 15px; }
   .card-price-old { font-size: 11px; }
-  .card-installment { font-size: 10px; }
-  .installment-badge { font-size: 9px; padding: 2px 5px; }
   .card-cta { padding: 8px; font-size: 12px; }
   .badge { padding: 3px 7px; font-size: 10px; top: 8px; left: 8px; }
 

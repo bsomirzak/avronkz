@@ -32,6 +32,7 @@ const DESCRIPTION_LIMIT = 3000;
 const MAX_PICTURES = 10;
 /** sales_notes — короткая строка, до 50 символов. */
 const SALES_NOTES_LIMIT = 50;
+const SALES_NOTES = "Наличные, перевод, Kaspi QR, счёт для компаний";
 
 /**
  * Категориям нужны числовые id. Берём порядок из CATEGORIES (кроме «Все
@@ -87,12 +88,8 @@ function offer(p: PricedProduct): string {
     `        <description>${xml(plainDescription(p, DESCRIPTION_LIMIT))}</description>`,
   );
 
-  // Рассрочка — заметное преимущество, показываем её в объявлении.
-  if (p.installment) {
-    lines.push(
-      `        <sales_notes>${xml(p.installment.slice(0, SALES_NOTES_LIMIT))}</sales_notes>`,
-    );
-  }
+  // Рассрочка у нас только на Kaspi.kz по цене Kaspi — в объявлении по цене сайта её не обещаем.
+  lines.push(`        <sales_notes>${xml(SALES_NOTES.slice(0, SALES_NOTES_LIMIT))}</sales_notes>`);
 
   // Характеристики карточки идут параметрами: по ним работают фильтры
   // и подстановка в динамические объявления.

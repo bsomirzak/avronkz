@@ -37,7 +37,7 @@ export async function generateMetadata({
   // Бренд уже есть в названии товара, поэтому без шаблонного « — AVRON» в конце.
   const title = `${product.seoTitle ?? product.name} — цена, купить в ${SITE.city}`;
   const priceText = product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу");
-  const description = `${product.desc} Цена: ${priceText}. Рассрочка ${product.installmentBadge ?? "Kaspi"} ${product.installment}.`;
+  const description = `${product.desc} Цена: ${priceText}.`;
   const ogImages = (product.images ?? []).slice(0, 4).map((src) => absoluteUrl(src));
   return {
     title: { absolute: title },
@@ -166,10 +166,6 @@ export default async function ProductPage({ params }: { params: Params }) {
                 {product.discount && (
                   <span className="price-discount">{product.discount}</span>
                 )}
-              </div>
-              <div className="installment-row">
-                <span className="installment-badge">{product.installmentBadge ?? "0·0·12"}</span>
-                <span>Рассрочка {product.installment}</span>
               </div>
             </div>
 

@@ -27,7 +27,6 @@ async function catalogue(): Promise<string> {
     return [
       `• ${p.name} (${p.cat})`,
       `  цена: ${price}${p.oldPrice ? `, было ${formatPrice(p.oldPrice)}` : ""}`,
-      `  рассрочка: ${p.installment}`,
       specs ? `  характеристики: ${specs}` : null,
       `  страница: ${SITE.url}/products/${p.id}`,
     ]
@@ -40,7 +39,8 @@ async function systemPrompt(): Promise<string> {
   return `Ты — помощник магазина ${SITE.name} (${SITE.city}, Казахстан). Отвечаешь клиентам в WhatsApp вместо владельца, пока он занят.
 
 О магазине:
-- ${SITE.tagline}. Гарантия 12 месяцев, рассрочка Kaspi 0-0-12.
+- ${SITE.tagline}. Гарантия 12 месяцев.
+- Оплата по цене сайта: наличные, перевод на карту или Kaspi Gold, Kaspi QR, счёт для компаний. Рассрочка — только через наш магазин на Kaspi.kz, там своя цена и условия; сумму платежа по рассрочке не называй.
 - Адрес: ${SITE.address.street}, ${SITE.address.locality}, ${SITE.address.region}.
 - Телефоны: ${SITE.phone}, ${SITE.phoneAlt}. Почта: ${SITE.email}. Работаем ${SITE.hours.toLowerCase()}.
 - Сайт: ${SITE.url}. Магазин на Kaspi: ${SITE.social.kaspi}.

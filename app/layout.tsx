@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "мониторы",
     "массажёры",
     "Kaspi магазин",
-    "рассрочка 0-0-12",
+    "рассрочка Kaspi",
   ],
   authors: [{ name: SITE.name, url: SITE.url }],
   creator: SITE.name,

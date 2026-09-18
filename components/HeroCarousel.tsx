@@ -8,7 +8,10 @@ import type { Product } from "@/lib/products";
 const INTERVAL_MS = 4500;
 const SWIPE_THRESHOLD = 40; // px — minimum horizontal travel to count as a swipe
 
-export function HeroCarousel({ products }: { products: ReadonlyArray<Product> }) {
+/** Карусели нужны только эти поля — весь товар в клиентский бандл не тащим. */
+export type HeroSlide = Pick<Product, "id" | "name" | "images">;
+
+export function HeroCarousel({ products }: { products: ReadonlyArray<HeroSlide> }) {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
 
