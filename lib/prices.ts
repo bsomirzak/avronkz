@@ -109,7 +109,7 @@ export async function writePrice(
   return map;
 }
 
-/** Сколько месяцев рассрочки обещает бейдж «0·0·12» или «0·0·24». */
+/** Сколько месяцев рассрочки обещает бейдж «0·0·12». */
 export function installmentMonths(product: Product): number {
   const match = (product.installmentBadge ?? "0·0·12").match(/(\d+)\s*$/);
   const months = match ? Number(match[1]) : 12;

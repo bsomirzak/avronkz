@@ -92,7 +92,7 @@ export const CATEGORIES: ReadonlyArray<Category> = [
       {
         heading: "Купить интерактивную панель в Алматы",
         paragraphs: [
-          "Цены на интерактивные панели AVRON — {minPrice}. Доставка по Алматы бесплатная при заказе от 50 000 ₸, по Казахстану — через Kaspi доставку за 2–5 рабочих дней. Оформить покупку можно в рассрочку Kaspi 0-0-12 или 0-0-24: условия указаны в карточке каждой модели.",
+          "Цены на интерактивные панели AVRON — {minPrice}. Доставка по Алматы бесплатная при заказе от 50 000 ₸, по Казахстану — СДЭК, железной дорогой или Jet Logistics от двери до двери. Купить можно напрямую — наличными, переводом, по Kaspi QR или по счёту для компаний — или в рассрочку Kaspi 0-0-12.",
         ],
       },
     ],
@@ -115,7 +115,7 @@ export const CATEGORIES: ReadonlyArray<Category> = [
       },
       {
         q: "Можно ли купить в рассрочку?",
-        a: "Да, через Kaspi: рассрочка 0-0-12 или 0-0-24 в зависимости от модели.",
+        a: "Да, через Kaspi: рассрочка 0-0-12.",
       },
       {
         q: "Есть ли гарантия?",
@@ -251,7 +251,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "smartdisplay",
-    installment: "33 333 ₸ × 12 мес",
+    installment: "35 832 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
       ["Диагональ", "65”"],
@@ -311,7 +311,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "smartdisplay",
-    installment: "19 166 ₸ × 12 мес",
+    installment: "19 582 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
       ["Диагональ", "32”"],
@@ -363,8 +363,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "smartdisplay",
-    installment: "83 334 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "41 666 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Диагональ", "75”"],
       ["Разрешение", "4K Ultra HD (3840×2160)"],
@@ -384,7 +384,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Вес", "50 кг"],
       ["Комплектация", "Интерактивная панель, настенные крепления, телескопическая указка, стилус, кабель питания"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/smartdisplay-75/main.png",
@@ -405,9 +405,9 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     shortName: "AVR-001-NUT",
     desc: "Эргономичный электрический стол с регулировкой высоты — идеальный выбор для работы, учёбы и комфортного рабочего пространства. Подходит для дома и офиса, а также для работы сидя и стоя. Доступные цвета: белый, чёрный, коричневый.",
     details: [
-      "Доступен в размерах 120 × 60 × 113 см за 54 990 ₸ и 140 × 60 × 113 см за 64 990 ₸.",
+      "Доступен в размерах 120 × 60 × 113 см и 140 × 60 × 113 см.",
       "Оснащён плавной электрической регулировкой высоты, прочной металлической рамой и удобной панелью управления.",
-      "Товар в наличии. Доступна оплата через Kaspi Red и рассрочку Kaspi.",
+      "Товар в наличии. Оплата наличными, переводом, по Kaspi QR, по счёту для компаний или в рассрочку через Kaspi.",
     ],
     advantages: [
       "Помогает улучшить осанку",
@@ -421,7 +421,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    installment: "4 583 ₸ × 12 мес",
+    installment: "4 582 ₸ × 12 мес",
     specs: [
       ["Размеры", "120 × 60 × 113 см"],
       ["Цвет", "Коричневый"],
@@ -478,7 +478,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     badge: "new",
     icon: "studiolight",
     installment: "4 166 ₸ × 12 мес",
-    installmentBadge: "0·0·24",
+    installmentBadge: "0·0·12",
     specs: [
       ["Тип элементов освещения", "Светодиоды"],
       ["Мощность", "300 Вт"],
@@ -493,7 +493,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Комплектация", "Осветитель, софтбокс 60×90 см, стойка до 2 м, пульт ДУ"],
       ["Применение", "Фото, видео, стримы, интервью, контент-съёмка"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/lighter-KY/1.png",
@@ -529,8 +529,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "screen",
-    installment: "1 249 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "2 499 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Код товара", "116981576"],
       ["Модель", "AVRON VR100"],
@@ -546,7 +546,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Привод", "Ручной"],
       ["Применение", "Домашний кинотеатр, презентации, школы и учебные центры, конференции, семинары, игровые приставки, спортивные трансляции"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/background/1.png",
@@ -583,8 +583,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "printer",
-    installment: "8 334 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "4 166 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Модель", "BT-6205B"],
       ["Тип", "Портативный ручной"],
@@ -606,7 +606,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Цвет", "Чёрный"],
       ["Комплектация", "USB-кабель, стилус, резиновое кольцо, инструкция, коробка"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/mini-printer/1.png",
@@ -699,8 +699,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "monitor",
-    installment: "1 875 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "3 749 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Диагональ", "15.6\""],
       ["Матрица", "IPS"],
@@ -716,7 +716,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Толщина", "2 см"],
       ["Подходит для", "Ноутбуков, ПК, консолей и смартфонов"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/monitor/2.png",
@@ -803,8 +803,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "gate",
-    installment: "7 875 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "6 666 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Тип", "Комплект автоматики"],
       ["Назначение", "Для откатных ворот"],
@@ -820,7 +820,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Комплектация", "Электропривод, блок управления, 2 пульта ДУ, монтажная пластина, концевые выключатели, анкерные болты, зубчатая рейка 6 × 100 см, ключ разблокировки, инструкция"],
       ["Вес", "15 кг"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
       ["Гарантия", "12 месяцев"],
     ],
     images: [
@@ -861,8 +861,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "massager",
-    installment: "416 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "832 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Тип", "Массажный пояс"],
       ["Вид массажа", "Вибрационный + подогрев"],
@@ -874,7 +874,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Автоотключение", "Через 15 минут"],
       ["Подходит для", "Живота, поясницы, спины, ног и других зон"],
       ["Доставка", "По Казахстану"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/massage-belt/3.png",
@@ -898,7 +898,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    installment: "4 583 ₸ × 12 мес",
+    installment: "3 332 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
       ["Размеры", "120 × 60 × 113 см"],
@@ -993,7 +993,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    installment: "4 583 ₸ × 12 мес",
+    installment: "4 582 ₸ × 12 мес",
     specs: [
       ["Размеры", "140 × 60 × 113 см"],
       ["Цвет", "Чёрный"],
@@ -1049,8 +1049,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "desk",
-    installment: "83 ₸ × 24 мес",
-    installmentBadge: "0·0·24",
+    installment: "166 ₸ × 12 мес",
+    installmentBadge: "0·0·12",
     specs: [
       ["Ширина", "50 мм"],
       ["Длина", "1 м"],
@@ -1061,7 +1061,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Установка", "Быстрая, без инструментов"],
       ["Фиксация", "Надёжная самоклеящаяся основа"],
       ["Доставка", "Доступна"],
-      ["Рассрочка", "0·0·24"],
+      ["Рассрочка", "0·0·12"],
     ],
     images: [
       "/products/sealer/3.png",
