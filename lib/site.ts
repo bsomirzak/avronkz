@@ -7,7 +7,7 @@ export const SITE = {
   phoneRaw: "+77711310305",
   phoneAlt: "+7 (705) 559-50-14",
   phoneAltRaw: "+77055595014",
-  email: "avron.kz@gmail.com",
+  email: "avron.kz@mail.ru",
   /** Продавец по документам — уведомление о начале деятельности ИП № KZ62UWQ07132939. */
   legal: {
     name: "ИП Өмірзақ",
