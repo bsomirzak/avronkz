@@ -7,6 +7,7 @@ import { Gallery } from "@/components/Gallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductCard } from "@/components/ProductCard";
 import { TrackView } from "@/components/TrackView";
+import { OrderForm } from "@/components/OrderForm";
 import { PRODUCTS, categoryHref, formatPrice } from "@/lib/products";
 import { getCatalog, getCatalogProduct } from "@/lib/prices";
 import { formatSnapshotDate, getKaspiSnapshot, reviewsLabel } from "@/lib/kaspi-reviews";
@@ -173,19 +174,26 @@ export default async function ProductPage({ params }: { params: Params }) {
             </div>
 
             <div className="cta-stack">
+              <OrderForm
+                productId={product.id}
+                productName={product.name}
+                price={product.price}
+                priceText={product.price !== null ? formatPrice(product.price) : (product.priceNote ?? "Цена по запросу")}
+              />
               <a
                 href={product.kaspiUrl ?? SITE.social.kaspi}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-kaspi-buy"
+                className="btn-kaspi-buy secondary"
                 data-analytics-value={product.price ?? undefined}
                 data-analytics-product={product.id}
               >
-                Купить на Kaspi
+                Купить на Kaspi.kz
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </a>
+              <p className="cta-note">На Kaspi.kz — своя цена и условия рассрочки.</p>
               <Link href="/contacts" className="btn-contact">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z" />

@@ -640,6 +640,51 @@ ul { list-style: none; }
 }
 .btn-kaspi-buy:hover { background: var(--red-deep); }
 .btn-kaspi-buy svg { width: 16px; height: 16px; }
+.btn-kaspi-buy.secondary { background: var(--white); color: var(--red); border: 1px solid var(--red); padding: 14px; }
+.btn-kaspi-buy.secondary:hover { background: #FFF1F1; }
+.cta-note { font-size: 12px; color: var(--ink-mute); text-align: center; margin-top: -4px; }
+
+/* Заказ на сайте (components/OrderForm.tsx) */
+.btn-order {
+  background: var(--yellow); color: var(--navy);
+  padding: 16px; border-radius: 12px; width: 100%;
+  font-weight: 800; font-size: 16px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s ease;
+}
+.btn-order:hover:not(:disabled) { background: var(--yellow-deep); }
+.btn-order:disabled { opacity: 0.6; cursor: default; }
+.btn-order svg { width: 16px; height: 16px; }
+.order-form { display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--white); }
+.order-form-head { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.order-form-head b { color: var(--navy); }
+.order-form-head span { color: var(--ink-soft); font-size: 13px; }
+.order-field { display: flex; flex-direction: column; gap: 6px; border: 0; min-width: 0; flex: 1; }
+.order-field > span, .order-field legend { font-size: 12px; font-weight: 600; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.order-field input:not([type="radio"]), .order-field textarea {
+  border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px;
+  font: inherit; font-size: 15px; color: var(--ink); background: var(--white); width: 100%;
+}
+.order-field input:focus, .order-field textarea:focus { outline: 2px solid var(--yellow); border-color: var(--yellow-deep); }
+.order-row { display: flex; gap: 10px; }
+.order-qty { flex: 0 0 90px; }
+.order-payments { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.order-payment {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: 13px; color: var(--ink);
+}
+.order-payment.active { border-color: var(--navy); background: var(--bg); }
+.order-payment input { accent-color: var(--navy); margin: 0; flex: none; }
+.order-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.order-error { color: var(--red); font-size: 14px; }
+.order-note { font-size: 12px; color: var(--ink-mute); }
+.order-note a { color: var(--navy); text-decoration: underline; }
+.order-done { display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--bg); }
+.order-done b { color: var(--navy); font-size: 16px; }
+.order-done p { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+@media (max-width: 480px) {
+  .order-payments { grid-template-columns: 1fr; }
+}
 .btn-contact {
   border: 1px solid var(--line);
   padding: 16px; border-radius: 12px;

@@ -25,6 +25,9 @@ export default function OrdersPage() {
           Данные приходят напрямую из вашего кабинета Kaspi через официальный Merchant API.
           Токен хранится на сервере и в браузер не передаётся.
         </p>
+        <p className="orders-lead">
+          <Link href="/orders/site">Заказы, оформленные на сайте →</Link>
+        </p>
 
         <OrdersView />
       </main>

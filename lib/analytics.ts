@@ -17,6 +17,7 @@ const CURRENCY = "KZT";
 export type AnalyticsEvent =
   | "view_product"
   | "view_contacts"
+  | "order_submit"
   | "click_kaspi"
   | "click_whatsapp"
   | "click_phone"
@@ -24,10 +25,11 @@ export type AnalyticsEvent =
 
 /**
  * Ярлыки конверсий Google Ads (Цели → Конверсии → действие-конверсия → тег).
- * Конверсия «Покупка» повешена на click_kaspi: оформление заказа происходит
- * уже на стороне Kaspi, и уход туда — единственное, что сайт может измерить.
+ * Конверсия «Покупка» — это заказ через форму на сайте (order_submit) и уход
+ * покупать на Kaspi (click_kaspi): сам Kaspi о покупке не сообщает.
  */
 const GADS_CONVERSION_LABELS: Partial<Record<AnalyticsEvent, string>> = {
+  order_submit: "OQT3CIK8succEL7TiIFE",
   click_kaspi: "OQT3CIK8succEL7TiIFE",
   click_whatsapp: "D6uECNq_2-ccEL7TiIFE",
   click_phone: "baNKCN2_2-ccEL7TiIFE",

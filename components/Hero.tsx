@@ -22,7 +22,7 @@ export function Hero() {
           </h1>
           <p className="hero-desc">
             Столы, мониторы, электроника и многое другое. Прямые поставки, гарантия 12
-            месяцев. Оплата через Каспи с рассрочкой 0-0-12.
+            месяцев. Оплата наличными, переводом, Kaspi QR или по счёту для компаний.
           </p>
           <div className="hero-ctas">
             <Link href="/#catalog" className="btn-primary">

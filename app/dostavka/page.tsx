@@ -8,8 +8,8 @@ import { SITE } from "@/lib/site";
 // доставки Google Merchant Center должны совпадать — иначе Merchant Center
 // считает это искажением фактов.
 export const metadata: Metadata = {
-  title: "Доставка по Алматы и Казахстану",
-  description: `Как ${SITE.name} доставляет заказы: по Алматы, СДЭК, железная дорога, Jet Logistics от двери до двери и Kaspi Доставка. Стоимость и для каких товаров подходит каждый способ.`,
+  title: "Доставка и оплата",
+  description: `Доставка ${SITE.name} по Алматы и Казахстану (СДЭК, железная дорога, Jet Logistics, Kaspi Доставка) и оплата: наличные, перевод, Kaspi QR, счёт для компаний.`,
   alternates: { canonical: "/dostavka" },
 };
 
@@ -24,10 +24,10 @@ export default function DeliveryPage() {
         <nav className="breadcrumb" aria-label="Хлебные крошки">
           <Link href="/">Главная</Link>
           <span className="sep">/</span>
-          <span className="current">Доставка</span>
+          <span className="current">Доставка и оплата</span>
         </nav>
 
-        <h1>Доставка</h1>
+        <h1>Доставка и оплата</h1>
         <p className="legal-updated">Обновлено {UPDATED}</p>
 
         <p>
@@ -66,9 +66,33 @@ export default function DeliveryPage() {
           Зависят от города и способа доставки. Точный срок менеджер назовёт при оформлении заказа.
         </p>
 
+        <h2>Оплата</h2>
+        <p>
+          Цены на сайте действуют при заказе у нас напрямую — кнопкой «Заказать» на странице
+          товара, по телефону или в WhatsApp. Оплатить можно:
+        </p>
+        <ul>
+          <li><b>наличными</b>;</li>
+          <li><b>переводом</b> на карту или Kaspi Gold;</li>
+          <li><b>через Kaspi QR</b>;</li>
+          <li>
+            <b>по счёту</b> — для компаний, безналичный расчёт. Счёт выставляет {SITE.legal.name};
+            для счёта нужны название компании и БИН.
+          </li>
+        </ul>
+        <p>Сумму и способ оплаты менеджер подтверждает вместе с заказом.</p>
+
+        <h2>Рассрочка</h2>
+        <p>
+          Рассрочка оформляется через наш{" "}
+          <a href={SITE.social.kaspi} target="_blank" rel="noopener noreferrer">магазин на Kaspi.kz</a>{" "}
+          — там своя цена и условия рассрочки.
+        </p>
+
         <h2>Как заказать</h2>
         <p>
-          Позвоните по телефону <a href={`tel:${SITE.phoneRaw}`}>{SITE.phone}</a> или напишите
+          Нажмите «Заказать» на странице товара, позвоните по телефону{" "}
+          <a href={`tel:${SITE.phoneRaw}`}>{SITE.phone}</a> или напишите
           в <a href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>:
           назовите товар и город — подберём способ доставки и посчитаем стоимость. Условия
           возврата — на странице <Link href="/vozvrat">«Возврат и обмен»</Link>.

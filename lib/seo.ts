@@ -32,7 +32,7 @@ export function organizationJsonLd() {
     email: SITE.email,
     priceRange: "₸₸",
     currenciesAccepted: "KZT",
-    paymentAccepted: "Kaspi, Наличные, Рассрочка 0-0-12",
+    paymentAccepted: "Наличные, Перевод на карту, Kaspi QR, Безналичный расчёт по счёту, Рассрочка через Kaspi.kz",
     address: {
       "@type": "PostalAddress",
       streetAddress: SITE.address.street,
