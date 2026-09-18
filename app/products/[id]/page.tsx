@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { TrackView } from "@/components/TrackView";
 import { PRODUCTS, categoryHref, formatPrice } from "@/lib/products";
 import { getCatalog, getCatalogProduct } from "@/lib/prices";
+import { getKaspiReviews, reviewsLabel } from "@/lib/kaspi-reviews";
 import { SITE } from "@/lib/site";
 import {
   absoluteUrl,
@@ -77,6 +78,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   const catalog = await getCatalog();
   const product = catalog.find((p) => p.id === id);
   if (!product) notFound();
+  const kaspi = await getKaspiReviews(product.kaspiUrl);
 
   // Сначала товары той же категории — так страницы одной группы ссылаются
   // друг на друга, остальное добираем из каталога.
@@ -139,6 +141,17 @@ export default async function ProductPage({ params }: { params: Params }) {
             </div>
             <h1 className="detail-name">{product.name}</h1>
             <div className="detail-meta">
+              {kaspi && (
+                <a
+                  href={kaspi.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="detail-meta-item kaspi-rating"
+                >
+                  <span className="kaspi-star" aria-hidden="true">★</span>
+                  {kaspi.rating.toFixed(1)} · {reviewsLabel(kaspi.count)} на Kaspi
+                </a>
+              )}
               <span className="detail-meta-item">SKU: {product.shortName}</span>
             </div>
 
@@ -233,11 +246,46 @@ export default async function ProductPage({ params }: { params: Params }) {
                 </ul>
               ),
             },
-            {
-              id: "reviews",
-              label: "Отзывы",
-              href: "/reviews",
-            },
+            kaspi
+              ? {
+                  id: "reviews",
+                  label: "Отзывы",
+                  count: kaspi.count,
+                  panel: (
+                    <div className="kaspi-reviews">
+                      <p className="kaspi-reviews-head">
+                        <span className="kaspi-star" aria-hidden="true">★</span>
+                        <b>{kaspi.rating.toFixed(1)}</b> — {reviewsLabel(kaspi.count)} покупателей
+                        на Kaspi.kz
+                      </p>
+                      <ul className="kaspi-reviews-list">
+                        {kaspi.reviews.map((r) => (
+                          <li key={r.id} className="kaspi-review">
+                            <div className="kaspi-review-top">
+                              <b>{r.author}</b>
+                              <span className="kaspi-review-stars" aria-label={`Оценка ${r.rating} из 5`}>
+                                {"★".repeat(r.rating)}
+                                <span className="kaspi-review-stars-off">{"★".repeat(5 - r.rating)}</span>
+                              </span>
+                              <span className="kaspi-review-date">{r.date}</span>
+                            </div>
+                            {r.text && <p>{r.text}</p>}
+                            {r.plus && <p><b>Достоинства:</b> {r.plus}</p>}
+                            {r.minus && <p><b>Недостатки:</b> {r.minus}</p>}
+                          </li>
+                        ))}
+                      </ul>
+                      <a href={kaspi.url} target="_blank" rel="noopener noreferrer" className="kaspi-reviews-all">
+                        Все отзывы на Kaspi.kz →
+                      </a>
+                    </div>
+                  ),
+                }
+              : {
+                  id: "reviews",
+                  label: "Отзывы",
+                  href: "/reviews",
+                },
             {
               id: "delivery",
               label: "Доставка",

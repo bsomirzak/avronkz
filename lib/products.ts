@@ -556,6 +556,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "/products/background/5.png",
       "/products/background/6.png",
     ],
+    kaspiUrl: "https://kaspi.kz/shop/p/avron-vr100-176683823/",
   },
   {
     id: "mini-printer-bt-6205b",
