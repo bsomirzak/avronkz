@@ -34,7 +34,7 @@ export function Footer() {
           <div className="footer-col">
             <h4>Информация</h4>
             {/* <Link href="/#about">О нас</Link> */}
-            {/* <Link href="/#delivery">Доставка</Link> */}
+            <Link href="/dostavka">Доставка</Link>
             <Link href="/reviews">Отзывы</Link>
             <Link href="/#warranty">Гарантия</Link>
             <Link href="/vozvrat">Возврат и обмен</Link>

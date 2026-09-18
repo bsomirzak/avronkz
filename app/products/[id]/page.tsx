@@ -292,8 +292,10 @@ export default async function ProductPage({ params }: { params: Params }) {
               label: "Доставка",
               panel: (
                 <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.6 }}>
-                  Доставка по {SITE.city} — бесплатно при заказе от 50 000 ₸. По
-                  Казахстану — через Kaspi доставку, сроки 2-5 рабочих дней.
+                  По {SITE.city} — бесплатно при заказе от 50 000 ₸. По Казахстану — СДЭК,
+                  железная дорога (до 15 000 ₸), Jet Logistics от двери до двери (около
+                  25 000–30 000 ₸) или Kaspi Доставка.{" "}
+                  <Link href="/dostavka">Подробнее о доставке</Link>
                 </p>
               ),
             },
