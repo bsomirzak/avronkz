@@ -10,7 +10,9 @@ export function Header() {
   const pathname = usePathname() ?? "/";
   const isContacts = pathname.startsWith("/contacts");
   const isReviews = pathname.startsWith("/reviews");
-  const isCatalog = !isContacts && !isReviews; // home + product pages all belong to catalog
+  // Главная, категории и товары — это каталог; /vozvrat, /privacy и прочие справочные страницы — нет.
+  const isCatalog =
+    pathname === "/" || pathname.startsWith("/catalog") || pathname.startsWith("/products");
 
   return (
     <header className="header">
