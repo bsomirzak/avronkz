@@ -29,8 +29,6 @@ export type Product = {
   discount: string | null;
   badge: BadgeKind | null;
   icon: IconName;
-  rating: number;
-  reviews: number;
   installment: string;
   installmentBadge?: string;
   specs: ReadonlyArray<readonly [string, string]>;
@@ -253,8 +251,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "smartdisplay",
-    rating: 5.0,
-    reviews: 23,
     installment: "33 333 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -315,8 +311,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "smartdisplay",
-    rating: 5.0,
-    reviews: 17,
     installment: "19 166 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -369,8 +363,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "smartdisplay",
-    rating: 5.0,
-    reviews: 12,
     installment: "83 334 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -429,8 +421,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    rating: 4.9,
-    reviews: 31,
     installment: "4 583 ₸ × 12 мес",
     specs: [
       ["Размеры", "120 × 60 × 113 см"],
@@ -487,8 +477,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "studiolight",
-    rating: 5.0,
-    reviews: 14,
     installment: "4 166 ₸ × 12 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -541,8 +529,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "screen",
-    rating: 5.0,
-    reviews: 7,
     installment: "1 249 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -596,8 +582,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "printer",
-    rating: 5.0,
-    reviews: 9,
     installment: "8 334 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -658,8 +642,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "printer",
-    rating: 5.0,
-    reviews: 14,
     installment: "4 999 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -716,8 +698,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "monitor",
-    rating: 4.9,
-    reviews: 11,
     installment: "1 875 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -772,8 +752,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "ereader",
-    rating: 5.0,
-    reviews: 19,
     installment: "3 749 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -824,8 +802,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "new",
     icon: "gate",
-    rating: 5.0,
-    reviews: 8,
     installment: "7 875 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -884,8 +860,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "massager",
-    rating: 4.9,
-    reviews: 11,
     installment: "416 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [
@@ -923,8 +897,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    rating: 5.0,
-    reviews: 27,
     installment: "4 583 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -975,8 +947,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "carplay",
-    rating: 5.0,
-    reviews: 36,
     installment: "1 666 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
@@ -1022,8 +992,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: "-21%",
     badge: "hit",
     icon: "desk",
-    rating: 4.9,
-    reviews: 22,
     installment: "4 583 ₸ × 12 мес",
     specs: [
       ["Размеры", "140 × 60 × 113 см"],
@@ -1080,8 +1048,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     discount: null,
     badge: "hit",
     icon: "desk",
-    rating: 4.9,
-    reviews: 11,
     installment: "83 ₸ × 24 мес",
     installmentBadge: "0·0·24",
     specs: [

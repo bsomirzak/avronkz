@@ -139,10 +139,6 @@ export default async function ProductPage({ params }: { params: Params }) {
             </div>
             <h1 className="detail-name">{product.name}</h1>
             <div className="detail-meta">
-              <span className="detail-meta-item">
-                <span className="stars">★★★★★</span> {product.rating.toFixed(1)}
-              </span>
-              <span className="detail-meta-item">{product.reviews} отзывов на Kaspi</span>
               <span className="detail-meta-item">SKU: {product.shortName}</span>
             </div>
 
@@ -240,7 +236,6 @@ export default async function ProductPage({ params }: { params: Params }) {
             {
               id: "reviews",
               label: "Отзывы",
-              count: product.reviews,
               href: "/reviews",
             },
             {

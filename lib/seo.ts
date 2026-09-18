@@ -100,17 +100,6 @@ export function productJsonLd(p: Product) {
     mpn: p.shortName,
     brand: { "@type": "Brand", name: SITE.name },
     category: p.cat,
-    ...(p.reviews > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: p.rating.toFixed(1),
-            reviewCount: p.reviews,
-            bestRating: 5,
-            worstRating: 1,
-          },
-        }
-      : {}),
     offers: {
       "@type": "Offer",
       url,
