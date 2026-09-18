@@ -10,6 +10,7 @@ export function Header() {
   const pathname = usePathname() ?? "/";
   const isContacts = pathname.startsWith("/contacts");
   const isReviews = pathname.startsWith("/reviews");
+  const isDelivery = pathname.startsWith("/dostavka");
   // Главная, категории и товары — это каталог; /vozvrat, /privacy и прочие справочные страницы — нет.
   const isCatalog =
     pathname === "/" || pathname.startsWith("/catalog") || pathname.startsWith("/products");
@@ -30,7 +31,7 @@ export function Header() {
         <nav className="nav" aria-label="Главное меню">
           <Link href="/#catalog" className={isCatalog ? "active" : undefined}>Каталог</Link>
           <Link href="/reviews" className={isReviews ? "active" : undefined}>Отзывы</Link>
-          {/* <Link href="/#delivery">Доставка</Link> */}
+          <Link href="/dostavka" className={isDelivery ? "active" : undefined}>Доставка</Link>
           <Link href="/contacts" className={isContacts ? "active" : undefined}>Контакты</Link>
         </nav>
         <div className="header-right">
