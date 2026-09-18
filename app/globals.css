@@ -110,6 +110,18 @@ ul { list-style: none; }
 .menu-toggle { display: none; background: var(--bg); border-radius: 10px; padding: 9px; }
 .menu-toggle svg { width: 20px; height: 20px; stroke: var(--navy); }
 
+/* Мобильное меню: панель под шапкой, только до 768px */
+.mobile-menu { display: none; }
+.mobile-menu nav { display: flex; flex-direction: column; }
+.mobile-menu nav a {
+  padding: 14px 4px; font-size: 16px; font-weight: 600; color: var(--ink);
+  border-bottom: 1px solid var(--line-soft);
+}
+.mobile-menu nav a.active { color: var(--navy); box-shadow: inset 3px 0 0 var(--yellow); padding-left: 12px; }
+.mobile-menu-contacts { display: flex; flex-direction: column; gap: 6px; padding-top: 16px; }
+.mobile-menu-contacts .header-phone { font-size: 16px; }
+.mobile-menu-kaspi { justify-content: center; margin-top: 10px; padding: 12px 18px; }
+
 /* HERO */
 .hero-wrap { padding: 24px 24px 0; }
 .hero {
@@ -849,6 +861,16 @@ ul { list-style: none; }
 @media (max-width: 768px) {
   .nav, .header-phones, .btn-kaspi { display: none; }
   .menu-toggle { display: grid; place-items: center; }
+  .mobile-menu:not([hidden]) {
+    display: block;
+    position: absolute; top: 100%; left: 0; right: 0;
+    max-height: calc(100vh - 64px); overflow-y: auto;
+    background: #fff; border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 24px rgba(15, 27, 61, 0.08);
+    padding: 4px 16px 20px;
+  }
+  /* Шапка на телефоне прячет .btn-kaspi — в меню кнопка нужна. */
+  .mobile-menu .btn-kaspi { display: inline-flex; }
   .header-inner { padding: 12px 16px; gap: 12px; }
   .brand-logo { height: 36px; }
   .container { padding: 0 16px; }
