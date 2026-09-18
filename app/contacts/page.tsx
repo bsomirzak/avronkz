@@ -205,6 +205,11 @@ export default function ContactsPage() {
             <div className="contacts-info-text">Дополнительный номер</div>
           </div>
         </section>
+
+        <p className="contacts-legal">
+          Продавец — {SITE.legal.name}, ИИН {SITE.legal.iin}. Адрес магазина: {SITE.address.street},{" "}
+          {SITE.address.locality}, {SITE.address.region}.
+        </p>
       </main>
       <Footer />
     </>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 /** Дата последнего пересмотра условий — обновляйте при изменениях. */
-const UPDATED = "13 сентября 2026 года";
+const UPDATED = "18 сентября 2026 года";
 
 export default function ReturnsPage() {
   return (
@@ -50,6 +50,12 @@ export default function ReturnsPage() {
           в <a href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>{" "}
           или по почте <a href={`mailto:${SITE.email}`}>{SITE.email}</a>: укажите, какой товар
           и когда вы купили, и опишите неисправность. Менеджер подскажет, куда отправить товар.
+        </p>
+
+        <h2>Продавец</h2>
+        <p>
+          {SITE.legal.name}, ИИН {SITE.legal.iin}. Магазин {SITE.name}: {SITE.address.street},{" "}
+          {SITE.address.locality}, {SITE.address.region}, Казахстан.
         </p>
       </main>
       <Footer />

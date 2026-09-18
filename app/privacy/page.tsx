@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 /** Дата последнего пересмотра политики — обновляйте при изменениях. */
-const UPDATED = "30 августа 2026 года";
+const UPDATED = "18 сентября 2026 года";
 
 export default function PrivacyPage() {
   return (
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
 
         <h2>Кто обрабатывает данные</h2>
         <p>
-          Магазин {SITE.name}, {SITE.address.street}, {SITE.address.locality}, {SITE.address.region},
+          {SITE.legal.name} (ИИН {SITE.legal.iin}), магазин {SITE.name}, {SITE.address.street}, {SITE.address.locality}, {SITE.address.region},
           Казахстан. Связаться по вопросам о данных: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>,{" "}
           <a href={`tel:${SITE.phoneRaw}`}>{SITE.phone}</a>.
         </p>

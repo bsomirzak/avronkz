@@ -48,7 +48,9 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bot">
-          <span>© {new Date().getFullYear()} {SITE.name}. Все права защищены.</span>
+          <span>
+            © {new Date().getFullYear()} {SITE.name}. {SITE.legal.name}, ИИН {SITE.legal.iin}. Все права защищены.
+          </span>
           <div className="social">
             <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" strokeWidth="2">

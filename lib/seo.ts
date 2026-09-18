@@ -22,6 +22,8 @@ export function organizationJsonLd() {
     "@type": "Store",
     "@id": absoluteUrl("/#organization"),
     name: SITE.name,
+    legalName: SITE.legal.name,
+    taxID: SITE.legal.iin,
     url: SITE.url,
     logo: absoluteUrl("/products/logo/logo.png"),
     image: absoluteUrl("/products/logo/logo.png"),
