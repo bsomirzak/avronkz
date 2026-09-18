@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ProductIcon } from "./ProductIcon";
 import { FavButton } from "./FavButton";
 import { formatPrice, type Product } from "@/lib/products";
+import { reviewsLabel, type KaspiReviews } from "@/lib/kaspi-reviews";
 
 function Badge({ p }: { p: Product }) {
   if (!p.badge) return null;
@@ -14,7 +15,18 @@ function Badge({ p }: { p: Product }) {
   return null;
 }
 
-export function ProductCard({ product: p }: { product: Product }) {
+function Stars({ rating }: { rating: number }) {
+  const full = Math.round(rating);
+  return (
+    <span className="stars" aria-hidden="true">
+      {"★".repeat(full)}
+      {"☆".repeat(5 - full)}
+    </span>
+  );
+}
+
+/** kaspi — рейтинг и число отзывов с Kaspi.kz (lib/kaspi-reviews.ts); нет отзывов — нет строки. */
+export function ProductCard({ product: p, kaspi }: { product: Product; kaspi?: KaspiReviews | null }) {
   const href = `/products/${p.id}`;
   return (
     <article
@@ -43,6 +55,15 @@ export function ProductCard({ product: p }: { product: Product }) {
           <Link href={href} style={{ position: "absolute", inset: 0, zIndex: 1 }} aria-label={p.name} />
           <span style={{ position: "relative", zIndex: 2 }}>{p.name}</span>
         </h3>
+        {kaspi && (
+          <div
+            className="card-rating"
+            title={`${kaspi.rating.toFixed(1)} из 5 — ${reviewsLabel(kaspi.count)} на Kaspi.kz`}
+          >
+            <Stars rating={kaspi.rating} /> {kaspi.rating.toFixed(1)}{" "}
+            <span style={{ color: "var(--ink-mute)" }}>({kaspi.count})</span>
+          </div>
+        )}
         <div
           className="card-price-row"
           itemProp="offers"

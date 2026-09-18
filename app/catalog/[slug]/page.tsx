@@ -13,6 +13,7 @@ import {
   type Product,
 } from "@/lib/products";
 import { getCatalog } from "@/lib/prices";
+import { getKaspiSnapshot } from "@/lib/kaspi-reviews";
 import { SITE } from "@/lib/site";
 import {
   absoluteUrl,
@@ -84,6 +85,7 @@ export default async function CategoryPage({ params }: { params: Params }) {
   const data = await loadCategory(slug);
   if (!data) notFound();
   const { category, products } = data;
+  const kaspi = await getKaspiSnapshot();
 
   const url = categoryHref(category.key);
   const heading = category.heading ?? `${category.label} в ${SITE.city}`;
@@ -138,7 +140,7 @@ export default async function CategoryPage({ params }: { params: Params }) {
         <section className="catalog-section">
           <div className="grid">
             {products.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} kaspi={kaspi.products[p.id]} />
             ))}
           </div>
         </section>

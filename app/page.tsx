@@ -9,6 +9,7 @@ import { CategoryChips } from "@/components/CategoryChips";
 import { ProductCard } from "@/components/ProductCard";
 import { categoryHref, countLabel, getCategory } from "@/lib/products";
 import { getCatalog } from "@/lib/prices";
+import { getKaspiSnapshot } from "@/lib/kaspi-reviews";
 import { catalogJsonLd, jsonLdScript } from "@/lib/seo";
 
 type SP = Promise<Record<string, string | string[] | undefined>>;
@@ -38,6 +39,7 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
 
   // Цены берём из хранилища (их правят на /admin), остальное — из каталога в коде.
   const all = await getCatalog();
+  const kaspi = await getKaspiSnapshot();
 
   return (
     <>
@@ -67,7 +69,7 @@ export default async function HomePage({ searchParams }: { searchParams: SP }) {
           </div>
           <div className="grid">
             {all.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} kaspi={kaspi.products[p.id]} />
             ))}
           </div>
         </section>

@@ -306,7 +306,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           <h2 className="similar-head">Похожие товары</h2>
           <div className="grid">
             {similar.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} kaspi={kaspiSnapshot.products[p.id]} />
             ))}
           </div>
         </section>
