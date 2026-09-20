@@ -734,6 +734,13 @@ ul { list-style: none; }
 .kaspi-review-date { margin-left: auto; font-size: 12px; color: var(--ink-mute); }
 .kaspi-reviews-all { font-size: 14px; font-weight: 600; color: var(--navy); }
 
+/* Вопросы и ответы на странице товара */
+.product-faq { max-width: 720px; display: grid; gap: 8px; }
+.product-faq details { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.product-faq summary { cursor: pointer; font-weight: 600; color: var(--navy); font-size: 15px; }
+.product-faq details[open] summary { margin-bottom: 8px; }
+.product-faq p { font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+
 .desc-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
 .desc-block h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
 .desc-block p { font-size: 14px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 12px; }

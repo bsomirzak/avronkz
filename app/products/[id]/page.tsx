@@ -15,6 +15,7 @@ import { SITE } from "@/lib/site";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
+  faqJsonLd,
   jsonLdScript,
   productJsonLd,
 } from "@/lib/seo";
@@ -121,6 +122,12 @@ export default async function ProductPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd(breadcrumbs)) }}
       />
+      {product.faq && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd(product.faq)) }}
+        />
+      )}
       <Header />
       <div className="container">
         <nav className="breadcrumb" aria-label="Хлебные крошки">
@@ -291,6 +298,25 @@ export default async function ProductPage({ params }: { params: Params }) {
                   label: "Отзывы",
                   href: "/reviews",
                 },
+            ...(product.faq
+              ? [
+                  {
+                    id: "faq",
+                    label: "Вопросы",
+                    count: product.faq.length,
+                    panel: (
+                      <div className="product-faq">
+                        {product.faq.map(({ q, a }) => (
+                          <details key={q}>
+                            <summary>{q}</summary>
+                            <p>{a}</p>
+                          </details>
+                        ))}
+                      </div>
+                    ),
+                  },
+                ]
+              : []),
             {
               id: "delivery",
               label: "Доставка",
