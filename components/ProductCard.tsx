@@ -29,12 +29,10 @@ function Stars({ rating }: { rating: number }) {
 export function ProductCard({ product: p, kaspi }: { product: Product; kaspi?: KaspiReviews | null }) {
   const href = `/products/${p.id}`;
   return (
-    <article
-      className="card"
-      itemScope
-      itemType="https://schema.org/Product"
-      style={{ position: "relative" }}
-    >
+    // Товары размечены ItemList-разметкой страницы (lib/seo.ts catalogJsonLd);
+    // дублировать их микроразметкой карточки не нужно — она неполная и Google
+    // ругается на отсутствие image и brand.
+    <article className="card" style={{ position: "relative" }}>
       <div className="card-image">
         <Badge p={p} />
         {/* <FavButton /> */}
@@ -51,7 +49,7 @@ export function ProductCard({ product: p, kaspi }: { product: Product; kaspi?: K
         )}
       </div>
       <div className="card-body">
-        <h3 className="card-name" itemProp="name">
+        <h3 className="card-name">
           <Link href={href} style={{ position: "absolute", inset: 0, zIndex: 1 }} aria-label={p.name} />
           <span style={{ position: "relative", zIndex: 2 }}>{p.name}</span>
         </h3>
@@ -64,15 +62,7 @@ export function ProductCard({ product: p, kaspi }: { product: Product; kaspi?: K
             <span style={{ color: "var(--ink-mute)" }}>({kaspi.count})</span>
           </div>
         )}
-        <div
-          className="card-price-row"
-          itemProp="offers"
-          itemScope
-          itemType="https://schema.org/Offer"
-        >
-          {p.price !== null && <meta itemProp="priceCurrency" content="KZT" />}
-          {p.price !== null && <meta itemProp="price" content={String(p.price)} />}
-          <meta itemProp="availability" content="https://schema.org/InStock" />
+        <div className="card-price-row">
           <span className="card-price">{p.price !== null ? formatPrice(p.price) : (p.priceNote ?? "Цена по запросу")}</span>
           {p.price !== null && p.oldPrice && <span className="card-price-old">{formatPrice(p.oldPrice)}</span>}
         </div>
