@@ -35,6 +35,7 @@ export function Footer() {
             <h4>Информация</h4>
             {/* <Link href="/#about">О нас</Link> */}
             <Link href="/dostavka">Доставка и оплата</Link>
+            <Link href="/stati">Статьи</Link>
             <Link href="/reviews">Отзывы</Link>
             <Link href="/#warranty">Гарантия</Link>
             <Link href="/vozvrat">Возврат и обмен</Link>

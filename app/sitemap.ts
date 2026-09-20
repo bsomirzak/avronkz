@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS, CATEGORIES, categoryHref } from "@/lib/products";
+import { ARTICLES } from "@/lib/articles";
 import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -41,6 +42,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   };
 
+  const articles = [
+    {
+      url: `${base}/stati`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
+    ...ARTICLES.map((a) => ({
+      url: `${base}/stati/${a.slug}`,
+      lastModified: new Date(a.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+  ];
+
   const cats = CATEGORIES.filter((c) => c.key !== "all").map((c) => ({
     url: `${base}${categoryHref(c.key)}`,
     lastModified: now,
@@ -56,5 +72,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     images: (p.images ?? []).slice(0, 5).map((src) => `${base}${src}`),
   }));
 
-  return [home, contacts, reviews, delivery, returns, ...cats, ...products];
+  return [home, contacts, reviews, delivery, returns, ...articles, ...cats, ...products];
 }

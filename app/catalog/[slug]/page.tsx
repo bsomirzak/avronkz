@@ -13,6 +13,7 @@ import {
   type Product,
 } from "@/lib/products";
 import { getCatalog } from "@/lib/prices";
+import { ARTICLES } from "@/lib/articles";
 import { getKaspiSnapshot } from "@/lib/kaspi-reviews";
 import { SITE } from "@/lib/site";
 import {
@@ -192,6 +193,20 @@ export default async function CategoryPage({ params }: { params: Params }) {
                 ))}
               </div>
             ))}
+          </section>
+        )}
+
+        {category.key === "displays" && (
+          <section className="category-block">
+            <h2>Как выбрать панель</h2>
+            <ul className="category-articles">
+              {ARTICLES.map((article) => (
+                <li key={article.slug}>
+                  <Link href={`/stati/${article.slug}`}>{article.title}</Link>
+                  <span>{article.lead}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 
