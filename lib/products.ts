@@ -275,10 +275,10 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Доставка", "Доступна"],
     ],
     images: [
+      "/products/smartdisplay-65/1.png",
       "/products/smartdisplay-65/10.png",
       "/products/smartdisplay-65/5.png",
       "/products/smartdisplay-65/6.png",
-      "/products/smartdisplay-65/1.png",
       "/products/smartdisplay-65/2.png",
       "/products/smartdisplay-65/3.png",
       "/products/smartdisplay-65/7.png",
@@ -358,8 +358,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Гарантия", "1 год"],
     ],
     images: [
-      "/products/mobile-screen/2.png",
       "/products/mobile-screen/1.png",
+      "/products/mobile-screen/2.png",
       "/products/mobile-screen/3.png",
       "/products/mobile-screen/4.png",
     ],
@@ -437,8 +437,8 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Доставка", "По Казахстану"],
     ],
     images: [
-      "/products/smartdisplay-75/main.png",
       "/products/smartdisplay-75/1.png",
+      "/products/smartdisplay-75/main.png",
       "/products/smartdisplay-75/9.png",
       "/products/smartdisplay-75/2.png",
       "/products/smartdisplay-75/3.png",
