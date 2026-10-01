@@ -1206,6 +1206,39 @@ ul { list-style: none; }
 .category-articles li { display: flex; flex-direction: column; gap: 2px; }
 .category-articles a { font-size: 16px; font-weight: 600; color: var(--navy); text-decoration: underline; text-underline-offset: 2px; }
 .category-articles span { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+
+/* Посадочная под рекламу: app/lp/paneli-65-75 */
+.lp-page { padding-bottom: 56px; }
+.lp-hero { padding: 40px 0 28px; max-width: 760px; }
+.lp-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 12px; }
+.lp-hero h1 { font-size: 40px; font-weight: 800; line-height: 1.1; color: var(--navy); margin-bottom: 14px; }
+.lp-hero h1 span { white-space: nowrap; }
+.lp-lead { font-size: 17px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 22px; }
+.lp-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.lp-highlights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 40px; }
+.lp-highlight { border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--white); display: flex; flex-direction: column; gap: 6px; }
+.lp-highlight b { font-size: 15px; color: var(--navy); }
+.lp-highlight span { font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+.lp-panel { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 1fr); gap: 36px; align-items: start; padding: 32px 0; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+.lp-panel-media { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--white); }
+.lp-panel-info h2 { font-size: 26px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+.lp-panel-room { font-size: 14px; color: var(--ink-soft); margin-bottom: 14px; line-height: 1.5; }
+.lp-panel-price { font-size: 34px; font-weight: 800; color: var(--ink); margin-bottom: 16px; }
+.lp-panel-specs { margin-bottom: 20px; max-width: 520px; }
+.lp-panel .cta-stack { max-width: 520px; }
+.lp-text { font-size: 15px; line-height: 1.7; color: var(--ink-soft); max-width: 720px; margin-bottom: 18px; }
+@media (max-width: 1024px) {
+  .lp-highlights { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .lp-hero { padding: 24px 0 20px; }
+  .lp-hero h1 { font-size: 30px; }
+  .lp-panel { grid-template-columns: 1fr; gap: 20px; }
+  .lp-panel-price { font-size: 28px; }
+}
+@media (max-width: 480px) {
+  .lp-highlights { grid-template-columns: 1fr; }
+}
 .legal-page a:hover { color: var(--yellow-deep); }
 
 @media (max-width: 640px) {
