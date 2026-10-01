@@ -198,6 +198,25 @@ export default async function CategoryPage({ params }: { params: Params }) {
 
         {category.key === "displays" && (
           <section className="category-block">
+            <h2>Для организаций</h2>
+            <p className="lp-text">
+              Школам, учебным центрам и компаниям выставляем счёт на организацию с закрывающими
+              документами. Поможем подобрать диагональ под помещение: напишите размеры и число
+              людей. Доставка по Алматы и всему Казахстану, гарантия 12 месяцев.
+            </p>
+            <div className="lp-hero-ctas">
+              <a href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Написать в WhatsApp
+              </a>
+              <a href={`tel:${SITE.phoneRaw}`} className="btn-contact">
+                {SITE.phone}
+              </a>
+            </div>
+          </section>
+        )}
+
+        {category.key === "displays" && (
+          <section className="category-block">
             <h2>Как выбрать панель</h2>
             <ul className="category-articles">
               {ARTICLES.map((article) => (
