@@ -89,6 +89,20 @@ function PanelBlock({ product, forRoom }: { product: Product; forRoom: string })
             price={product.price}
             priceText={priceText}
           />
+          <a
+            href={product.kaspiUrl ?? SITE.social.kaspi}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-kaspi-buy secondary"
+            data-analytics-value={product.price ?? undefined}
+            data-analytics-product={product.id}
+          >
+            Купить на Kaspi.kz
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+          <p className="cta-note">На Kaspi.kz — своя цена и условия рассрочки.</p>
           <Link href={`/products/${product.id}`} className="btn-contact">
             Все характеристики и отзывы
           </Link>
