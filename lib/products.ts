@@ -275,7 +275,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Доставка", "Доступна"],
     ],
     images: [
-      "/products/smartdisplay-65/10.png",
+      "/products/smartdisplay-65/main.png",
       "/products/smartdisplay-65/5.png",
       "/products/smartdisplay-65/6.png",
       "/products/smartdisplay-65/1.png",
@@ -437,7 +437,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       ["Доставка", "По Казахстану"],
     ],
     images: [
-      "/products/smartdisplay-75/main.png",
+      "/products/smartdisplay-75/main-v2.png",
       "/products/smartdisplay-75/1.png",
       "/products/smartdisplay-75/9.png",
       "/products/smartdisplay-75/2.png",
