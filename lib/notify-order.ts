@@ -2,9 +2,9 @@
  * Уведомление владельцу о новом заказе с сайта — чтобы не заглядывать
  * в /orders/site вручную. Два канала, каждый включается своими переменными:
  *
- *  - Telegram: TELEGRAM_BOT_TOKEN (от @BotFather) + TELEGRAM_CHAT_ID (ваш id,
- *    например из @userinfobot; боту нужно один раз написать /start).
- *    Самый надёжный вариант — приходит всегда и сразу.
+ *  - Telegram: TELEGRAM_BOT_TOKEN (от @BotFather) + TELEGRAM_CHAT_ID (id
+ *    владельца). Владелец получает всё, сотрудники подписываются через
+ *    самого бота (lib/telegram.ts). Самый надёжный канал.
  *  - WhatsApp: OWNER_WHATSAPP + токены Cloud API, которые уже стоят у бота.
  *    Meta доставляет обычный текст, только если владелец писал боту за
  *    последние 24 часа, поэтому этот канал — дополнительный.
@@ -15,6 +15,7 @@ import { formatPrice } from "@/lib/products";
 import { PAYMENT_METHODS } from "@/lib/order-options";
 import { SITE } from "@/lib/site";
 import { orderTotal, prettyPhone, type SiteOrder } from "@/lib/site-orders";
+import { broadcast, ensureWebhook } from "@/lib/telegram";
 import { sendText } from "@/lib/whatsapp";
 
 export function orderNotificationText(order: SiteOrder): string {
@@ -37,19 +38,9 @@ export function orderNotificationText(order: SiteOrder): string {
 }
 
 async function sendTelegram(text: string): Promise<void> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return;
-
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`Telegram ${res.status}: ${detail.slice(0, 300)}`);
-  }
+  // Вебхук для команд подписки ставится лениво — отдельной настройки не нужно.
+  await ensureWebhook().catch((e) => console.error("[telegram] setWebhook", e));
+  await broadcast(text);
 }
 
 async function sendWhatsApp(text: string): Promise<void> {

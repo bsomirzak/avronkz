@@ -64,7 +64,8 @@ export function proxy(request: NextRequest) {
 export const config = {
   // /print не закрываем: страница ничего не хранит и не спрашивает у сервера —
   // накладные разбираются прямо в браузере продавца.
-  // /api/whatsapp тоже открыт: его дёргает Meta, и он проверяет свою подпись сам.
+  // /api/whatsapp и /api/telegram открыты: их дёргают Meta и Telegram, подпись
+  // они проверяют сами. Закрыт только /api/telegram/setup.
   matcher: [
     "/admin/:path*",
     "/orders/:path*",
@@ -74,5 +75,6 @@ export const config = {
     "/api/kaspi/:path*",
     "/api/chats/:path*",
     "/api/stats/:path*",
+    "/api/telegram/setup",
   ],
 };
