@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DeleteOrderButton } from "@/components/DeleteOrderButton";
 import { Header } from "@/components/Header";
 import { PAYMENT_METHODS } from "@/lib/order-options";
 import { formatPrice } from "@/lib/products";
@@ -59,6 +60,7 @@ export default async function SiteOrdersPage() {
                   <th>Город</th>
                   <th>Оплата</th>
                   <th>Комментарий</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>
@@ -89,6 +91,9 @@ export default async function SiteOrdersPage() {
                         )}
                       </td>
                       <td>{o.comment ?? ""}</td>
+                      <td className="orders-table-actions">
+                        <DeleteOrderButton id={o.id} />
+                      </td>
                     </tr>
                   );
                 })}

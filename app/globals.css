@@ -1073,6 +1073,16 @@ ul { list-style: none; }
 }
 .orders-table td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
 .orders-table tr:last-child td { border-bottom: none; }
+.orders-table-actions { white-space: nowrap; text-align: right; }
+.orders-delete {
+  border: 1px solid var(--line); background: var(--white); color: var(--ink-soft);
+  border-radius: 8px; padding: 6px 10px; font-size: 13px; font-weight: 600;
+}
+.orders-delete:hover:not(:disabled) { border-color: var(--navy); color: var(--navy); }
+.orders-delete.danger { border-color: #d64545; color: #d64545; }
+.orders-delete.danger:hover:not(:disabled) { background: #d64545; color: var(--white); }
+.orders-delete:disabled { opacity: 0.5; cursor: default; }
+.orders-delete-confirm { display: inline-flex; gap: 6px; }
 .orders-table tr:hover td { background: var(--bg); }
 .orders-table .mono { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
 

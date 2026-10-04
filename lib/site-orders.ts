@@ -60,6 +60,22 @@ export async function listOrders(limit = 200): Promise<SiteOrder[] | null> {
   });
 }
 
+/** Удаляет заказ по номеру (тестовые, дубли). true — удалили, false — не нашли или сбой. */
+export async function deleteOrder(id: string): Promise<boolean> {
+  const raw = await redis<string[]>(["LRANGE", KEY, 0, KEEP - 1]);
+  if (!raw) return false;
+  const item = raw.find((entry) => {
+    try {
+      return (JSON.parse(entry) as SiteOrder).id === id;
+    } catch {
+      return false;
+    }
+  });
+  if (!item) return false;
+  const removed = await redis<number>(["LREM", KEY, 1, item]);
+  return Boolean(removed);
+}
+
 export function prettyPhone(phone: string): string {
   return `+7 ${phone.slice(1, 4)} ${phone.slice(4, 7)} ${phone.slice(7, 9)} ${phone.slice(9)}`;
 }
