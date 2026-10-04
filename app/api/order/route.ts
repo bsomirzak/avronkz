@@ -1,4 +1,6 @@
+import { after } from "next/server";
 import { getCatalogProduct } from "@/lib/prices";
+import { notifyNewOrder } from "@/lib/notify-order";
 import { isPaymentMethod, MAX_QTY, normalizeKzPhone } from "@/lib/order-options";
 import { persistent, pipeline } from "@/lib/redis";
 import { newOrderId, orderWhatsAppUrl, saveOrder, type SiteOrder } from "@/lib/site-orders";
@@ -82,5 +84,7 @@ export async function POST(request: Request) {
   if (!(await saveOrder(order))) {
     return bad("Не получилось сохранить заказ — напишите нам в WhatsApp.", 502);
   }
+  // Владельцу — в Telegram/WhatsApp, уже после ответа покупателю.
+  after(() => notifyNewOrder(order));
   return Response.json({ ok: true, id: order.id, whatsappUrl: orderWhatsAppUrl(order) });
 }
