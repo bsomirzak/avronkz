@@ -3,15 +3,15 @@
  * с сайта владельцу и сотрудникам.
  *
  * Переменные: TELEGRAM_BOT_TOKEN (от @BotFather) и TELEGRAM_CHAT_ID — id
- * владельца. Владелец получает всё всегда; остальные подписываются сами —
- * достаточно нажать Start у бота (так решил владелец, без одобрения).
+ * владельца. Владелец получает всё всегда; остальные подписываются сами:
+ * жмут Start у бота, владелец видит запрос и отвечает «/allow <id>».
  * Списки живут в Redis, чтобы не трогать переменные на Vercel ради каждого
  * сотрудника. Вебхук бот ставит себе сам при первом уведомлении (или через
  * /api/telegram/setup), секрет вебхука выводится из токена — отдельной
  * переменной не нужно.
  */
 import { createHash } from "node:crypto";
-import { redis } from "@/lib/redis";
+import { pipeline, redis } from "@/lib/redis";
 import { SITE } from "@/lib/site";
 
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -19,6 +19,7 @@ export const OWNER_CHAT_ID = process.env.TELEGRAM_CHAT_ID ?? "";
 export const enabled = Boolean(TOKEN && OWNER_CHAT_ID);
 
 const SUBSCRIBERS = "telegram:subscribers";
+const PENDING = "telegram:pending";
 const WEBHOOK_MARK = "telegram:webhook";
 
 async function api<T = unknown>(method: string, body: Record<string, unknown>): Promise<T> {
@@ -74,13 +75,30 @@ export async function listSubscribers(): Promise<Record<string, string>> {
   return hashToRecord(await redis<string[]>(["HGETALL", SUBSCRIBERS]));
 }
 
-export async function subscribe(chatId: string, name: string): Promise<void> {
-  await redis(["HSET", SUBSCRIBERS, chatId, name]);
+export async function listPending(): Promise<Record<string, string>> {
+  return hashToRecord(await redis<string[]>(["HGETALL", PENDING]));
+}
+
+export async function addPending(chatId: string, name: string): Promise<void> {
+  await redis(["HSET", PENDING, chatId, name]);
+}
+
+export async function approve(chatId: string): Promise<string | null> {
+  const name = await redis<string | null>(["HGET", PENDING, chatId]);
+  if (name === null) return null;
+  await pipeline([
+    ["HSET", SUBSCRIBERS, chatId, name],
+    ["HDEL", PENDING, chatId],
+  ]);
+  return name;
 }
 
 export async function remove(chatId: string): Promise<boolean> {
-  const res = await redis<number>(["HDEL", SUBSCRIBERS, chatId]);
-  return Boolean(res);
+  const res = await pipeline<number>([
+    ["HDEL", SUBSCRIBERS, chatId],
+    ["HDEL", PENDING, chatId],
+  ]);
+  return Boolean(res && (res[0] || res[1]));
 }
 
 /** Все, кому слать заказы: владелец плюс одобренные сотрудники. */

@@ -1,13 +1,23 @@
 /**
  * Вебхук Telegram-бота «AVRON заказы» — только команды подписки.
  *
- * Сотрудник жмёт Start → сразу получает заказы; владелец (TELEGRAM_CHAT_ID)
- * узнаёт о новом подписчике и может отключить его через /remove <id>,
- * список — /list. Любой подписчик отписывается через /stop.
+ * Сотрудник жмёт Start → попадает в очередь, владелец (TELEGRAM_CHAT_ID)
+ * получает запрос и отвечает «/allow <id>». Владельцу также доступны
+ * /list и /remove <id>; любой подписчик может отписаться через /stop.
  * Подлинность запроса проверяем по заголовку с секретом (ставится в setWebhook).
  */
 import { after } from "next/server";
-import { enabled, listSubscribers, OWNER_CHAT_ID, remove, sendMessage, subscribe, webhookSecret } from "@/lib/telegram";
+import {
+  addPending,
+  approve,
+  enabled,
+  listPending,
+  listSubscribers,
+  OWNER_CHAT_ID,
+  remove,
+  sendMessage,
+  webhookSecret,
+} from "@/lib/telegram";
 
 type Update = {
   message?: {
@@ -37,14 +47,22 @@ async function handle(update: Update): Promise<void> {
   const isOwner = id === OWNER_CHAT_ID;
 
   if (isOwner) {
+    if (cmd === "/allow" && arg) {
+      const name = await approve(arg);
+      if (!name) return sendMessage(id, `Запроса от ${arg} нет. Список ожидающих: /pending`);
+      await sendMessage(id, `Готово: ${name} теперь получает заказы.`);
+      await sendMessage(arg, "Вас подключили: заказы с сайта avron.kz будут приходить сюда. Отписаться — /stop").catch(() => {});
+      return;
+    }
     if (cmd === "/remove" && arg) {
       const ok = await remove(arg);
-      return sendMessage(id, ok ? `Отключил ${arg}.` : `${arg} не было в списке.`);
+      return sendMessage(id, ok ? `Отключил ${arg}.` : `${arg} не было в списках.`);
     }
     if (cmd === "/list") return sendMessage(id, `Получают заказы:\n${fmt(await listSubscribers())}`);
+    if (cmd === "/pending") return sendMessage(id, `Ждут одобрения:\n${fmt(await listPending())}`);
     return sendMessage(
       id,
-      "Вы владелец — заказы приходят вам всегда.\n\nКоманды:\n/list — кто получает заказы\n/remove <id> — отключить",
+      "Вы владелец — заказы приходят вам всегда.\n\nКоманды:\n/list — кто получает заказы\n/pending — кто ждёт одобрения\n/allow <id> — подключить\n/remove <id> — отключить",
     );
   }
 
@@ -57,12 +75,13 @@ async function handle(update: Update): Promise<void> {
   if (subs[id]) return sendMessage(id, "Вы уже получаете заказы с сайта. Отписаться — /stop");
 
   const name = displayName(msg.from);
-  await subscribe(id, name);
-  await sendMessage(id, "Подключено: заказы с сайта avron.kz будут приходить сюда. Отписаться — /stop");
+  await addPending(id, name);
+  await sendMessage(id, "Запрос отправлен владельцу. Как только он подтвердит, заказы начнут приходить сюда.");
   if (OWNER_CHAT_ID) {
-    await sendMessage(OWNER_CHAT_ID, `${name} подключился к заказам (id ${id}). Отключить: /remove ${id}`).catch((e) =>
-      console.error("[telegram] не уведомили владельца", e),
-    );
+    await sendMessage(
+      OWNER_CHAT_ID,
+      `${name} хочет получать заказы с сайта.\nПодключить: /allow ${id}\nОтказать: /remove ${id}`,
+    ).catch((e) => console.error("[telegram] не уведомили владельца", e));
   }
 }
 
