@@ -11,7 +11,14 @@ export const YM_ID = process.env.NEXT_PUBLIC_YM_ID;
 /** Google tag для avron.kz. Переопределяется через NEXT_PUBLIC_GADS_ID. */
 export const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID ?? "AW-18255849918";
 
-/** Валюта магазина — в ней уходит сумма конверсии в Google Ads. */
+/**
+ * Пиксель Meta (Instagram/Facebook): Events Manager → Источники данных → ID пикселя.
+ * Нужен для ретаргетинга на посетителей лендинга и оптимизации рекламы на заявки.
+ * Пусто — пиксель не подключается.
+ */
+export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+
+/** Валюта магазина — в ней уходит сумма конверсии в Google Ads и Meta. */
 const CURRENCY = "KZT";
 
 export type AnalyticsEvent =
@@ -35,6 +42,19 @@ const GADS_CONVERSION_LABELS: Partial<Record<AnalyticsEvent, string>> = {
   click_phone: "baNKCN2_2-ccEL7TiIFE",
 };
 
+/**
+ * Стандартные события Meta: по ним Ads Manager строит аудитории («все, кто
+ * нажал Contact») и оптимизирует показ. Lead — заявка с формы, Contact —
+ * ушёл писать или звонить, InitiateCheckout — ушёл покупать на Kaspi.
+ */
+const META_EVENTS: Partial<Record<AnalyticsEvent, string>> = {
+  view_product: "ViewContent",
+  order_submit: "Lead",
+  click_kaspi: "InitiateCheckout",
+  click_whatsapp: "Contact",
+  click_phone: "Contact",
+};
+
 export type EventProps = Record<string, string | number | boolean | null>;
 
 declare global {
@@ -46,6 +66,7 @@ declare global {
     };
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -59,10 +80,16 @@ function gtagCall(...args: unknown[]) {
   window.gtag(...args);
 }
 
+function fbqCall(...args: unknown[]) {
+  if (typeof window === "undefined" || !META_PIXEL_ID || !window.fbq) return;
+  window.fbq(...args);
+}
+
 /** Просмотр страницы при клиентской навигации (App Router не перезагружает страницу). */
 export function trackPageview(url: string) {
   ymCall("hit", url);
   gtagCall("event", "page_view", { page_location: url });
+  fbqCall("track", "PageView");
 }
 
 /**
@@ -97,6 +124,17 @@ export function track(event: AnalyticsEvent, props?: EventProps) {
   vercelTrack(event, props);
   gtagCall("event", event, props);
   reportToOwnStats(event, props);
+
+  const metaEvent = META_EVENTS[event];
+  if (metaEvent) {
+    const payload: Record<string, unknown> = {};
+    if (typeof props?.product === "string") payload.content_ids = [props.product];
+    if (typeof props?.value === "number") {
+      payload.value = props.value;
+      payload.currency = CURRENCY;
+    }
+    fbqCall("track", metaEvent, payload);
+  }
 
   const label = GADS_CONVERSION_LABELS[event];
   if (label) {

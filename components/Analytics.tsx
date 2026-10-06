@@ -1,4 +1,4 @@
-import { GADS_ID, YM_ID } from "@/lib/analytics";
+import { GADS_ID, META_PIXEL_ID, YM_ID } from "@/lib/analytics";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { AnalyticsTrackers } from "./AnalyticsTrackers";
 
@@ -21,6 +21,14 @@ window.gtag = gtag;
 gtag('js', new Date());
 gtag('config', '${id}');`;
 
+const fbqSnippet = (id: string) => `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${id}');
+fbq('track', 'PageView');`;
+
 export function Analytics() {
   const ymId = YM_ID ? Number(YM_ID) : null;
   return (
@@ -31,6 +39,21 @@ export function Analytics() {
         <>
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GADS_ID}`} />
           <script dangerouslySetInnerHTML={{ __html: gtagSnippet(GADS_ID) }} />
+        </>
+      ) : null}
+      {META_PIXEL_ID ? (
+        <>
+          <script dangerouslySetInnerHTML={{ __html: fbqSnippet(META_PIXEL_ID) }} />
+          <noscript>
+            {/* eslint-disable-next-line @next/next/no-img-element -- пиксель Meta для браузеров без JS */}
+            <img
+              src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+              width={1}
+              height={1}
+              style={{ display: "none" }}
+              alt=""
+            />
+          </noscript>
         </>
       ) : null}
       {ymId ? (

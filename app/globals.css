@@ -1225,6 +1225,17 @@ ul { list-style: none; }
 .lp-hero h1 span { white-space: nowrap; }
 .lp-lead { font-size: 17px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 22px; }
 .lp-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-whatsapp {
+  background: #25D366; color: var(--white);
+  padding: 14px 24px; border-radius: 10px;
+  font-weight: 700; font-size: 15px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s ease;
+}
+.btn-whatsapp svg { width: 20px; height: 20px; flex: none; }
+.btn-whatsapp:hover { background: #1EBE5A; transform: translateY(-1px); }
+.lp-hero-note { margin-top: 14px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+.lp-hero-note a { color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .lp-highlights { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 8px 0 40px; }
 .lp-highlight { border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--white); display: flex; flex-direction: column; gap: 6px; }
 .lp-highlight b { font-size: 15px; color: var(--navy); }
@@ -1243,6 +1254,7 @@ ul { list-style: none; }
 @media (max-width: 768px) {
   .lp-hero { padding: 24px 0 20px; }
   .lp-hero h1 { font-size: 30px; }
+  .lp-hero-ctas .btn-whatsapp { width: 100%; justify-content: center; }
   .lp-panel { grid-template-columns: 1fr; gap: 20px; }
   .lp-panel-price { font-size: 28px; }
 }
