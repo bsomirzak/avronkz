@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-18",
+  "updatedAt": "2026-10-08",
   "products": {
     "avron-lt-65": {
       "rating": 5,
-      "count": 14,
+      "count": 15,
       "url": "https://kaspi.kz/shop/p/avron-lt-65-65-djuim-160858335/",
       "reviews": [
         {
@@ -64,7 +64,7 @@
     },
     "avron-panel-32": {
       "rating": 4.9,
-      "count": 16,
+      "count": 18,
       "url": "https://kaspi.kz/shop/p/avron-avr-01-32-djuim-153902162/?c=750000000",
       "reviews": [
         {
@@ -186,7 +186,7 @@
     },
     "desk-wood": {
       "rating": 4.9,
-      "count": 23,
+      "count": 25,
       "url": "https://kaspi.kz/shop/p/stol-komp-juternyi-avron-avr-001-120h60x113-sm-korichnevyi-152837984/",
       "reviews": [
         {
@@ -247,7 +247,7 @@
     },
     "studio-light-ky-bk500iii": {
       "rating": 5,
-      "count": 10,
+      "count": 11,
       "url": "https://kaspi.kz/shop/p/avron-ky-bk500iii-169966945/",
       "reviews": [
         {
@@ -256,6 +256,15 @@
           "date": "24.08.2026",
           "rating": 5,
           "text": "Качество сборки хорошее, всё выглядит надёжно и добротно. Удобно настраивать яркость и положение света.",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a53b376a0facddb01a1021b46fd18bf",
+          "author": "Акмарал",
+          "date": "03.10.2026",
+          "rating": 5,
+          "text": "Вовремя доставили, спасибо.",
           "plus": "",
           "minus": ""
         },
@@ -292,15 +301,6 @@
           "date": "24.08.2026",
           "rating": 5,
           "text": "Жарығы өте әдемі түседі, фото мен видеоның сапасы бірден жақсы болып кетеді.",
-          "plus": "",
-          "minus": ""
-        },
-        {
-          "id": "8a5cadeba013111a01a0305f252e21aa",
-          "author": "Назерке",
-          "date": "24.08.2026",
-          "rating": 5,
-          "text": "Отличный студийный свет для работы. Яркости хватает, освещение получается красивым и без резких теней. Удобный в использовании, рекомендую.",
           "plus": "",
           "minus": ""
         }
@@ -369,7 +369,7 @@
     },
     "mini-printer-bt-6205b": {
       "rating": 5,
-      "count": 9,
+      "count": 11,
       "url": "https://kaspi.kz/shop/p/avron-bt-6205b-chernyi-170132445/",
       "reviews": [
         {
@@ -430,7 +430,7 @@
     },
     "bt-6205b-marker": {
       "rating": 4.9,
-      "count": 17,
+      "count": 20,
       "url": "https://kaspi.kz/shop/p/avron-bt-6205b-markirator-chernyi-159430804/",
       "reviews": [
         {
@@ -552,7 +552,7 @@
     },
     "ebook-light": {
       "rating": 4.9,
-      "count": 50,
+      "count": 53,
       "url": "https://kaspi.kz/shop/p/avron-e-book-light-6-djuim-32-gb-chernyi-164767056/",
       "reviews": [
         {
@@ -613,7 +613,7 @@
     },
     "gate-automation-pkm700k": {
       "rating": 5,
-      "count": 8,
+      "count": 9,
       "url": "https://kaspi.kz/shop/p/avron-komplekt-avtomatiki-pkm700k-170495319/",
       "reviews": [
         {
@@ -672,9 +672,70 @@
         }
       ]
     },
+    "massage-belt-n7": {
+      "rating": 5,
+      "count": 8,
+      "url": "https://kaspi.kz/shop/p/massazher-avron-n7-pojas-vibratsionnyi-razogrevajuschii-168784151/",
+      "reviews": [
+        {
+          "id": "8a5399fba0d18c0e01a0d3cf1a7e45a9",
+          "author": "Кунсулу",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Этот пояс просто спасение для моей поясницы.",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a5c0aaea0d18c2501a0d2375dcc07d0",
+          "author": "Дарья",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Вибрирует мощно, очень хорошо расслабляет мышцы поясницы. Использую даже при ходьбе, фиксируется плотно. Рекомендую.",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a5399fba0d18c0e01a0d219c8e60a98",
+          "author": "Асем",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Массажёр просто супер массирует поясницу, шею, ноги короче все места какие нужно промассажировать, покупкой очень довольна.",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a5c0aaea0d18c2501a0d20e4afc042e",
+          "author": "Эвелина",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Отличный массажный пояс! Удобный, хорошо расслабляет мышцы и помогает снять напряжение. Работает отлично, покупкой довольна!",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a55a5baa0d18bcf01a0d201c336068d",
+          "author": "Зарина",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Жақсы екен шынымен де, ыңғайлы, әтеме алдым, жақсы көмектесіп жатыр.",
+          "plus": "",
+          "minus": ""
+        },
+        {
+          "id": "8a5c1194a0d18cac01a0d200cb9602f5",
+          "author": "Фариза",
+          "date": "24.09.2026",
+          "rating": 5,
+          "text": "Все отлично, купила родителям, они довольны. Главный плюс, что 1 аппарат может массажировать и ноги и поясницы.",
+          "plus": "",
+          "minus": ""
+        }
+      ]
+    },
     "desk-white": {
-      "rating": 4.9,
-      "count": 23,
+      "rating": 4.8,
+      "count": 26,
       "url": "https://kaspi.kz/shop/p/stol-komp-juternyi-avron-avr-001-120h60x113-sm-belyi-152838624/",
       "reviews": [
         {
