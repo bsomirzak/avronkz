@@ -35,8 +35,8 @@ export function Hero() {
             </Link>
             <Link href="/contacts" className="btn-ghost">Связаться с нами</Link>
           </div>
-          {/* Цифры из профиля магазина на Kaspi (сверено 18.09.2026): рейтинг 4.9,
-              «Более 500 заказов», «Отзывы (193)». Только то, что можно проверить по
+          {/* Цифры из профиля магазина на Kaspi (сверено 21.10.2026): рейтинг 4.9,
+              «Более 1 000 заказов», «Отзывы (157)». Только то, что можно проверить по
               ссылке, — выдуманные цифры Merchant Center считает искажением фактов. */}
           <a
             href={SITE.social.kaspi}
@@ -50,7 +50,7 @@ export function Hero() {
               <div className="hero-stat-label">рейтинг на Kaspi</div>
             </div>
             <div>
-              <div className="hero-stat-val">500+</div>
+              <div className="hero-stat-val">1000+</div>
               <div className="hero-stat-label">заказов на Kaspi</div>
             </div>
             <div>
