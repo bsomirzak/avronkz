@@ -17,7 +17,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Интерактивная панель 65 и 75 дюймов AVRON",
   description:
-    "Интерактивные панели AVRON LT-65 и LT-75: 4K, Windows 10 Pro и Android 13 в одном устройстве, 20 касаний. Цена, заказ, доставка по Казахстану, счёт для организаций.",
+    "Интерактивные панели AVRON LT-65 и LT-75: 4K, Windows 10 Pro и Android 14 в одном устройстве, 20 касаний. Цена, заказ, доставка по Казахстану, счёт для организаций.",
   robots: { index: false, follow: true },
 };
 
