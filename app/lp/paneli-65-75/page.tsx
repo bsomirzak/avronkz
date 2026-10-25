@@ -30,7 +30,7 @@ const WHATSAPP_HREF = `${SITE.social.whatsapp}?text=${encodeURIComponent(
 
 const HIGHLIGHTS = [
   ["4K Ultra HD", "3840×2160, яркость 450 кд/м² — видно при включённом свете"],
-  ["Windows 10 Pro + Android 13", "Intel Core i7, 8 ГБ RAM, 256 ГБ SSD — ноутбук не нужен"],
+  ["Windows 10 Pro + Android 14", "Intel Core i7, 8 ГБ RAM, 256 ГБ SSD — ноутбук не нужен"],
   ["20 касаний", "Пальцем и стилусом, несколько человек у доски одновременно"],
   ["Гарантия 12 месяцев", "Официальный магазин AVRON в Алматы"],
 ] as const;
@@ -42,7 +42,7 @@ const FAQ = [
   },
   {
     q: "Нужен ли отдельный компьютер?",
-    a: "Нет. Внутри уже Windows 10 Pro на Intel Core i7 и отдельная система Android 13. Ноутбук при желании подключается по HDMI, DisplayPort или USB Type-C.",
+    a: "Нет. Внутри уже Windows 10 Pro на Intel Core i7 и отдельная система Android 14. Ноутбук при желании подключается по HDMI, DisplayPort или USB Type-C.",
   },
   {
     q: "Как оплатить и получить документы для организации?",
@@ -133,7 +133,7 @@ export default async function PanelsLandingPage() {
             Интерактивная панель <span>65&quot; и 75&quot;</span>
           </h1>
           <p className="lp-lead">
-            Две системы в одном устройстве — Windows 10 Pro и Android 13. 4K-экран, 20 касаний,
+            Две системы в одном устройстве — Windows 10 Pro и Android 14. 4K-экран, 20 касаний,
             стойка на колёсах. Для школ, учебных центров и переговорных.
           </p>
           <div className="lp-hero-ctas">
