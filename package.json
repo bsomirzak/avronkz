@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "kaspi:reviews": "node --no-warnings scripts/kaspi-reviews.mjs"
+    "kaspi:reviews": "node --no-warnings scripts/kaspi-reviews.mjs",
+    "omarket:reprice": "node --no-warnings scripts/omarket-reprice.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.122.0",
