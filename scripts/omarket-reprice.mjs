@@ -68,7 +68,8 @@ for (const [sku, obs] of Object.entries(observations)) {
     continue;
   }
 
-  const min = obs.min ?? null;
+  // Чужие цены бывают с копейками (боты): берём целую часть, чтобы в фиде были целые тенге.
+  const min = obs.min == null ? null : Math.floor(obs.min);
   let target;
   let note;
   if (min == null) {
