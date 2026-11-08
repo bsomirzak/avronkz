@@ -33,7 +33,7 @@ export function cleanInk(src: Rgba, o: CleanOpts = {}): Rgba {
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4;
-      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const r = data[i], b = data[i + 2];
       const a = Math.max(0, Math.min(255, (b - r - th) * gain));
       if (a > 0) {
         out[i] = ink[0];

@@ -73,3 +73,20 @@ function ruShort(iso: string): string {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
   return m ? `${m[3]}.${m[2]}.${m[1]}` : iso;
 }
+
+/** Пустой документ для формы «Новый». */
+export function blankDoc(p: { type: DocType; sellerId: string; number: string; date: string; vatRate: number | null }): Doc {
+  const now = Date.now();
+  return {
+    id: newId(),
+    ...p,
+    status: "draft",
+    buyer: emptyBuyer(),
+    items: [{ name: "", unit: "шт.", qty: 1, price: 0, unitCode: "796" }],
+    withStamp: false,
+    withSign: false,
+    attorney: p.type === "waybill" ? { mode: "blank" } : undefined,
+    createdAt: now,
+    updatedAt: now,
+  };
+}

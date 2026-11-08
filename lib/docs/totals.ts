@@ -135,3 +135,8 @@ export function computeNextNumber(
   }
   return String(max + 1);
 }
+
+/** Название для имени файла: первые слова без формы собственности и кавычек. */
+export function fileSlugSafe(name: string): string {
+  return words(name, 28);
+}
