@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Шрифты для PDF читаются с диска в рантайме — трассировщик сам их не найдёт.
+  outputFileTracingIncludes: {
+    "/api/admin/docs/**": ["./lib/docs/fonts/**/*"],
+  },
   // Старые адреса товаров из первой версии сайта: Google знает их с июня и
   // отдаёт 404. Ведём на нынешний товар, а где товара больше нет — в категорию.
   async redirects() {
