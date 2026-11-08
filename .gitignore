@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Печати и подписи ИП — репозиторий публичный, в git не класть
+/stamps/
