@@ -140,7 +140,7 @@ export const SEED_SETTINGS: Settings = {
   },
   placement: {
     invoice: { ...PLACEMENT },
-    waybill: { ...PLACEMENT },
+    waybill: { ...PLACEMENT, signW: 22, stampD: 36 },
     warranty: { ...PLACEMENT },
     offer: { ...PLACEMENT },
   } satisfies Record<DocType, Placement>,
