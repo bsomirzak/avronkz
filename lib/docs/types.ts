@@ -133,6 +133,16 @@ export type Line = {
   serial?: string;
   /** Строка доставки — у неё нет товарной карточки. */
   delivery?: boolean;
+  /** Снимок карточки товара на момент создания — PDF не меняется задним числом. */
+  model?: string;
+  specs?: string[];
+  kit?: string;
+  warrantyMonths?: number;
+  tnved?: string;
+  unitCode?: string;
+  origin?: Origin | "";
+  declNo?: string;
+  declPos?: string;
 };
 
 export type CalcSnapshot = {

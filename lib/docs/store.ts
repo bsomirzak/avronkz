@@ -15,6 +15,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { pipeline, persistent, redis } from "@/lib/redis";
 import { SEED_PRODUCTS, SEED_SELLERS, SEED_SETTINGS } from "./seed";
+import { computeNextNumber } from "./totals";
 import type { Buyer, CatalogItem, Doc, DocType, Seller, Settings } from "./types";
 
 const P = process.env.DOCS_PREFIX ?? "docs:";
@@ -156,15 +157,8 @@ export async function setCounter(sellerId: string, type: DocType, value: number)
 
 /** Следующий номер: больше и счётчика, и любого уже выданного номера. */
 export async function nextNumber(sellerId: string, type: DocType): Promise<string> {
-  const counters = await getCounters();
-  let max = counters[`${sellerId}:${type}`] ?? 0;
-  for (const d of await listDocs()) {
-    if (d.sellerId === sellerId && d.type === type) {
-      const n = Number(d.number);
-      if (Number.isInteger(n) && n > max) max = n;
-    }
-  }
-  return String(max + 1);
+  const [counters, docs] = await Promise.all([getCounters(), listDocs()]);
+  return computeNextNumber(counters, docs, sellerId, type);
 }
 
 /** Документы того же ИП и типа с тем же номером — для предупреждения о дубле. */

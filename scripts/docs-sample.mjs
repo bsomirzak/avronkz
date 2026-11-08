@@ -24,8 +24,10 @@ const ATABAY = buyer({ type: "foreign_rep", name: "Представительс�
 const KST = buyer({ name: "ТОО «KST BETON 2022»", bin: "220740014391", address: "РК, г. Костанай" });
 const KZ = buyer({ name: "ТОО «Балабақша Ақ-Нұр», ЗАҢҒАР-БОЛАШАҚ", bin: "190140900097", address: "РК, г. Шымкент, ул. Өмірзақ Бекжан Мұхтарұлы, 12" });
 const PERSON = buyer({ type: "person", name: "Өмірзақ Бекжан Мұхтарұлы", bin: "981014301009", idNumber: "045678912", idIssuer: "МВД РК", idDate: "2020-05-14", address: "г. Алматы" });
-const LT75 = { productId: "lt-75", name: "Интерактивная панель 75 дюймов AVRON LT-75", unit: "шт.", qty: 1, price: toTiyn(577000), nomenclature: "0001", serial: "LT75-2410-00123" };
-const LT65 = { productId: "lt-65", name: "Интерактивная панель 65 дюймов AVRON LT-65", unit: "шт.", qty: 2, price: toTiyn(470000), nomenclature: "0002", serial: "LT65-2410-00071, LT65-2410-00072" };
+import { SEED_PRODUCTS } from "../lib/docs/seed.ts";
+const snap = (id) => { const p = SEED_PRODUCTS.find((x) => x.id === id); return { model: p.model, specs: p.specs, kit: p.kit, warrantyMonths: p.warrantyMonths }; };
+const LT75 = { ...snap("lt-75"), productId: "lt-75", name: "Интерактивная панель 75 дюймов AVRON LT-75", unit: "шт.", qty: 1, price: toTiyn(577000), nomenclature: "0001", serial: "LT75-2410-00123" };
+const LT65 = { ...snap("lt-65"), productId: "lt-65", name: "Интерактивная панель 65 дюймов AVRON LT-65", unit: "шт.", qty: 2, price: toTiyn(470000), nomenclature: "0002", serial: "LT65-2410-00071, LT65-2410-00072" };
 
 const docs = [
   { ...base, id: "1", type: "invoice", sellerId: "omirzaq", number: "66", date: "2026-11-03", buyer: ATABAY, items: [LT75] },

@@ -116,3 +116,22 @@ export function docFileName(doc: Pick<Doc, "type" | "number" | "buyer">): string
 export function contentDisposition(fileName: string, inline = false): string {
   return `${inline ? "inline" : "attachment"}; filename="${translit(fileName)}"; filename*=UTF-8''${encodeURIComponent(fileName)}`;
 }
+
+/**
+ * Следующий номер документа у ИП по типу: больше и счётчика, и любого уже
+ * выданного номера. Нумерация у каждого ИП и типа своя.
+ */
+export function computeNextNumber(
+  counters: Record<string, number>,
+  docs: Pick<Doc, "sellerId" | "type" | "number">[],
+  sellerId: string,
+  type: Doc["type"],
+): string {
+  let max = counters[`${sellerId}:${type}`] ?? 0;
+  for (const d of docs) {
+    if (d.sellerId !== sellerId || d.type !== type) continue;
+    const n = Number(d.number);
+    if (Number.isInteger(n) && n > max) max = n;
+  }
+  return String(max + 1);
+}
