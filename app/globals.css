@@ -632,6 +632,17 @@ ul { list-style: none; }
 .btn-kaspi-buy.secondary:hover { background: #FFF1F1; }
 .cta-note { font-size: 12px; color: var(--ink-mute); text-align: center; margin-top: -4px; }
 
+/* Главная кнопка заказа — WhatsApp с готовым текстом (components/OrderCtas.tsx) */
+.btn-order-wa {
+  background: #25D366; color: var(--white);
+  padding: 16px; border-radius: 12px; width: 100%;
+  font-weight: 800; font-size: 16px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s ease;
+}
+.btn-order-wa:hover { background: #1EBE5A; }
+.btn-order-wa svg { width: 20px; height: 20px; flex: none; }
+
 /* Заказ на сайте (components/OrderForm.tsx) */
 .btn-order {
   background: var(--yellow); color: var(--navy);

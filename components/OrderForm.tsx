@@ -11,12 +11,14 @@ type Props = {
   /** Уже отформатированная цена со страницы — только для показа. */
   priceText: string;
   price: number | null;
+  /** Второстепенная кнопка «Оставить заявку», когда главный путь — WhatsApp. */
+  compact?: boolean;
 };
 
 type Result = { id: string; whatsappUrl: string };
 
 /** Кнопка «Заказать» и форма под ней: заказ по цене сайта, без Kaspi. */
-export function OrderForm({ productId, productName, priceText, price }: Props) {
+export function OrderForm({ productId, productName, priceText, price, compact = false }: Props) {
   const [open, setOpen] = useState(false);
   const [payment, setPayment] = useState<PaymentMethod>("cash");
   const [sending, setSending] = useState(false);
@@ -64,6 +66,14 @@ export function OrderForm({ productId, productName, priceText, price }: Props) {
           Отправить в WhatsApp
         </a>
       </div>
+    );
+  }
+
+  if (!open && compact) {
+    return (
+      <button type="button" className="btn-contact" onClick={() => setOpen(true)}>
+        Оставить заявку — перезвоним
+      </button>
     );
   }
 

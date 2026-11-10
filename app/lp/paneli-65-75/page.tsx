@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { OrderForm } from "@/components/OrderForm";
+import { OrderCtas } from "@/components/OrderCtas";
 import { getCatalog } from "@/lib/prices";
 import { formatPrice, type Product } from "@/lib/products";
 import { SITE } from "@/lib/site";
@@ -88,26 +88,7 @@ function PanelBlock({ product, forRoom }: { product: Product; forRoom: string })
           ))}
         </ul>
         <div className="cta-stack">
-          <OrderForm
-            productId={product.id}
-            productName={product.name}
-            price={product.price}
-            priceText={priceText}
-          />
-          <a
-            href={product.kaspiUrl ?? SITE.social.kaspi}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-kaspi-buy secondary"
-            data-analytics-value={product.price ?? undefined}
-            data-analytics-product={product.id}
-          >
-            Купить на Kaspi.kz
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
-          <p className="cta-note">На Kaspi.kz — своя цена и условия рассрочки.</p>
+          <OrderCtas product={product} />
           <Link href={`/products/${product.id}`} className="btn-contact">
             Все характеристики и отзывы
           </Link>
