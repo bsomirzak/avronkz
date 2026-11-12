@@ -57,7 +57,7 @@ export type Category = {
   intro?: string;
   /** Строки из `specs`, которые показать в таблице сравнения моделей. */
   compare?: ReadonlyArray<string>;
-  /** SEO-текст под товарами. `{minPrice}` заменяется на «от 234 990 ₸». */
+  /** SEO-текст под товарами. `{minPrice}` заменяется на «от 239 990 ₸». */
   sections?: ReadonlyArray<{ heading: string; paragraphs: ReadonlyArray<string> }>;
   faq?: ReadonlyArray<{ q: string; a: string }>;
 };
@@ -249,7 +249,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Подходит для профессионального и учебного использования",
       "Современный минималистичный дизайн и готовность к работе сразу после установки",
     ],
-    price: 429990,
+    price: 449990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -335,7 +335,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Регулируемый наклон и поворот экрана",
       "Wi-Fi, Bluetooth, HDMI, USB и беспроводная трансляция экрана",
     ],
-    price: 234990,
+    price: 239990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -409,7 +409,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Полный набор интерфейсов: HDMI, DisplayPort, USB Type-C, Ethernet, Wi-Fi, Bluetooth",
       "Встроенные динамики и угол обзора 178°",
     ],
-    price: 499990,
+    price: 549990,
     oldPrice: null,
     discount: null,
     badge: "new",
@@ -488,7 +488,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Современный минималистичный дизайн",
       "Подходит для дома, офиса и учебы",
     ],
-    price: 54990,
+    price: 49990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -647,7 +647,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Зарядка через Type-C и работа от аккумулятора",
       "Компактный размер 100×75×47 мм и малый вес",
     ],
-    price: 49990,
+    price: 54990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -706,7 +706,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Компактный и лёгкий корпус",
       "Ресурс картриджа до 2 000 000 символов",
     ],
-    price: 59990,
+    price: 54990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -911,7 +911,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Ручная разблокировка ключом при отключении света",
       "Полный комплект с зубчатой рейкой 6 м и двумя пультами",
     ],
-    price: 79990,
+    price: 84990,
     oldPrice: null,
     discount: null,
     badge: "new",
@@ -1004,7 +1004,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     name: "Стол компьютерный AVRON AVR-001, 120×60×113 см, белый",
     shortName: "AVR-001-WHT",
     desc: "Эргономичный стол с электроприводом — работайте сидя и стоя с комфортом. Плавный и тихий подъём, прочная металлическая рама, выдерживает до 70 кг. Подходит для работы, учёбы, стримов и домашнего офиса. В комплекте всё для сборки и видеоинструкция.",
-    price: 39990,
+    price: 49990,
     oldPrice: null,
     discount: null,
     badge: "hit",
@@ -1097,7 +1097,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Стильный современный дизайн",
       "Подходит для офиса и дома",
     ],
-    price: 54990,
+    price: 49990,
     oldPrice: null,
     discount: null,
     badge: "hit",
