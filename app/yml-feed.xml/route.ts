@@ -97,7 +97,7 @@ function offer(p: PricedProduct): string {
     lines.push(`        <param name="${xml(label)}">${xml(value)}</param>`);
   }
 
-  return `      <offer id="${xml(p.id)}" available="true">\n${lines.join("\n")}\n      </offer>`;
+  return `      <offer id="${xml(p.id)}" available="${p.preorder ? "false" : "true"}">\n${lines.join("\n")}\n      </offer>`;
 }
 
 export async function GET() {

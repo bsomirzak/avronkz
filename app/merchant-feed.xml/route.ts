@@ -39,7 +39,13 @@ function item(p: PricedProduct): string {
     ["g:link", productUrl(p)],
     ...(images[0] ? [["g:image_link", images[0]] as [string, string]] : []),
     ...images.slice(1, 11).map((src) => ["g:additional_image_link", src] as [string, string]),
-    ["g:availability", "in_stock"],
+    // Товар под заказ: Google требует дату, с которой он снова будет доступен.
+    ...(p.preorder
+      ? ([
+          ["g:availability", "backorder"],
+          ["g:availability_date", `${p.preorder.date}T00:00+0500`],
+        ] as Array<[string, string]>)
+      : ([["g:availability", "in_stock"]] as Array<[string, string]>)),
     ["g:condition", "new"],
     ["g:price", money(onSale ? p.oldPrice! : p.price)],
     ...(onSale ? [["g:sale_price", money(p.price)] as [string, string]] : []),

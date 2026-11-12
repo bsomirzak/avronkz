@@ -35,6 +35,17 @@ export type Product = {
   images?: ReadonlyArray<string>;
   kaspiUrl?: string;
   /**
+   * Товара временно нет на складе, но его можно заказать к дате поставки.
+   * Без этого поля товар считается «в наличии». Когда партия пришла — поле
+   * убрать целиком: дата в прошлом ломает фид Merchant Center.
+   */
+  preorder?: {
+    /** Ожидаемая дата поставки, YYYY-MM-DD. */
+    date: string;
+    /** Подпись на карточке вместо «В наличии». */
+    label: string;
+  };
+  /**
    * <title> страницы товара — словами, которыми ищут («Интерактивная панель
    * 65 дюймов …»), а не как товар называется на карточке. Без него — `name`.
    */
@@ -446,6 +457,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "/products/smartdisplay-75/8.png",
     ],
     kaspiUrl: "https://kaspi.kz/shop/p/avron-lt-75-75-djuim-174109449/",
+    preorder: { date: "2026-11-27", label: "Под заказ · поставка до 27 ноября" },
     faq: [
       {
         q: "Чем LT-75 отличается от LT-65?",

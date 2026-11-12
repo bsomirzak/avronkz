@@ -67,7 +67,7 @@ export async function generateMetadata({
             "product:price:currency": "KZT",
           }
         : {}),
-      "product:availability": "in stock",
+      "product:availability": product.preorder ? "available for order" : "in stock",
       "product:condition": "new",
       "product:brand": SITE.name,
       "product:retailer_item_id": product.shortName,
@@ -145,7 +145,11 @@ export default async function ProductPage({ params }: { params: Params }) {
 
           <div className="detail-info">
             <div className="stock-row">
-              <span className="stock-dot">В наличии</span>
+              {product.preorder ? (
+                <span className="stock-dot stock-dot-preorder">{product.preorder.label}</span>
+              ) : (
+                <span className="stock-dot">В наличии</span>
+              )}
               {product.badge === "hit" && <span className="pill-hit">Хит продаж</span>}
             </div>
             <h1 className="detail-name">{product.name}</h1>

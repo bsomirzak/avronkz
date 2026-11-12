@@ -112,7 +112,10 @@ export function productJsonLd(p: Product) {
             priceValidUntil,
           }
         : {}),
-      availability: "https://schema.org/InStock",
+      availability: p.preorder
+        ? "https://schema.org/BackOrder"
+        : "https://schema.org/InStock",
+      ...(p.preorder ? { availabilityStarts: p.preorder.date } : {}),
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": absoluteUrl("/#organization") },
       // No shippingDetails on purpose: the rate depends on the city (Almaty is
