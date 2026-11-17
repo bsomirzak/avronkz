@@ -13,6 +13,7 @@ function whatsappOrderHref(product: Product, priceText: string) {
  * Кнопки заказа на карточке товара и на посадочной.
  * WhatsApp первым: форму заполнять лень, а написать в мессенджер — один тап.
  * Kaspi вторым — там цена выше (комиссия и рассрочка), поэтому он не главный.
+ * Halyk Market третьим и только у товаров с halykUrl (пока панели).
  * Форма заявки осталась для тех, кто не пользуется WhatsApp.
  */
 export function OrderCtas({ product }: { product: Product }) {
@@ -49,6 +50,24 @@ export function OrderCtas({ product }: { product: Product }) {
         </svg>
       </a>
       <p className="cta-note">На Kaspi.kz — своя цена и условия рассрочки.</p>
+      {product.halykUrl && (
+        <>
+          <a
+            href={product.halykUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-halyk-buy"
+            data-analytics-value={product.price ?? undefined}
+            data-analytics-product={product.id}
+          >
+            Купить на Halyk Market
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+          <p className="cta-note">Рассрочка Halyk Bank до 12 месяцев.</p>
+        </>
+      )}
       <OrderForm
         productId={product.id}
         productName={product.name}

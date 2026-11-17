@@ -4,12 +4,13 @@
  * серверный код с Redis ради четырёх строк ни к чему.
  */
 
-export const TRACKED = ["order_submit", "click_kaspi", "click_whatsapp", "click_phone", "click_instagram"] as const;
+export const TRACKED = ["order_submit", "click_kaspi", "click_halyk", "click_whatsapp", "click_phone", "click_instagram"] as const;
 export type TrackedEvent = (typeof TRACKED)[number];
 
 export const EVENT_LABEL: Record<TrackedEvent, string> = {
   order_submit: "Заказ на сайте",
   click_kaspi: "Купить на Kaspi",
+  click_halyk: "Купить на Halyk",
   click_whatsapp: "WhatsApp",
   click_phone: "Звонок",
   click_instagram: "Instagram",

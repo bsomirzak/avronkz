@@ -34,6 +34,8 @@ export type Product = {
   specs: ReadonlyArray<readonly [string, string]>;
   images?: ReadonlyArray<string>;
   kaspiUrl?: string;
+  /** Карточка на Halyk Market (магазин «AVRON - магазин электроники и мебели»). Кнопка показывается только если поле есть. */
+  halykUrl?: string;
   /**
    * Товара временно нет на складе, но его можно заказать к дате поставки.
    * Без этого поля товар считается «в наличии». Когда партия пришла — поле
@@ -297,6 +299,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "/products/smartdisplay-65/9.png",
     ],
     kaspiUrl: "https://kaspi.kz/shop/p/avron-lt-65-65-djuim-160858335/",
+    halykUrl: "https://halykmarket.kz/category/interaktivnye-paneli/avron-lt-65-65-djujm",
     faq: [
       {
         q: "Подойдёт ли LT-65 для школьного класса?",
@@ -457,6 +460,7 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "/products/smartdisplay-75/8.png",
     ],
     kaspiUrl: "https://kaspi.kz/shop/p/avron-lt-75-75-djuim-174109449/",
+    halykUrl: "https://halykmarket.kz/category/interaktivnye-paneli/avron-lt-75-75-djujm",
     preorder: { date: "2026-11-27", label: "Под заказ · поставка до 27 ноября" },
     faq: [
       {

@@ -26,6 +26,7 @@ export type AnalyticsEvent =
   | "view_contacts"
   | "order_submit"
   | "click_kaspi"
+  | "click_halyk"
   | "click_whatsapp"
   | "click_phone"
   | "click_instagram";
@@ -38,6 +39,7 @@ export type AnalyticsEvent =
 const GADS_CONVERSION_LABELS: Partial<Record<AnalyticsEvent, string>> = {
   order_submit: "OQT3CIK8succEL7TiIFE",
   click_kaspi: "OQT3CIK8succEL7TiIFE",
+  click_halyk: "OQT3CIK8succEL7TiIFE",
   click_whatsapp: "D6uECNq_2-ccEL7TiIFE",
   click_phone: "baNKCN2_2-ccEL7TiIFE",
 };
@@ -51,6 +53,7 @@ const META_EVENTS: Partial<Record<AnalyticsEvent, string>> = {
   view_product: "ViewContent",
   order_submit: "Lead",
   click_kaspi: "InitiateCheckout",
+  click_halyk: "InitiateCheckout",
   click_whatsapp: "Contact",
   click_phone: "Contact",
 };

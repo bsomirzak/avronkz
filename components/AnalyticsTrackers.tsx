@@ -10,6 +10,7 @@ function eventForHref(href: string): AnalyticsEvent | null {
   if (href.includes("wa.me") || href.includes("whatsapp")) return "click_whatsapp";
   if (href.includes("instagram.com")) return "click_instagram";
   if (href.includes("kaspi.kz")) return "click_kaspi";
+  if (href.includes("halykmarket.kz")) return "click_halyk";
   return null;
 }
 
