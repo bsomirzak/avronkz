@@ -70,7 +70,7 @@ export type Category = {
   intro?: string;
   /** Строки из `specs`, которые показать в таблице сравнения моделей. */
   compare?: ReadonlyArray<string>;
-  /** SEO-текст под товарами. `{minPrice}` заменяется на «от 239 990 ₸». */
+  /** SEO-текст под товарами. `{minPrice}` заменяется на «от 249 990 ₸». */
   sections?: ReadonlyArray<{ heading: string; paragraphs: ReadonlyArray<string> }>;
   faq?: ReadonlyArray<{ q: string; a: string }>;
 };
@@ -349,12 +349,12 @@ export const PRODUCTS: ReadonlyArray<Product> = [
       "Регулируемый наклон и поворот экрана",
       "Wi-Fi, Bluetooth, HDMI, USB и беспроводная трансляция экрана",
     ],
-    price: 239990,
+    price: 249990,
     oldPrice: null,
     discount: null,
     badge: "hit",
     icon: "smartdisplay",
-    installment: "19 582 ₸ × 12 мес",
+    installment: "20 833 ₸ × 12 мес",
     installmentBadge: "0·0·12",
     specs: [
       ["Диагональ", "32”"],
