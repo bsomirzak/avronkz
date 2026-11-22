@@ -461,7 +461,6 @@ export const PRODUCTS: ReadonlyArray<Product> = [
     ],
     kaspiUrl: "https://kaspi.kz/shop/p/avron-lt-75-75-djuim-174109449/",
     halykUrl: "https://halykmarket.kz/category/interaktivnye-paneli/avron-lt-75-75-djujm",
-    preorder: { date: "2026-11-27", label: "Под заказ · поставка до 27 ноября" },
     faq: [
       {
         q: "Чем LT-75 отличается от LT-65?",
