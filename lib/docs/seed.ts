@@ -92,6 +92,7 @@ const item = (p: Partial<CatalogItem> & Pick<CatalogItem, "id" | "name" | "model
 export const SEED_PRODUCTS: CatalogItem[] = [
   item({ id: "lt-65", name: "Интерактивная панель 65 дюймов AVRON LT-65", model: "AVRON LT-65", diagonal: "65", specs: PANEL_SPECS(65), kit: PANEL_KIT, warrantyMonths: 12 }),
   item({ id: "lt-75", name: "Интерактивная панель 75 дюймов AVRON LT-75", model: "AVRON LT-75", diagonal: "75", specs: PANEL_SPECS(75), kit: PANEL_KIT, warrantyMonths: 12 }),
+  item({ id: "lt-86", name: "Интерактивная панель 86 дюймов AVRON LT-86", model: "AVRON LT-86", diagonal: "86", specs: PANEL_SPECS(86), kit: PANEL_KIT, warrantyMonths: 12 }),
   item({ id: "avr-01", name: "Интерактивная панель 32 дюйма AVRON AVR-01", model: "AVRON AVR-01", diagonal: "32" }),
   item({ id: "bt-6205b", name: "Мини-принтер AVRON BT-6205B (маркиратор чёрный)", model: "AVRON BT-6205B" }),
   item({ id: "bt-620b", name: "Мини-принтер AVRON BT-620B", model: "AVRON BT-620B" }),
