@@ -17,7 +17,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Интерактивная панель 65 и 75 дюймов AVRON",
   description:
-    "Интерактивные панели AVRON LT-65 и LT-75: 4K, Windows 10 Pro и Android 14 в одном устройстве, 20 касаний. Цена, заказ, доставка по Казахстану, счёт для организаций.",
+    "Интерактивные панели AVRON LT-65 и LT-75: 4K, Windows 10 Pro и Android 14 в одном устройстве, 40 касаний. Цена, заказ, доставка по Казахстану, счёт для организаций.",
   robots: { index: false, follow: true },
 };
 
@@ -31,7 +31,7 @@ const WHATSAPP_HREF = `${SITE.social.whatsapp}?text=${encodeURIComponent(
 const HIGHLIGHTS = [
   ["4K Ultra HD", "3840×2160, яркость 450 кд/м² — видно при включённом свете"],
   ["Windows 10 Pro + Android 14", "Intel Core i7, 8 ГБ RAM, 256 ГБ SSD — ноутбук не нужен"],
-  ["20 касаний", "Пальцем и стилусом, несколько человек у доски одновременно"],
+  ["40 касаний", "Пальцем и стилусом, несколько человек у доски одновременно"],
   ["Гарантия 12 месяцев", "Официальный магазин AVRON в Алматы"],
 ] as const;
 
@@ -114,7 +114,7 @@ export default async function PanelsLandingPage() {
             Интерактивная панель <span>65&quot; и 75&quot;</span>
           </h1>
           <p className="lp-lead">
-            Две системы в одном устройстве — Windows 10 Pro и Android 14. 4K-экран, 20 касаний,
+            Две системы в одном устройстве — Windows 10 Pro и Android 14. 4K-экран, 40 касаний,
             стойка на колёсах. Для школ, учебных центров и переговорных.
           </p>
           <div className="lp-hero-ctas">

@@ -65,7 +65,7 @@ const PANEL_SPECS = (d: number) => [
   `Диагональ ${d} дюймов, 4K Ultra HD 3840×2160`,
   "Две системы: Android 14 + Windows 10 Pro (OPS Intel Core i7)",
   "Windows: 8 ГБ RAM / 256 ГБ SSD; Android: 4 ГБ / 32 ГБ",
-  "Сенсор на 20 касаний",
+  "Сенсор на 40 касаний",
   "Яркость 450 кд/м², контрастность 5000:1, отклик 4 мс, 60 Гц, углы обзора 178°",
   "Разъёмы: HDMI, DisplayPort, USB Type-C, USB 2.0/3.0, Ethernet",
   "Wi-Fi, Bluetooth, 2 встроенных динамика",
